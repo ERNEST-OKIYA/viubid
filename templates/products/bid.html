@@ -1,0 +1,399 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+
+<html class="wide wow-animation" lang="en">
+  <head>
+    <title>Quick Bid</title>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="{% static "js/JNM.js" %}"></script><link rel="icon" href="{% static "images/logo.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800,900%7CMontserrat:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" href="{% static "dist/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "dist/css/fonts.css" %}">
+    <link rel="stylesheet" href="{% static "dist/css/style.css" %}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   
+    <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
+    <style>
+      body {
+    font-family: Roboto, Ubuntu, Arial, sans-serif;
+    font-size: 100%;
+}
+    </style>
+
+<style>
+  .orange{
+    color:#F29100
+  }
+  .blue{
+    color: #002698;
+  }
+  .blacker{
+    color: #6b7280;
+  }
+</style>
+  </head>
+  <body>
+    <!-- <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div> -->
+    <div class="preloader">
+      <div class="preloader-body">
+        <div class="cssload-container">
+          <div class="cssload-speeding-wheel"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <header class="section page-header">
+        <!--RD Navbar-->
+        <div class="rd-navbar-wrap">
+          <nav  class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px" data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
+            <div class="rd-navbar-aside-outer rd-navbar-collapse bg-gray-900">
+              <div class="rd-navbar-aside">
+                <div class="rd-navbar-aside-left">
+                  <ul class="list-inline list-inline-lg">
+                    <li>
+                      <div class="unit unit-spacing-sm align-items-center">
+                        <div class="unit-left"><span class="icon icon-md text-middle fa-phone text-primary"></span></div>
+                        <div class="unit-body header-phone-wrap" >Contact us:&nbsp;<a class="header-phone" href="tel:#">0712345678</a></div>
+                      </div>
+                    </li>
+                    
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+            <div class="rd-navbar-main-outer">
+              <div class="rd-navbar-main">
+                <!--RD Navbar Panel-->
+                <div class="rd-navbar-panel">
+                  <!--RD Navbar Toggle-->
+                  <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                  <!--RD Navbar Brand-->
+                  <div class="rd-navbar-brand">
+                    <!--Brand--><a class="brand" href="index.html"><img src="{% static "images/Quickbid-Clear.svg" %}" alt="" width="329" height="57"/></a>
+                  </div>
+                </div>
+                <div class="rd-navbar-main-element">
+                  <div class="rd-navbar-nav-wrap">
+                    <ul class="rd-navbar-nav">
+                      <li class="rd-nav-item active"><a class="rd-nav-link" href="/">Home</a>
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#current_auction">Bid</a>
+                      </li>
+                      
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="/faq">FAQ</a>
+                      </li>
+                      
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="/terms">T&Cs</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      
+
+       <!-- How it Works-->
+       <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
+        <div class="container">
+          <h1 class="text-center" style="color: #002698;font-weight: bold;">Bid Low, <span style="color:#F29100;font-weight: bolder;">Win Big!</span></h1>
+          <div style="margin-top: 2%;">
+            <h5 class="text-center orange">Choose an Item you want to buy.</h5>
+            <p class="text-lg-center blacker" style="margin-top: 2%;font-weight: bold;">
+              Deposit KES 20 via MPESA number 123456 and specify your low
+              unique bid on the product on offer. EG if a TV is on offer and<br>
+              your bid amount is 43, Enter TV 43.
+            </p>
+
+            <p class="text-center orange" style="margin-top: 2%;">
+              Once the Auction closes and you have the lowest unique bid,
+              You buy the TV at 43 Shillings.
+            </p>
+
+            <h3 class="text-center blue" style="margin-top: 2%;">
+              Bid, Win, Save, <strong class="">REPEAT</strong>
+            </h3>
+            
+            
+        
+          
+        </div>
+      </section>
+
+       <!-- Current Auctions-->
+       <section class="section novi-bg novi-bg-img section-lg bg-white section-top-shadow" id="current_auction">
+        <div class="container">
+          <div class="row col-12">
+            
+            {% for bid in bids %}
+        
+            <div class="col-xl-6 col-lg-6 col-sm-6">
+             
+
+                
+              <!-- Post Modern-->
+              <div class="post-classic" style="width: 400px;">
+              <div class="post-modern-caption" style="margin-bottom: 3%;">
+                <h4 class="">{{bid.product.name}}</h4>
+                <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
+                <div class="">{{bid.product.description}}</div>
+              </div>
+              <div class="post-classic" style="width: 400px;">
+                
+                <div class="post-modern-countdown countdown" data-format="HMS" data-until="+65000"></div>
+                <div class="post-classic-badge"><p>Save up to</p>
+                  <div class="post-classic"> <h3 class="">99%</h3></div>
+                </div>
+                <figure class="post-classic-thumbnail">
+                  
+                  <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
+                </figure>
+                
+
+                  <!--Play via mpesa-->
+                  
+                  <div style="background-color: #f4f5f7; border-top: 1px solid #d2d6dc; border-bottom: 1px solid: #d2d6dc;margin-top:4%;padding:6%;">
+                    <h5>Play Via Mpesa</h5>
+                    <p class="" style="color: #161e2e;">
+                      
+                      Send just KES 20 to PB 825440 with {{bid.code}} and your bid amount as the account name.
+                     
+                    </p>
+                    <p class="" style="color:#FF5733;"> Example:<br> Send KES <strong>20 </strong>to <strong>825440</strong> account name <strong>{{bid.code}}</strong> 120 to bid KES 120</p>
+                  
+
+                 
+
+                  <!--Play via mpesa-->
+                  
+                  <p style="color: #161e2e;">Or you can <strong class="text-black">Play Online</strong></p>
+                  
+                  <p class="" style="color: #161e2e;">Input your phone number and Bid amount below and check your Phone to complete.</p><br>
+
+                 
+
+                  <input type="hidden" id="id_bid_code" value="{{bid.code}}">
+                  <input type="text" class="form-group form-control" placeholder="Your phone Number" id="id_phone_number">
+                  <input type="number" class="form-group form-control" placeholder="Bid Amount e.g 43" id="id_bid_value">
+                  <p id="id_bid_success" style="display: none; color: #155724;"></p>
+                  <a  id="id_bid" class="button button-icon button-icon-right form-group form-control" style="background-color: #002698;border-color:#002698;color: white;" href="#bid"><span class="icon novi-icon"></span>Place your Bid</a>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          
+            {% endfor %}
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- Finished Auctions-->
+      <section class="section novi-bg novi-bg-img section-lg bg-white">
+        <div class="container">
+          <h2 class="text-center text-sm-left">Next <span class="h2-style">Auctions</span></h2>
+          <div class="row row-20">
+            {% for n in next_bids %}
+            <div class="col-lg-3 col-sm-6">
+              <!-- Post Classic-->
+              <div class="post-classic">
+                <div class="post-classic-badge">RRP
+                  <div class="post-classic-price-value"> {{n.product.price|intcomma}}</div>
+                </div>
+                <div class="post-classic-thumbnail">
+                  <figure class="post-classic-figure"><img src="{{n.product.image.url}}" alt="" width="270" height="135"/>
+                  </figure>
+                  <div class="post-classic-caption"><a class="heading-5" href="#">{{n.product.description}}</a></div>
+                  <div class="post-classic-caption" style="margin-top: -5px;"><p >Bid opens at {{n.open_at}}</p></div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            
+            
+            
+          </div>
+        </div>
+      </section>
+
+     
+
+      <!-- How it Works-->
+      <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
+        <div class="container">
+          <h2 class="text-center text-sm-left">How <span class="h2-style">it Works</span></h2>
+          <div class="row row-50 mt-50 column-arrow offset-lg-2 ">
+            
+            <div class="col-lg-3 col-sm-6 ">
+              <!-- Box Icon Classic-->
+              <div class="box-icon-classic">
+                <div class="box-icon-classic-icon icon novi-icon fa-hourglass-1"></div>
+                <h4 class="box-icon-classic-title">When to bid</h4>
+                <p>You can instantly place a bid on any desired product right after the bid is open.</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              <!-- Box Icon Classic-->
+              <div class="box-icon-classic">
+                <div class="box-icon-classic-icon icon novi-icon fa-send linearicons-hammer2"></div>
+                <h4 class="box-icon-classic-title">Submit a Bid</h4>
+                <p>
+                  Submitting a bid to our auction is quick and easy. 
+                  1. Go to Mpesa Menu
+                  2. Enter Account Name: How much you want to buy the product(bid)
+                  3. Enter Amount: 20 SH
+
+                  The process takes LESS than a minute.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              <!-- Box Icon Classic-->
+              <div class="box-icon-classic">
+                <div class="box-icon-classic-icon icon novi-icon fa-trophy linearicons-trophy2"></div>
+                <h4 class="box-icon-classic-title">Buy</h4>
+                <p>
+                  You will get an sms if your bid is the lowest and MOST UNIQUE, and you will purchase the item for the bid amount. 
+                  You will also get tips on getting the lowest and unique bid the more you participate
+                  add here that the item is delivered nationwide free of charge
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+     
+
+      <!-- About As-->
+      <section class="section novi-bg novi-bg-img section-lg">
+        <div class="container">
+          <h2 class="text-center text-sm-left">Winning <span class="h2-style">  Tips & Tricks</span></h2>
+          <div class="row row-50">
+            <div class="col-lg-12">
+              
+              <div class="row row-30">
+                <div class="col-12">
+                  <!-- Box Moder-->
+                  <div class="box-modern">
+                    
+                    <p class="box-modern-body">SOKO MIA™ is more than a means to test your amazing calculative skills and ability to undergo smart strategizing, you need to put in more work. For instance, if the RRP of the product is KES 50, 000, you can take a risk and put in bids worth 0.001% of the price of the product KES 50. 
+                      Always study the trends. Check other user profiles and check which kind of bids are most common and how many times they have had to bid. 
+                      Be consistent at all times. Winning an auction is all about understanding how other contenders are placing their bids, you can do this by checking the lowest bid at the time. With this information you stand a higher chance of winning if you are regular and have a uniform playing style. 
+                      Log into the bidding website on a regular basis to keep you updated with all available offers. At SOKO MIA™, we regularly provide more offer to our frequent, loyal bidders. These offers are time-based. </p>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer novi-bg novi-bg-img">
+        
+        
+        <div class="footer-panel">
+          <div class="container">
+            <p class="rights"><span>&copy;&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>Quick Bid Auctions.</span><span>.&nbsp;</span><a href="#">All rights reserved. Auctioneers licence no. 005867</a> <span style="float: right;margin-right: 5%;"><a href="https://www.facebook.com/Soko-Mia-110900567287396/?view_public_for=110900567287396"><i class="fa fa-facebook"></i></a></span> <span style="float: right; margin-right: 5%; margin-left: 2%;"><a href="https://www.instagram.com/Quick Bidkenya/"><i class="fa fa-instagram"></i></a></span> <span style="float: right; margin-right: 3%; margin-left: 2%;"><a href="https://twitter.com/soko_mia"><i class="fa fa-twitter"></i></a></span></p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="{% static "dist/js/core.min.js" %}"></script>
+    <script src="{% static "dist/js/script.js" %}"></script>
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+	
+	<!--LIVEDEMO_00 -->
+
+	<script type="text/javascript">
+	 var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-7078796-5']);
+	  _gaq.push(['_trackPageview']);
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'https://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();</script>
+		
+  </body><!-- Google Tag Manager --><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P9FT69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P9FT69');</script><!-- End Google Tag Manager -->
+
+
+
+<script>
+    $('#id_bid').click(function() {
+
+      var phone_number = $("#id_phone_number").val();
+      var bid_value = $("#id_bid_value").val();
+      var bid_code = $("#id_bid_code").val();
+      $("#id_bid_success").html("Please check your phone and enter PIN to Authorize");
+      $("#id_bid_success").show();
+
+
+
+      if (!$.isNumeric(phone_number))
+      {
+          $("#id_bid_success").hide();
+          $("#id_bid_error").html("* Invalid Phone Number. Please Enter a number");
+          $("#id_bid_error").show();
+      }
+      else {
+
+      // make POST ajax call
+      $.ajax({
+          type: 'POST',
+          url: "/ipn/checkout/",
+          data: {"phone_number":phone_number,"bid_value":bid_value,"bid_code":bid_code},
+          success: function (response) {
+              console.log(response);
+              if (response['error']!=undefined)
+              
+              {
+                  
+                  $("#id_bid_error").html("");
+                  $("#id_bid_success").html("");
+                  $("#id_bid_error").html(response['error']);
+                  $("#id_bid_success").hide();
+                  $("#id_bid_error").show();
+
+              
+              }
+              else if(response['error']==undefined)
+              {
+                  
+                  $("#id_bid_error").html("");
+                  
+                  $("#id_bid_error").hide();
+              
+              }
+              
+          },
+          error: function (response) {
+              console.log(response);
+              $("#id_bid_success").html("");
+              $("#id_bid_error").html(response['responseText']['error']);
+              $("#id_bid_error").show();
+              $("#id_bid_success").hide();
+          }
+      })
+  }
+      
+
+  })
+      
+</script>
+  
+</html>

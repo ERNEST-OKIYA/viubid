@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %} Reverse Bidding| :: Home {% endblock %}</title>
+
+    {% block style %}
+    <!-- Tell the browser to be responsive to screen width -->
+    <link rel="icon" href="{% static "images/icon.ico" %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static "plugins/fontawesome-free/css/all.min.css" %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="{% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %}">
+    <!-- JQVMap -->
+	<link rel="stylesheet" href="{% static "plugins/jqvmap/jqvmap.min.css" %}">
+	<link rel="stylesheet" href="{% static "dist/css/adminlte.custom.css" %}">
+    <!-- Theme style -->
+	<link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+	
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{% static "plugins/overlayScrollbars/css/OverlayScrollbars.min.css" %}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{% static "plugins/daterangepicker/daterangepicker.css" %}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.css" %}">
+    <!-- Google Font: Source Sans Pro -->
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    {% endblock %}
+    {% block extra_style %}
+
+    {% endblock %}
+  </head>
+<!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
+<!-- the fixed layout is not compatible with sidebar-mini -->
+
+
+<body class="app-container body-tabs-shadow text-sm">
+  <div class="wrapper">
+  
+    <!-- Navbar -->
+  
+    <nav class="navbar navbar-expand navbar-light" style="min-height: 80px;">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav" style="margin-left: 38%;" >
+        
+        
+      
+        <li class="nav-item">
+          <a href="#" class="nav-link text-default text-lg" data-toggle="modal" data-target=".bd-withdraw-modal">How to</a>
+          
+        </li>
+        <li class="nav-item">
+          
+            <a href="#" class="nav-link text-default text-lg" data-toggle="modal" data-target=".bd-deposit-modal">Previous Bids</a>
+          
+        </li>
+
+        <li class="nav-item">
+          
+          <a href="#" class="nav-link text-default text-lg" data-toggle="modal" data-target=".bd-deposit-modal">About</a>
+        
+      </li>
+        
+        
+      </ul>
+  
+    
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+  
+    
+  
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="background-color: white;">
+      <!-- Content Header (Page header) -->
+      
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              {% block content-header %}
+              
+              {% endblock %}
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                {% block page-nav %}
+                {% endblock %}
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+     
+  
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          
+          <div class="row col-md-9">
+            {% block content %}
+            {% endblock %}
+
+          </div>
+            
+          
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  </div>
+
+    <div class="text-center d-block p-3 card-footer col-md-12 panga-blue-bg">
+      <p class="text-white"> STAY HOME, STAY SAFE. BID WISELY.</p>
+      <p class="text-warning">COPYRIGHT &copy; 2020 REVERSE BID - ALL RIGHTS RESERVED ® VERSION 1.0 2020</p>
+
+  </div>
+  
+  <!-- ./wrapper -->
+  
+  
+{% block commonscripts %}
+
+<!-- jQuery -->
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<!-- ChartJS -->
+<script src="{% static "plugins/chart.js/Chart.min.js" %}"></script>
+<!-- Sparkline -->
+<script src="{% static "plugins/sparklines/sparkline.js" %}"></script>
+<!-- JQVMap -->
+<script src="{% static "plugins/jqvmap/jquery.vmap.min.js" %}"></script>
+<script src="{% static "plugins/jqvmap/maps/jquery.vmap.usa.js" %}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static "plugins/jquery-knob/jquery.knob.min.js" %}"></script>
+
+<!-- overlayScrollbars -->
+<script src="{% static "plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static "dist/js/adminlte.js" %}"></script>
+<script src="{% static "dist/js/adminlte.custom.js" %}"></script>
+
+{% endblock %}
+
+{% block jslinks %}
+
+{% endblock %}
+
+{% block pagescripts %}
+
+{% endblock %}
+
+
+</body>
+</html>

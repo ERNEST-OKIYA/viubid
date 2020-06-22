@@ -1,0 +1,1452 @@
+from django.shortcuts import render,redirect
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse,JsonResponse
+from django.views import View
+from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.core import serializers
+from django.db import connection
+import json
+from datetime import datetime, date, timedelta
+from django.utils import timezone
+from django.db.models.functions import TruncDay
+from django.utils.timezone import localtime, now
+from django.db.models import Max, Sum
+from django.utils.formats import get_format
+from django.forms.fields import DateField
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+import djqscsv
+from django.db.models import Count
+import collections
+import decimal
+import pytz
+from django.db.models import Prefetch
+from payments.models import PayIn
+from products.models import Product
+from users.models import User
+from django.utils import timezone
+from django.contrib.auth.forms import PasswordChangeForm
+from bids.models import BidEntry,InvalidBid
+from winners.models import Winner
+from bids.models import Bid,BidEntry,UserBid,UssdDial
+
+
+def change_password(request):
+	if request.method == 'POST':
+		form = PasswordChangeForm(request.user, request.POST)
+		if form.is_valid():
+			user = form.save()
+			update_session_auth_hash(request, user)  # Important!
+			messages.success(request, 'Your password was successfully updated!')
+			return redirect('login')
+		else:
+			messages.error(request, 'Please correct the error below.')
+	else:
+		form = PasswordChangeForm(request.user)
+	return render(request, 'admin/change_password.html', {
+		'form': form
+	})
+
+def make_utc(dt):
+	if dt.is_naive():
+		dt = timezone.make_aware(dt)
+	return dt.astimezone(pytz.utc)
+
+
+def parse_date(date_str):
+	"""Parse date from string by DATE_INPUT_FORMATS of current language"""
+	for item in get_format('DATE_INPUT_FORMATS'):
+		try:
+			return datetime.strptime(date_str, item)
+		except (ValueError, TypeError):
+			continue
+
+	return None
+
+
+def dictfetchall(cursor):
+	"Return all rows from a cursor as a dict"
+	columns = [col[0] for col in cursor.description]
+	return [
+		dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
+
+
+def json_serial(obj):
+	"""JSON serializer for objects not serializable by default json code"""
+	if isinstance(obj, (datetime, date)):
+		return obj.isoformat()
+	elif isinstance(obj, decimal.Decimal):
+		return float(obj)
+	raise TypeError("Type %s not serializable" % type(obj))
+
+
+
+
+class Dashboard(View):
+
+	def post(self,request):
+		pass
+
+	def get(self,request):
+
+		# today = date.today()
+
+
+		# current_year = datetime.now().year
+
+		# current_month = datetime.now().month
+
+		# # graphs
+		# cursor = connection.cursor()
+
+		# users_per_day_of_a_month = []
+		# cursor = connection.cursor()
+		# game_id =1
+		# #mothly registrations
+		# cursor.execute("""SELECT DATE(date_created) as date, count(id) as value
+		# 		FROM `users_user`
+		# 		WHERE MONTH(date_created) = %s AND year(date_created)=%s
+		# 		GROUP BY DATE(date_created)""", [current_month, current_year])
+
+		# users_results = dictfetchall(cursor)
+
+
+		# for result in users_results:
+
+		# 	users_per_day_of_a_month.append(result)
+
+		# 	monthly_registration_count = json.dumps(
+		# 		users_per_day_of_a_month, default=json_serial)
+
+		# 	cursor.close()
+		# #end monthly registration
+
+
+		# # monthly tikcets
+		# cursor = connection.cursor()
+
+		# monthly__tickets_datalist = []
+
+		# cursor.execute("""SELECT DATE(created_at) as date, count(id) as value
+		# 		FROM `tickets_ticket`
+		# 		WHERE game_id = %s AND MONTH(created_at) = %s AND year(created_at)=%s
+		# 		GROUP BY DATE(created_at)""", [game_id,current_month, current_year])
+
+		# monthly__tickets_results = dictfetchall(cursor)
+
+
+		# for result in monthly__tickets_results:
+
+		# 	monthly__tickets_datalist.append(result)
+
+		# 	monthly_tickets_count = json.dumps(
+		# 		monthly__tickets_datalist, default=json_serial)
+
+		# 	cursor.close()
+
+		# #end monthly tickets
+
+		# #mothly deposists
+
+		# cursor = connection.cursor()
+
+		# monthly__deposits_datalist = []
+
+		# cursor.execute("""SELECT DATE(created_at) as date, SUM(transaction_amount) as value
+		# 		FROM `payments_payin`
+		# 		WHERE MONTH(created_at) = %s AND year(created_at)=%s
+		# 		GROUP BY DATE(created_at)""", [current_month, current_year])
+
+		# monthly__deposits_results = dictfetchall(cursor)
+
+		# for result in monthly__deposits_results:
+
+		# 	monthly__deposits_datalist.append(result)
+
+		# 	monthly_deposits_count = json.dumps(
+		# 		monthly__deposits_datalist, default=json_serial)
+
+		# 	cursor.close()
+
+		# #end monthly deposits
+
+		# #tickets sold per hour
+
+		# hours_count={}
+		# hours_tickets_list=[]
+
+		# cursor=connection.cursor()
+		# today=date.today()
+		# today_formated=today.strftime("%Y-%m-%d")
+		# cursor.execute("""SELECT hour(created_at) as hour, count('id') as count
+		# FROM `tickets_ticket`
+		# WHERE game_id = "{}" AND DATE(created_at)="{}"
+		# GROUP BY hour( created_at ) , day(created_at )""".format(game_id,today_formated))
+
+		# hourly_tickets_results=dictfetchall(cursor)
+		# for result in hourly_tickets_results:
+
+		# 	hours_tickets_list.append(result)
+
+		# hourly_tickets_data=json.dumps(hours_tickets_list)
+
+		# cursor.close()
+
+		# #end hourly tickets
+
+
+		# data={
+		# 		'monthly_registration_data': monthly_registration_count,
+		# 		'monthly_tickets_data': monthly_tickets_count,
+		# 		'monthly_deposits_data': monthly_deposits_count,
+		# 		'hourly_tickets_data': hourly_tickets_data,
+
+		# 	}
+
+		return render(request,'admin_portal/dashboard.html')
+
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
+
+
+
+def totals(request):
+	cst = pytz.timezone('Africa/Nairobi')
+	today = date.today()
+	import datetime
+	yesterday = date.today() - timezone.timedelta(hours=7)
+	#utls
+
+	# cst = pytz.timezone('Africa/Nairobi')
+	# today = date.today()
+
+	# current_year = today.year
+
+	# current_month = today.month
+
+	#end utils
+
+	total_deposits = PayIn.get_total_deposits()
+
+	#today deposists
+	today_deposits = PayIn.objects.filter(created_at__gt=yesterday).aggregate(
+		Sum('transaction_amount'))['transaction_amount__sum']
+
+	# today bids
+	today_bids = BidEntry.objects.filter(created_at__gt=yesterday).count()
+
+	#total bids
+	total_bids = BidEntry.objects.count()
+
+	#today users
+	today_users = User.objects.filter(date_created__gt=yesterday).count()
+
+
+
+	data = {
+		'total_deposits':total_deposits,
+		'today_deposits':today_deposits,
+		'total_bids':total_bids,
+		'today_bids':today_bids,
+		'today_users':today_users,
+		
+
+
+	}
+
+	return JsonResponse(data)
+
+
+class Winners(View):
+
+	def get(self, request):
+    		
+		fields = Winner.objects.values(
+			'user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid__code', 
+			'bid__product__name',
+			'bid__product__price',
+			'created_at'
+			)
+
+		return render(request, 'admin_portal/winners.html', {'data': fields})
+
+		# return render (request,'admin_portal/Users.html',{'data':all_Users})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(Winners, self).dispatch(request, *args, **kwargs)
+
+
+def process_winners(request):
+	includes = ['user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid__code', 
+			'bid__product__name',
+			'bid__product__price',
+			'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Winner._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = Winner.objects.filter(Q(user__profile__first_name__icontains=global_search) |
+											Q(user__profile__middle_name__icontains=global_search) |
+											Q(user__profile__last_name__icontains=global_search) |
+											Q(user__phone_number__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid__code', 
+			'bid__product__name',
+			'bid__product__price',
+			'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Winner.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects = Winner.objects.all()
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid__code', 
+			'bid__product__name',
+			'bid__product__price',
+			'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Winner.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportWinnersCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'user__phone_number': 'Phone Number',
+							'user__profile__first_name': 'First Name',
+							'user__profile__middle_name': 'Middle Name',
+							'user__profile__last_name': 'Last Name',
+							'bid__code':'Bid Code',
+							'bid__product__name':'Product Won',
+							'bid__product__price':'Product RRP',
+							'created_at': 'Date Won'
+						   }
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = Winner.objects.values('user__phone_number', 'user__profile__first_name',
+								'user__profile__middle_name', 'user__profile__last_name', 
+								'bid_code', 'bid__product__name','bid__product__price',
+								'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportWinnersCsv, self).dispatch(*args, **kwargs)
+
+
+class Products(View):
+
+	def get(self, request):
+
+		fields = Product.objects.values('code',
+				'name',
+				'price',
+				'description',
+				'offered',
+				'image',
+				'created_at')
+
+		return render(request, 'admin_portal/products.html', {'data': fields})
+
+		# return render (request,'admin_portal/Users.html',{'data':all_Users})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(Products, self).dispatch(request, *args, **kwargs)
+
+
+def process_products(request):
+	includes = ['code',
+				'name',
+				'price',
+				'description',
+				'offered',
+				'image',
+				'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Product._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = Product.objects.filter(
+											Q(code__icontains=global_search) |
+											
+											Q(name__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('code',
+				'name',
+				'price',
+				'description',
+				'offered',
+				'image',
+				'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Product.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+
+
+		all_objects = Product.objects.all()
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('code',
+				'name',
+				'price',
+				'description',
+				'offered',
+				'image',
+				'created_at'):
+			ret = [i[j] for j in columns]
+
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Product.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportTicketsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'user__phone_number': 'Phone Number',
+							'user__profile__first_name': 'First Name',
+							'user__profile__middle_name': 'Middle Name',
+							'user__profile__last_name': 'Last Name',
+							'lot__name': 'Lot',
+							'game__name': 'Game',
+							'number': 'Product Number',
+							'created_at': 'Date Won'
+						   }
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = Product.objects.values('user__phone_number', 'user__profile__first_name',
+				'user__profile__middle_name', 'user__profile__last_name','game__name',\
+					'lot__name', 'number', 'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportTicketsCsv, self).dispatch(*args, **kwargs)
+
+
+class Players(View):
+
+	def get(self, request):
+
+		fields = User.objects.values('phone_number', 'profile__first_name','profile__middle_name','profile__last_name','date_created')
+		all_users = User.objects.count()
+
+		return render(request, 'admin_portal/players.html', {'data': fields,'all_users':all_users})
+
+		# return render (request,'admin_portal/Users.html',{'data':all_Users})
+
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(Players, self).dispatch(request, *args, **kwargs)
+
+
+def process_players(request):
+	includes = ['phone_number', 'profile__first_name','profile__middle_name','profile__last_name','date_created', ]
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		User._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		
+
+		all_objects = User.objects.filter(
+											Q(phone_number__icontains=global_search) |
+											Q(profile__first_name__icontains=global_search) |
+											Q(profile__middle_name__icontains=global_search) |
+											Q(profile__last_name__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('phone_number', 'profile__first_name','profile__middle_name','profile__last_name','date_created'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = User.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects = User.objects.all()
+		# all_objects = User.objects.prefetch_related(Prefetch('playeraccounts_set')).all()
+
+		columns = [i for i in includes]
+		
+		objects = []
+		for i in all_objects.order_by('-date_created')[start:start + length].values('phone_number', 'profile__first_name','profile__middle_name','profile__last_name','date_created'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = User.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportPlayersCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'phone_number':'Phone Number',
+							'profile__first_name':'First Name',
+							'profile__last_name': 'Last Name',
+							'date_created': 'Date Registered',
+					  }
+		field_serializer_map = {'date_created': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = User.objects.values('phone_number', 'profile__first_name','profile__last_name','date_created').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportPlayersCsv, self).dispatch(*args, **kwargs)
+
+class IncomingPayments(View):
+   
+
+
+	def get(self, request):
+
+		fields = PayIn.objects.values(
+			'msisdn', 'first_name',  'last_name', 'transaction_id', 'transaction_amount', 'bill_reference_number',  'created_at')
+
+		return render(request, 'admin_portal/payins.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(IncomingPayments, self).dispatch(request, *args, **kwargs)
+
+
+def process_payins(request):
+	includes = ['msisdn', 'first_name',  'last_name',
+			 'transaction_id', 'transaction_amount', 'bill_reference_number',  'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		PayIn._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = PayIn.objects.filter(Q(transaction_id__icontains=global_search) |
+										Q(transaction_amount__icontains=global_search) |
+										Q(bill_reference_number__icontains=global_search) |
+										Q(msisdn__icontains=global_search) |
+										Q(first_name__icontains=global_search) |
+										Q(first_name__icontains=global_search) |
+										Q(last_name__icontains=global_search) |
+										Q(middle_name__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values():
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = PayIn.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=PayIn.objects.values(
+			'msisdn', 'first_name',  'last_name', 'transaction_id', 'transaction_amount', 'bill_reference_number',  'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].values():
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = PayIn.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportPayInsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'msisdn': 'Phone Number',
+							'transaction_amount': 'Amount',
+							'transaction_id':'Transaction ID',
+							'bill_reference_number':'Bill Ref No.',
+							'first_name':'First Name',
+							'middle_name': 'Middle Name',
+							'last_name':'Last Name',
+							'created_at': 'Transaction Date',
+							}
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+
+		qs = PayIn.objects.values('msisdn','transaction_amount','transaction_id','bill_reference_number',\
+							   'first_name','last_name','created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportPayInsCsv, self).dispatch(*args, **kwargs)
+
+#Payouts
+
+class OutgoingPayments(View):
+
+	def get(self, request):
+
+		fields = Payout.objects.values(
+			'user__profile__first_name', 'user__phone_number', 'user__profile__last_name', 'transaction_id', 'amount', 'created_at')
+
+		return render(request, 'admin_portal/payouts.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(OutgoingPayments, self).dispatch(request, *args, **kwargs)
+
+
+def process_payouts(request):
+	includes = ['user__profile__first_name',\
+		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Payout._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = Payout.objects.filter(Q(status__icontains=global_search) |
+										Q(amount__icontains=global_search) |
+										Q(user__phone_number__icontains=global_search) |
+										Q(user__profile__first_name__icontains=global_search) |
+										Q(user__profile__last_name__icontains=global_search) |
+										Q(user__profile__middle_name__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',\
+		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Payout.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=Payout.objects.values(
+			'user__profile__first_name',\
+		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at')
+
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',\
+		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Payout.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportPayOutsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'user__phone_number': 'Phone Number',
+							'amount': 'Amount',
+							'transaction_id':'Transaction ID',
+							'user__profile__first_name':'First Name',
+							'user__profile__middle_name': 'Middle Name',
+							'user__profile__last_name':'Last Name',
+							'created_at': 'Transaction Date',
+							}
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+
+		qs = Payout.objects.values('user__phone_number','amount','transaction_id',\
+							   'user__profile__first_name', 'user__profile__middle_name','user__profile__last_name','created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportPayOutsCsv, self).dispatch(*args, **kwargs)
+
+
+class Transactions(View):
+    
+	def get(self, request):
+
+		fields = Transaction.objects.values(
+			'user__profile__first_name',  'user__phone_number', 'transaction_id','transaction_type', 'amount', 'created_at')
+
+		return render(request, 'admin_portal/transactions.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(Transactions, self).dispatch(request, *args, **kwargs)
+
+
+def process_transactions(request):
+	includes = ['user__profile__first_name',  'user__phone_number', 
+	'transaction_id','transaction_type', 'amount', 'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Transaction._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = Transaction.objects.filter(Q(user__phone_number__icontains=global_search) |
+										Q(amount__icontains=global_search) |
+										Q(transaction_id__icontains=global_search) |
+										Q(transaction_type__icontains=global_search) |
+										Q(user__profile__first_name__icontains=global_search) |
+										Q(user__profile__last_name__icontains=global_search) |
+										Q(user__profile__middle_name__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name', 
+		'user__phone_number', 'transaction_id',
+		'transaction_type', 'amount', 'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = PayIn.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=Transaction.objects.values(
+			'user__profile__first_name',  'user__phone_number',
+			 'transaction_id','transaction_type', 'amount', 'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name', 
+		'user__phone_number', 'transaction_id',
+		'transaction_type', 'amount', 'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Transaction.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportTransactionsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'msisdn': 'Phone Number',
+							'transaction_amount': 'Amount',
+							'transaction_id':'Transaction ID',
+							'bill_reference_number':'Bill Ref No.',
+							'first_name':'First Name',
+							'middle_name': 'Middle Name',
+							'last_name':'Last Name',
+							'created_at': 'Transaction Date',
+							}
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+
+		qs = PayIn.objects.values('msisdn','transaction_amount','transaction_id','bill_reference_number',\
+							   'first_name','last_name','created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportPayInsCsv, self).dispatch(*args, **kwargs)
+
+
+class Bids(View):
+    
+	def get(self, request):
+    		
+		fields = Bid.objects.values(
+			'code',  'ref_no', 'product__name',
+			'critical_mass', 'is_open',
+			'is_critical_mass_passed', 
+			'open_at','closes_at')
+
+		return render(request, 'admin_portal/bids.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(Bids, self).dispatch(request, *args, **kwargs)
+
+
+def process_bids(request):
+	includes = ['code',  'ref_no', 'product__name',
+			'critical_mass', 'is_open',
+			'is_critical_mass_passed', 
+			'open_at','closes_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Bid._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = Bid.objects.filter(Q(code__icontains=global_search) |
+										Q(duration=global_search) |
+										Q(ref_no__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('code',  'ref_no', 'product__name',
+			'critical_mass', 'is_open',
+			'is_critical_mass_passed', 
+			'open_at','closes_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Bid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=Bid.objects.values(
+			'code',  'ref_no', 'product__name',
+			'critical_mass', 'is_open',
+			'is_critical_mass_passed', 
+			'open_at','closes_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].values('code',  'ref_no', 'product__name',
+			'critical_mass', 'is_open',
+			'is_critical_mass_passed', 
+			'open_at','closes_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Bid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportDrawsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {'msisdn': 'Phone Number',
+							'transaction_amount': 'Amount',
+							'transaction_id':'Transaction ID',
+							'bill_reference_number':'Bill Ref No.',
+							'first_name':'First Name',
+							'middle_name': 'Middle Name',
+							'last_name':'Last Name',
+							'created_at': 'Transaction Date',
+							}
+		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+
+		qs = PayIn.objects.values('msisdn','transaction_amount','transaction_id','bill_reference_number',\
+							   'first_name','last_name','created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportPayInsCsv, self).dispatch(*args, **kwargs)
+
+
+
+class AllBids(View):
+    
+	def get(self, request):
+    		
+		fields = UserBid.objects.values(
+			'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+			'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+			'bid_entry__bid__code', 'amount',
+			'source',
+			'bid_entry__bid__product__price', 
+			'created_at')
+
+		return render(request, 'admin_portal/all-bids.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(AllBids, self).dispatch(request, *args, **kwargs)
+
+
+def process_all_bids(request):
+	includes = ['bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		UserBid._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = UserBid.objects.filter(
+				   Q(bid_entry__user__phone_number__icontains=global_search) |
+				   Q(bid_entry__user__profile__first_name=global_search) |
+				   Q(bid_entry__source = global_search) |
+				   Q(bid_entry__user__profile__last_name=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+				values('bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UserBid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=UserBid.objects.values(
+				'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].\
+			values('bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UserBid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+
+
+class ActiveBids(View):
+    
+	def get(self, request):
+    		
+		fields = UserBid.objects.filter(bid_entry__bid__is_open=True).values(
+			'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+			'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+			'bid_entry__bid__code', 'amount',
+			'source',
+			'bid_entry__bid__product__price', 
+			'created_at')
+
+		return render(request, 'admin_portal/active-bids.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(ActiveBids, self).dispatch(request, *args, **kwargs)
+
+
+def process_active_bids(request):
+	includes = ['bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		UserBid._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = UserBid.objects.filter(bid_entry__bid__is_open=True).\
+			filter(Q(bid_entry__user__phone_number__icontains=global_search) |
+				   Q(bid_entry__user__profile__first_name=global_search) |
+				   Q(bid_entry__source = global_search) |
+				   Q(bid_entry__user__profile__last_name=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+				values('bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UserBid.objects.filter(bid_entry__bid__is_open=True).count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=UserBid.objects.filter(bid_entry__bid__is_open=True).values(
+				'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].\
+			values('bid_entry__user__phone_number','bid_entry__user__profile__first_name',
+				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
+				'bid_entry__bid__code', 'amount',
+				'source',
+				'bid_entry__bid__product__price', 
+				'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UserBid.objects.filter(bid_entry__bid__is_open=True).count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+
+
+
+class UssdDials(View):
+    
+	def get(self, request):
+    		
+		fields = UssdDial.objects.values(
+			'phone_number',
+			'no_of_dials',
+			'last_dialed',
+			'created_at')
+
+		return render(request, 'admin_portal/ussd-dials.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(UssdDials, self).dispatch(request, *args, **kwargs)
+
+
+def process_dials(request):
+	includes = [
+			'phone_number',
+			'no_of_dials',
+			'last_dialed',
+			'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		UssdDial._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = UssdDial.objects.filter(
+				   Q(phone_number__icontains=global_search) |
+				   Q(no_of_dials=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+				values('phone_number',
+					'no_of_dials',
+					'last_dialed',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UssdDial.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=UssdDial.objects.values(
+				'phone_number',
+				'no_of_dials',
+				'last_dialed',
+				'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-last_dialed')[start:start + length].\
+			values('phone_number',
+					'no_of_dials',
+					'last_dialed',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = UssdDial.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+
+class ExportDialsCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'phone_number':'Phone Number',
+							'no_of_dials':'Number of Dials',
+							'last_dialed': 'Last Dial Time',
+							'created_at': 'First Dial Time',
+					  }
+		field_serializer_map = {'created_at': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = UssdDial.objects.values('phone_number', 'no_of_dials','last_dialed','created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportDialsCsv, self).dispatch(*args, **kwargs)
+
+class InvalidBids(View):
+
+	def get(self, request):
+    		
+		fields = InvalidBid.objects.values(
+			'user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid_value',
+			'created_at'
+			)
+
+		return render(request, 'admin_portal/invalid-bids.html', {'data': fields})
+
+		# return render (request,'admin_portal/Users.html',{'data':all_Users})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(InvalidBids, self).dispatch(request, *args, **kwargs)
+
+
+def process_invalid(request):
+	includes = ['user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid_value',
+			'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		InvalidBid._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search is not '':
+
+		print(global_search, 'search value')
+
+		all_objects = InvalidBid.objects.filter(Q(user__profile__first_name__icontains=global_search) |
+											Q(user__profile__middle_name__icontains=global_search) |
+											Q(user__profile__last_name__icontains=global_search) |
+											Q(user__phone_number__icontains=global_search) |
+											Q(bid_value__icontains=global_search)).all()
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid_value',
+			'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = InvalidBid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects = InvalidBid.objects.all()
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid_value',
+			'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = InvalidBid.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+class ExportInvalidCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'user__profile__first_name':'First Name',
+							'user__profile__middle_name':'Middle Name',
+							'user__profile__last_name': 'Last Name',
+							'user__phone_number': 'Phone Number',
+							'bid_value': 'Bid Value Entered',
+							'created_at': 'Bid Date',
+					  }
+		field_serializer_map = {'created_at': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = InvalidBid.objects.values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			'bid_value',
+			'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportInvalidCsv, self).dispatch(*args, **kwargs)

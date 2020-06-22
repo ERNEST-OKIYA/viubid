@@ -1,0 +1,441 @@
+{% extends "products/admin_portal_base.html" %}
+{% load staticfiles %}
+{% block extra_style %}
+<!-- DataTables -->
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.css" %}">
+<link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+
+<!-- jQuery -->
+<script src=""{% static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src=""{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css
+
+">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+<link href="https://snyk.io/test/npm/postcss-font-family-system-ui/4.2.0" rel="stylesheet">
+
+
+
+<!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+<script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+<script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script> -->
+
+<style>
+    
+    .panga-yellow{
+        background-color: #ffc107;
+        border-color: #fd7e14;
+    }
+    .panga-blue-bg{
+        background-color: #1b2133; 
+    }
+    .panga-blue-bg2{
+        background-color: #2d3447; 
+    }
+    
+    .box-default-light{
+        background-color:#FBFCFC;
+        border-radius: 2px;
+        min-height: 180px;
+        color:black;
+        padding: 10px;
+    }
+
+    .box-default-white{
+        background-color:#fff;
+        border-radius: 2px;
+        min-height: 180px;
+        color:black;
+        padding: 10px;
+    }
+    .html{
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    </style>
+{% endblock %}
+
+{% block page-nav %}
+  <!-- <li class="breadcrumb-item"><a href="/admin/dashboard/">home</a></li> -->
+  
+  {% endblock %}
+
+{% block content %}
+
+<div class="modal fade bd-deposit-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panga-blue-bg2">
+            <div class="modal-header" style="background-color: #2d3447; max-height: 57px;">
+                <p class="text-sm text-white">Bid Now</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-header" style="background-color: #161a29;max-height: 50px;">
+                <p class="text-white text-sm" id="exampleModalLongTitle">Paybill 825440</p>
+                
+                    <span><img src="{% static "images/mpesa-logo.png" %}" alt="Reverse Bid" style="width: auto;height: 32px;"> </span>
+                
+            </div>            
+            <div class="modal-body panga-blue-bg2">
+                <form class="form-group">
+                   <label class="text-white">Phone Number</label> 
+                <input  placeholder="Enter your Phone Number" min="1" type="text" class="mb-2 form-control" name="phone_number"  value="" id="id_phone_number" style="background-color: #343a40;color: white;" required>
+                <input  placeholder="Your Bid Value" min="1" type="number" class="mb-2 form-control" name="amount"  value="" id="id_bid_value" style="background-color: #343a40;color: white;" required>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" id="id_bid_error" style="display: none;">
+                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    
+                </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="id_bid_success" style="display: none;">
+                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    
+                </div>
+                <!-- <small class="text-warning form-text text-center" id="id_deposit_error"></small> -->
+                <!-- <small class="text-success form-text text text-center" id="id_deposit_success"></small> -->
+            
+                
+            </div>
+            <div class="modal-footer panga-blue-bg2">
+                
+                <button type="button" class="btn btn-primary form-control" id="id_bid" style="background-color: #2196f3;" >Place Bid</button>
+                
+            </form>
+            </div>
+            <br>
+            <p class="text-center text-white text-md">OR</p>
+            
+            <div class="text-sm text-align-left mbg-3 font-size-sm text-white">
+                <br>  
+               <p class="text-md" style="margin-left: 5%;">Follow the instructions below.</p>
+                <ol class="text-sm">
+                   
+                <li> Go to the M-PESA menu</li>
+                <li> Select Lipa na M-PESA</li>
+                <li>Select Pay Bill</li>
+                <li>Enter business number: <strong>825440</strong></li>
+                <li>Enter the account number: <strong>YOUR BID AMOUNT</strong></li>
+                <li>Enter the amount: KES 20</li>
+                <li>Enter your M-PESA PIN and complete the transaction</li>
+                <li>You will shortly receive an SMS from Mpesa and Ujumbe to confirm the transaction</li>
+            </ol>
+            
+            
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Modal -->
+
+
+
+<!--col -->
+<div class="tabs-animation col-md-12">
+	<div class="row justify-content-md-center">
+       
+        <div class="col-md-12">
+            <table>
+                <tr>
+                <td>
+            <h1 style="font-size: 40px;font-family: 'Shadows Into Light', cursive; font-weight: bolder;">How low can you go?</h1>
+            <h4 class="text-secondary" style="font-weight: lighter;">The lowest unique bid wins the auction!
+                Place the price that you want
+                If your bid is unique and is the lowest among unique bids, take home the product!</h4>
+            </td>
+
+            <td>
+               
+                <img src="{% static "images/hl2.jpg" %}" alt="How low can you Go?" style="height: 300px;width: auto;margin-left: 10%;">
+            </td>
+        </tr>
+        </table>
+        </div>
+        
+    </div>
+    <div class="text-center mbg-3 font-size-lg" style="margin-top: 3%;">
+        
+        <h3>Grab this Iphone X for only KES 20!</h3>
+        <img src="{% static "images/iphone4.png" %}" alt="" style="height: 300px;width: auto;margin-left: 10%;">
+       
+   
+    </div>
+
+    
+
+<div class="mbg-3 font-size-lg text-xl-center" style="margin-top: 3%;">
+        
+    <p class="text-success" style="font-size: 30px;font-family: 'Shadows Into Light', cursive; font-weight: bolder;">Ready, It's easy as 1,2,3 ...</p>
+
+
+</div>
+
+<div class="text-center mbg-3 font-size-lg box-default-light">
+    <br> 
+    
+    <p class="text-xl text-center" style="">Iphone X</p>
+    <p class="text-secondary">RRP KES 120,000</p>
+    <p>128GB Storage, 8gb Ram</p>
+    <p>Only KES 20 per bid</p>
+    <p>Auction ends in: <strong style="color: red;" id="countdown"></strong></p>
+
+    <div class="text-center d-block p-3 card-footer" style="background-color:#FBFCFC;">
+        <span>Get this Iphone?:</span>
+        <div class="text-center d-block p-3 card-footer" style="background-color: #FBFCFC;">
+        <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-success btn-lg" data-toggle="modal" data-target=".bd-deposit-modal">
+            <span class="mr-2 opacity-7">
+                <i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
+            </span>
+            <span class="mr-1">BID NOW</span>
+        </button>
+    </div>
+      
+    </div>
+   
+
+
+</div>
+<div class="mbg-3 font-size-lg" style="margin-top: 3%;">
+        
+    <h4 style="font-size: 25px;font-family: 'Shadows Into Light', cursive; font-weight: bolder;">Things to NOTE: <i class="fab fa-angellist text-warning"></i> </h4>
+    <ol>
+        <li class="text-secondary">All bids are blind, it means that they remain secret until the end of the auction.</li>
+        <li class="text-secondary">As soon as you place a bid, you can see if -;
+            <ul>
+                <li class="text-secondary">It is a unique bid or</li>
+                <li class="text-secondary"> It is not a unique bid.</li>
+            </ul>
+        </li>
+        <li class="text-secondary">Most How Low auctions are limited by time.</li>
+        <li class="text-secondary">You can place a single bid or you can have multiple bids; in this case, your bids will be automatically placed within the price range that you set.</li>
+        <li class="text-secondary">If there is no Unique bids, the winner will be the first bidder of the bid value with the least number of bidders and will be informed by SMS. He is then entitled to order and pay for the product.We will contact you to arrange shipping.</li>
+
+    </ol>
+
+
+</div>
+    
+
+
+
+
+
+
+       
+       
+<div class="text-center mbg-3 font-size-md" style="margin-top: 3%;">
+    
+    
+</div>
+<div class="text-center mbg-3 font-size-md" style="margin-top: 3%;">
+   
+    <strong class="text-center">PREVIOUS BIDS</strong>
+</div>
+
+
+<div class="card-body">
+    <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Auction</th>
+            <th>Bidder</th>
+            <th>RRP</th>
+            <th>Winning Bid</th>
+            <th>Bid End</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Iphone X</td>
+            <td>Joshua A</td>
+            <td>120,000</td>
+            <td>415</td>
+            <td>Fri 17th Apr 23:59:59</td>
+            
+        </tr>
+        <tr>
+            <td>Iphone X</td>
+            <td>Kyalo M</td>
+            <td>120,000</td>
+            <td>116</td>
+            <td>Thur 16th Apr 23:59:59</td>
+        </tr>
+        <tr>
+            <td>Iphone X</td>
+            <td>Fredrick A</td>
+            <td>120,000</td>
+            <td>919</td>
+            <td>Wed 15th Apr 23:59:59</td>
+        </tr>
+     
+        </tfoot>
+    </table>
+    <div class="text-center d-block p-3 card-footer" style="background-color: white;">
+        <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-default btn-lg">
+            <span class="mr-2 opacity-7">
+                <i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
+            </span>
+            <span class="mr-1">View More</span>
+        </button>
+    </div>
+</div>
+
+    
+     
+
+    
+
+	
+	
+
+    
+{% endblock %}
+
+
+{% block jslinks %}
+<!-- DataTables -->
+
+<script src="{% static "plugins/datatables/jquery.dataTables.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- x-editable (bootstrap version) -->
+
+<!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"> -->
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script> 
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>  
+
+
+<!-- x-editable (bootstrap version) -->
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+
+
+
+
+
+
+{% endblock %}
+{% block pagescripts%}
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("April 21, 2020 21:30:00").getTime();
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+    
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+    
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+      // Display the result in the element with id="demo"
+      document.getElementById("countdown").innerHTML = days + " day " + hours + " hours "
+      + minutes + " mins " + seconds + " secs ";
+    
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+    </script>
+
+
+<script>
+$(document).ready(function() {
+    //toggle `popup` / `inline` mode
+    $.fn.editable.defaults.mode = 'popup';     
+    
+    //make username editable
+    $('#phonenumber').editable({
+       emptytext:'Click to Enter Phone Number',
+       defaultValue:'Required',
+       emptyclass: 'text-success',
+      
+
+    });
+    
+   
+});
+</script>
+
+<script>
+    $('#id_bid').click(function() {
+
+      var phone_number = $("#id_phone_number").val();
+      var bid_value = $("#id_bid_value").val();
+
+      if (!$.isNumeric(phone_number))
+      {
+          $("#id_bid_success").hide();
+          $("#id_bid_error").html("* Invalid Phone Number. Please Enter a number");
+          $("#id_bid_error").show();
+      }
+      else {
+
+      // make POST ajax call
+      $.ajax({
+          type: 'POST',
+          url: "/ipn/checkout/",
+          data: {"phone_number":phone_number,"bid_value":bid_value},
+          success: function (response) {
+              console.log(response);
+              if (response['error']!=undefined)
+              
+              {
+                  console.log(response);
+                  $("#id_bid_error").html("");
+                  $("#id_bid_success").html("");
+                  $("#id_bid_error").html(response['error']);
+                  $("#id_bid_success").hide();
+                  $("#id_bid_error").show();
+
+              
+              }
+              else if(response['error']==undefined)
+              {
+                  console.log(response['success']);
+                  $("#id_bid_error").html("");
+                  $("#id_bid_success").html("");
+                  $("#id_bid_success").html(response['success']);
+                  $("#id_bid_success").show();
+                  $("#id_bid_error").hide();
+              
+              }
+              
+          },
+          error: function (response) {
+              console.log(response);
+              $("#id_bid_success").html("");
+              $("#id_bid_error").html(response['responseText']['error']);
+              $("#id_bid_error").show();
+              $("#id_bid_success").hide();
+          }
+      })
+  }
+      
+
+  })
+      
+</script>
+  
+{% endblock %}
