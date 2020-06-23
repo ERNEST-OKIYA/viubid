@@ -97,7 +97,7 @@ class InvalidBid(FactoryModel):
 class UssdDial(FactoryModel):
 
     phone_number = models.CharField(max_length=13, db_index=True)
-    no_of_dials = models.IntegerField(default=0)
+    no_of_dials = models.IntegerField(default=1)
     last_dialed = models.DateTimeField(default=timezone.now())
 
     @classmethod
