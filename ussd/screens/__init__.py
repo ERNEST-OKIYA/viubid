@@ -53,7 +53,7 @@ class HomeScreen(UssdScreen, ScreenMixin):
 
 		self.nav_menu = None
 		active_bid = helpers.get_active_bid()
-		self.print("Karibu SOKOMIA.Bid now and GET LUCKY!")
+		self.print("Karibu QuickBid.Bid Low, Win Big!")
 		self.print('Get {} for only KES 20!'.format(active_bid.product.name))
 		for k, v in self.MENU_ITEMS.items():
 			self.print(str(k) + ':',v[0])

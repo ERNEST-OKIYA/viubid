@@ -27,7 +27,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 			bid_amount = opt
 			self.stkpush(bid_amount)
 			self.print('Enter your Mpesa PIN in the next prompt to complete.')
-			self.print('If no prompt appears, send KES 20 to PB 825440 Acc No. is your bid Amount')
+			self.print('If no prompt appears, send KES 20 to PB 153621 Acc No. is your bid Amount')
 			return self.CON
 
 		elif int(opt) < 1:
@@ -64,7 +64,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 		payload = {
 				"BusinessShortCode": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 				"Password": settings.VARIABLES.get('PASSWORD'),
-				"Timestamp": "20171012092847",
+				"Timestamp": "20201012092847",
 				"TransactionType": "CustomerPayBillOnline",
 				"Amount": 20,
 				"PartyA": self.session.phone_number,
@@ -72,7 +72,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 				"PhoneNumber": self.session.phone_number,
 				"CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
 				"AccountReference": bid_code + ' ' + amount + ' ' + source,
-				"TransactionDesc": 'SokoMiaUSSD'
+				"TransactionDesc": 'QuickBidUSSD'
 		}
 
 		print(payload)
@@ -131,7 +131,7 @@ class CareScreen(UssdScreen, ScreenMixin):
 		pass
 	def render_menu(self):
 
-		self.print("You have a Question or need Help? Contact us on 0720796582.")
+		self.print("You have a Question or need Help? Contact us on 0712345678.")
 		
 		return self.CON
 
@@ -158,7 +158,7 @@ class ViewProductScreen(UssdScreen, ScreenMixin):
 		active_bid = helpers.get_active_bid()
 		product_name = active_bid.product.name
 
-		self.print("Visit www.sokomia.com to view this {} and more products on Auction.".format(product_name))
+		self.print("Visit www.quickbid.co.ke to view this {} and more products on Auction.".format(product_name))
 		
 		return self.CON
 
