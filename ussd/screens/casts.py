@@ -40,7 +40,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 	def render_menu(self):
 		active_bid = helpers.get_active_bid()
 		self.print(active_bid.product.name)
-		self.print(active_bid.product.description)
+		# self.print(active_bid.product.description)
 		self.print('Bid closes at {}'.format(active_bid.closes_at.strftime("%d/%m/%Y %H:%M")))
 		self.print('Enter your bid Amount:')
 		
