@@ -42,17 +42,18 @@ def generate_token():
 class Payins(View):
 
     def post(self,request):
-        
+       
+     
         data = json.loads(request.body.decode('utf-8'))
-        transaction_id = data.get('transaction_id')
-        transaction_time = data.get('transaction_time')
-        transaction_amount = data.get('amount')
-        bill_reference_number = data.get('bill_reference_number')
-        org_account_balance = data.get('organisation_account_balance')
-        msisdn = data.get('msisdn')
-        first_name = data.get('first_name')
-        middle_name = data.get('middle_name')
-        last_name = data.get('last_name')
+        transaction_id = data.get('TransID')
+        transaction_time = data.get('TransTime')
+        transaction_amount = data.get('TransAmount')
+        bill_reference_number = data.get('BillRefNumber')
+        org_account_balance = data.get('OrgAccountBalance')
+        msisdn = data.get('MSISDN')
+        first_name = data.get('FirstName')
+        middle_name = data.get('MiddleName')
+        last_name = data.get('LastName')
 
         if PayIn.objects.filter(transaction_id=transaction_id).exists():
             return JsonResponse({'status':'Record already Exists'})
