@@ -186,11 +186,11 @@ USSD = dict(
 	INITIAL_SCREEN = 'p8.initial',
 	MAX_PAGE_LENGTH=150
 )
-VARIABLES={'CONSUMER_KEY':'c7rxEVPpMuZGBFE1gqNzWaIEBJ4ZjV5d',
-		   'CONSUMER_SECRET':'meBDpjMwyYgHrGwf',
-		   'BUSINESS_SHORTCODE':'825440',
+VARIABLES={'CONSUMER_KEY':'WPiF0yAZJGdl5o0qGn66pCZQ1ufvCori',
+		   'CONSUMER_SECRET':'0eWC4UHooPuWuGKj',
+		   'BUSINESS_SHORTCODE':'153621',
 		   'DEFAULTCALLBACKURL':'http://138.68.109.235:4031/checkout/response',
-		   'PASSWORD':'ODI1NDQwM2M5Y2E0ZjgyNTcwMTM0ZDliYzVkMGYwZjk3YmMxNzJjZTZkOTQ5MzA0M2UzNzE0NTNjYTVmZjY5OTRiODkxYTIwMTcxMDEyMDkyODQ3',
+		   'PASSWORD':'MTUzNjIxYTM4M2Y2MGQ2ODE5MTRjYmQ4YzU1ODZjNjU0ZjE5NjgyODk5Y2E3YTNlYTFhMTExMGZhYjg5ZmY4NjJjOWUxYjIwMTcxMDEyMDkyODQ3',
 		   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
 		   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}
 # Static files (CSS, JavaScript, Images)
