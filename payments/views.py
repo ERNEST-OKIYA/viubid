@@ -131,7 +131,7 @@ class Checkouts(View):
             payload = {
                     "BusinessShortCode": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
                     "Password": settings.VARIABLES.get('PASSWORD'),
-                    "Timestamp": "20171012092847",
+                    "Timestamp": "20201012092847",
                     "TransactionType": "CustomerPayBillOnline",
                     "Amount": 20,
                     "PartyA": phone_number,
@@ -139,14 +139,16 @@ class Checkouts(View):
                     "PhoneNumber": phone_number,
                     "CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
                     "AccountReference": bid_code + ' ' + bid_value + ' ' + source,
-                    "TransactionDesc": 'Reverse Bid'
+                    "TransactionDesc": 'QuickBid'
             }
+
+            
 
            
             try:
 
                 response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
-                print(response.json())
+                
                 
                 self.response['success']= "Check your phone and Enter your Mpesa PIN to bid"
                 return JsonResponse(self.response,status=200)

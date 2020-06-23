@@ -190,7 +190,7 @@ VARIABLES={'CONSUMER_KEY':'WPiF0yAZJGdl5o0qGn66pCZQ1ufvCori',
 		   'CONSUMER_SECRET':'0eWC4UHooPuWuGKj',
 		   'BUSINESS_SHORTCODE':'153621',
 		   'DEFAULTCALLBACKURL':'http://138.68.109.235:4031/checkout/response',
-		   'PASSWORD':'MTUzNjIxYTM4M2Y2MGQ2ODE5MTRjYmQ4YzU1ODZjNjU0ZjE5NjgyODk5Y2E3YTNlYTFhMTExMGZhYjg5ZmY4NjJjOWUxYjIwMTcxMDEyMDkyODQ3',
+		   'PASSWORD':'MTUzNjIxYTM4M2Y2MGQ2ODE5MTRjYmQ4YzU1ODZjNjU0ZjE5NjgyODk5Y2E3YTNlYTFhMTExMGZhYjg5ZmY4NjJjOWUxYjIwMjAxMDEyMDkyODQ3',
 		   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
 		   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}
 # Static files (CSS, JavaScript, Images)
