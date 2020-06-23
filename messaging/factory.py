@@ -5,9 +5,9 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 DEBUG = settings.DEBUG
 
-app={'key':'9b1e459909484acb90ecfdcbfe01d6d', 
-     'secret':'a868972b8221744129f50b6b77314b77e',
-     'profile_id':'2002211'}
+app={'key':'9b1e459909484acb90ecfdcbfe01d6da', 
+     'secret':'868972b8221744129f50b6b77314b77e',
+     'profile_id':'1703051'}
 ujumbe_url='https://sms.crossgatesolutions.com/api/v2/sendSms'
 
 
