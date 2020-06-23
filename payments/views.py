@@ -146,6 +146,7 @@ class Checkouts(View):
             try:
 
                 response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+                print(response.json())
                 
                 self.response['success']= "Check your phone and Enter your Mpesa PIN to bid"
                 return JsonResponse(self.response,status=200)
