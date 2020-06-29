@@ -37,10 +37,8 @@ class Message:
                
         return self.send(user.phone_number,text)
     
-    def less_amount(self,user,code,amount_to_add):
-        text = "The amount you sent is less than the bid ticket price "+\
-        	"for poduct with code {}. ".format(code)+\
-            "Please add KES {} to bid on this product.".format(amount_to_add)
+    def less_amount(self,user):
+        text = "The minimum amount for this bid is KES 20. Please send KES 20 to Paybill 153621. Enter your bid value as account Name."
         
         return self.send(user.phone_number,text)
             

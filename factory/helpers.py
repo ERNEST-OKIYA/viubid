@@ -151,13 +151,12 @@ class Helpers:
 
 
     def create_bid_entry(self,user,amount,transaction_id,code,source):
-        # if code:
-
-        #     bid = self.get_bid_by_code(code)
         
-        # else:
-        bid = self.get_active_bid()
+        bid = self.get_bid_by_code(code)
         amount = Decimal(amount)
+        # if amount < 20:
+        #     return sms.less_amount(user)
+
         if bid:
             bid_entry = BidEntry.create(user,bid)
             Transaction.record(user,amount,transaction_id,
