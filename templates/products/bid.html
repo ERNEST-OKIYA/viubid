@@ -199,108 +199,20 @@
       </section>
 
       <!-- Finished Auctions-->
-      <section class="section novi-bg novi-bg-img section-lg bg-white">
-        <div class="container">
-          <h2 class="text-center text-sm-left">Next <span class="h2-style">Auctions</span></h2>
-          <div class="row row-20">
-            {% for n in next_bids %}
-            <div class="col-lg-3 col-sm-6">
-              <!-- Post Classic-->
-              <div class="post-classic">
-                <div class="post-classic-badge">RRP
-                  <div class="post-classic-price-value"> {{n.product.price|intcomma}}</div>
-                </div>
-                <div class="post-classic-thumbnail">
-                  <figure class="post-classic-figure"><img src="{{n.product.image.url}}" alt="" width="270" height="135"/>
-                  </figure>
-                  <div class="post-classic-caption"><a class="heading-5" href="#">{{n.product.description}}</a></div>
-                  <div class="post-classic-caption" style="margin-top: -5px;"><p >Bid opens at {{n.open_at}}</p></div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-            
-            
-            
-          </div>
-        </div>
-      </section>
+     <!--Finished Auctions -->
 
      
 
       <!-- How it Works-->
       <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
         <div class="container">
-          <h2 class="text-center text-sm-left">How <span class="h2-style">it Works</span></h2>
-          <div class="row row-50 mt-50 column-arrow offset-lg-2 ">
-            
-            <div class="col-lg-3 col-sm-6 ">
-              <!-- Box Icon Classic-->
-              <div class="box-icon-classic">
-                <div class="box-icon-classic-icon icon novi-icon fa-hourglass-1"></div>
-                <h4 class="box-icon-classic-title">When to bid</h4>
-                <p>You can instantly place a bid on any desired product right after the bid is open.</p>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <!-- Box Icon Classic-->
-              <div class="box-icon-classic">
-                <div class="box-icon-classic-icon icon novi-icon fa-send linearicons-hammer2"></div>
-                <h4 class="box-icon-classic-title">Submit a Bid</h4>
-                <p>
-                  Submitting a bid to our auction is quick and easy. 
-                  1. Go to Mpesa Menu
-                  2. Enter Account Name: How much you want to buy the product(bid)
-                  3. Enter Amount: 20 SH
-
-                  The process takes LESS than a minute.
-                </p>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <!-- Box Icon Classic-->
-              <div class="box-icon-classic">
-                <div class="box-icon-classic-icon icon novi-icon fa-trophy linearicons-trophy2"></div>
-                <h4 class="box-icon-classic-title">Buy</h4>
-                <p>
-                  You will get an sms if your bid is the lowest and MOST UNIQUE, and you will purchase the item for the bid amount. 
-                  You will also get tips on getting the lowest and unique bid the more you participate
-                  add here that the item is delivered nationwide free of charge
-                </p>
-              </div>
-            </div>
-          </div>
+          <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;">Auctions</span></h2>
+          
         </div>
       </section>
 
 
-     
-
-      <!-- About As-->
-      <section class="section novi-bg novi-bg-img section-lg">
-        <div class="container">
-          <h2 class="text-center text-sm-left">Winning <span class="h2-style">  Tips & Tricks</span></h2>
-          <div class="row row-50">
-            <div class="col-lg-12">
-              
-              <div class="row row-30">
-                <div class="col-12">
-                  <!-- Box Moder-->
-                  <div class="box-modern">
-                    
-                    <p class="box-modern-body">Quick Bid™ is more than a means to test your amazing calculative skills and ability to undergo smart strategizing, you need to put in more work. For instance, if the RRP of the product is KES 50, 000, you can take a risk and put in bids worth 0.001% of the price of the product KES 50. 
-                      Always study the trends. Check other user profiles and check which kind of bids are most common and how many times they have had to bid. 
-                      Be consistent at all times. Winning an auction is all about understanding how other contenders are placing their bids, you can do this by checking the lowest bid at the time. With this information you stand a higher chance of winning if you are regular and have a uniform playing style. 
-                      Log into the bidding website on a regular basis to keep you updated with all available offers. At Quick Bid™, we regularly provide more offer to our frequent, loyal bidders. These offers are time-based. </p>
-                  </div>
-                </div>
-                
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    
 
       <footer class="footer novi-bg novi-bg-img">
         
