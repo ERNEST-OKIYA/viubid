@@ -207,10 +207,17 @@
       <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
         <div class="container">
           <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;"> Auctions</span></h2>
+          <div class="row col-12">
+            
+            {% for bid in bids %}
+        
+            <div class="col-xl-6 col-lg-6 col-sm-6">
           <figure class="post-classic-thumbnail">
                   
             <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
           </figure>
+          </div>
+          </div>
           
         </div>
       </section>
