@@ -211,24 +211,32 @@
             
             {% for bid in bids %}
         
-          <div class="col-xl-6 col-lg-6 col-sm-6">
-          <div class="post-classic">
-          <figure class="post-classic-thumbnail">
+            <div class="col-xl-6 col-lg-6 col-sm-6">
+             
+
+                
+              <!-- Post Modern-->
+              <div class="post-classic" style="width: 400px;">
+              
+              <div class="post-classic" style="width: 400px;">
+  
+                <figure class="post-classic-thumbnail">
                   
-            <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
-          </figure>
-          <div class="post-modern-caption">
-            <h4 class="">{{bid.product.name}}</h4>
-            <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
-            <div class="">{{bid.product.description}}</div>
+                  <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
+                </figure>
+                
+                </div>
+                <div class="post-modern-caption" style="margin-bottom: 3%;">
+                  <h4 class="">{{bid.product.name}}</h4>
+                  <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
+                  <div class="">{{bid.product.description}}</div>
+                </div>
+              </div>
+            </div>
+          
+            {% endfor %}
           </div>
           
-          {% endfor %}
-          </div>
-          </div>
-          </div>
-          
-        </div>
       </section>
 
 
