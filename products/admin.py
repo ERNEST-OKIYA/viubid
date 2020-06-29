@@ -6,7 +6,7 @@ class ProductAdmin(admin.ModelAdmin):
     # fields = ('name','description','image','width','height')
     display_links = ('name')
     list_filter = ('name',)
-    readonly_fields = ('width','height')
+    # readonly_fields = ('width','height')
     fieldsets = (
         (None, {'fields': ('code','name', 'description','offered')}),
         ('Image', {'fields': ('image', 'width', 'height','price',)}),
