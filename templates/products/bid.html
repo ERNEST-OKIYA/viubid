@@ -1,3 +1,4 @@
+
 {% load staticfiles %}
 {% load humanize %}
 <!DOCTYPE html>
@@ -17,25 +18,84 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
    
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
-    <style>
-      body {
-    font-family: Roboto, Ubuntu, Arial, sans-serif;
-    font-size: 100%;
-}
-    </style>
-
-<style>
-  .orange{
-    color:#F29100
-  }
-  .blue{
-    color: #002698;
-  }
-  .blacker{
-    color: #6b7280;
-  }
-</style>
   </head>
+  <body>
+    <!-- <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div> -->
+    <div class="preloader">
+      <div class="preloader-body">
+        <div class="cssload-container">
+          <div class="cssload-speeding-wheel"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <header class="section page-header">
+        <!--RD Navbar-->
+        <div class="rd-navbar-wrap">
+          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px" data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
+            <div class="rd-navbar-aside-outer rd-navbar-collapse bg-gray-900">
+              <div class="rd-navbar-aside">
+                <div class="rd-navbar-aside-left">
+                  <ul class="list-inline list-inline-lg">
+                    <li>
+                      <div class="unit unit-spacing-sm align-items-center">
+                        <div class="unit-left"><span class="icon icon-md text-middle fa-phone text-primary"></span></div>
+                        <div class="unit-body header-phone-wrap">Contact us:&nbsp;<a class="header-phone" href="tel:#">0712345678</a></div>
+                      </div>
+                    </li>
+                    
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+            <div class="rd-navbar-main-outer">
+              <div class="rd-navbar-main">
+                <!--RD Navbar Panel-->
+                <div class="rd-navbar-panel">
+                  <!--RD Navbar Toggle-->
+                  <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                  <!--RD Navbar Brand-->
+                  <div class="rd-navbar-brand">
+                    <!--Brand--><a class="brand" href="index.html"><img src="{% static "images/Quickbid-Clear.svg" %}" alt="" width="329" height="57"/></a>
+                  </div>
+                </div>
+                <div class="rd-navbar-main-element">
+                  <div class="rd-navbar-nav-wrap">
+                    <ul class="rd-navbar-nav">
+                      <li class="rd-nav-item active"><a class="rd-nav-link" href="/">Home</a>
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">Bid</a>
+                      </li>
+                      
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">FAQ</a>
+                      </li>
+                      
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">T&Cs</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <style>
+          .orange{
+            color:#F29100
+          }
+          .blue{
+            color: #002698;
+          }
+          .blacker{
+            color: #6b7280;
+          }
+        </style>
+      </header>
+      <!-- Best Place-->
+
   <body>
     <!-- <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div> -->
     <div class="preloader">
@@ -79,7 +139,7 @@
                   </div>
                 </div>
                 <div class="rd-navbar-main-element">
-                  <div class="rd-navbar-nav-wrap" style="align-content: center;">
+                  <div class="rd-navbar-nav-wrap">
                     <ul class="rd-navbar-nav">
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="/">Home</a>
                       </li>
