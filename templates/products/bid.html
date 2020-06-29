@@ -141,7 +141,7 @@
 
                 
               <!-- Post Modern-->
-              <div class="post-classic" style="width: 400px;">
+              <div class="post-classic" style="width: 400px;min-height: 200px;">
               <div class="post-modern-caption" style="margin-bottom: 3%;">
                 <h4 class="">{{bid.product.name}}</h4>
                 <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
@@ -155,7 +155,7 @@
                 </div>
                 <figure class="post-classic-thumbnail">
                   
-                  <img src="{{bid.product.image.url}}" alt="" width="auto" height="auto"/>
+                  <img src="{{bid.product.image.url}}" alt="" width="300" height=""/>
                 </figure>
                 
 
@@ -180,14 +180,13 @@
                   <p class="" style="color: #161e2e;">Input your phone number and Bid amount below and check your Phone to complete.</p><br>
 
                  
-                  <div style="margin-top: 20%;">
+
                   <input type="hidden" id="id_bid_code" value="{{bid.code}}">
                   <input type="text" class="form-group form-control" placeholder="Your phone Number" id="id_phone_number">
                   <input type="number" class="form-group form-control" placeholder="Bid Amount e.g 43" id="id_bid_value">
                   <p id="id_bid_success" style="display: none; color: #155724;"></p>
                   <a  id="id_bid" class="button button-icon button-icon-right form-group form-control" style="background-color: #002698;border-color:#002698;color: white;" href="#bid"><span class="icon novi-icon"></span>Place your Bid</a>
                   </div>
-                </div>
                  
                 </div>
               </div>
