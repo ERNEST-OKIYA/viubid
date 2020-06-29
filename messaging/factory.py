@@ -100,17 +100,11 @@ class Message:
     
     def send(self,msisdn,message):
         
-            payload={'message':message,
-                     'phone_number':msisdn,
-                     'profile_id':app.get('profile_id')}
-
+            payload = dict(sender='SASA SMS',message=message,msisdns=[msisdn])
+            url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
+        
             try:
-                r=requests.post(ujumbe_url,
-                                json=payload,
-                                headers={'app-secret':app.get('secret'),
-                                        'app-key':app.get('key')
-                                        }
-                                )
+                r=requests.post(url,json=payload)
                 logger.info('RESPONSE {}'.format(r.json()))
             except Exception as e:
                 logger.DEBUG('ERROR {}'.format(str(e)))
