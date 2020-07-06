@@ -98,7 +98,7 @@ class Message:
     
     def send(self,msisdn,message):
         
-            payload = dict(sender='SASA SMS',message=message,msisdns=[msisdn])
+            payload = dict(sender='QUICKBID',message=message,msisdns=[msisdn])
             url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
         
             try:
