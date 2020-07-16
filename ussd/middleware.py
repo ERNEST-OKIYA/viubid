@@ -21,8 +21,6 @@ class KenyaSafaricomUssdMiddleware(UssdMiddleware):
 	def extract_request_data(self, req):
 		rv = dict(req.GET.items())
 		rv.setdefault('phone_number', rv.get('msisdn'))
-		rv.setdefault('ussd_string', rv.get('request_input'))
-
 		
 		return rv
 
