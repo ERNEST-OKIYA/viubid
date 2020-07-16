@@ -21,9 +21,10 @@ from products import views as vw
 from admin_portal.views import *
 from django.contrib.auth import views as auth_views
 from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv
+from django.conf.urls import url
 
 urlpatterns = [
-    path('/', vw.ProductsList.as_view()),
+    url(r'ussd/', include('ussd.urls')),
     path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),

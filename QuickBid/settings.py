@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     'payments',
     'users',
     'admin_portal',
-    'flex.ussd',
     'ussd',
+    'flex.ussd',
     'django.contrib.humanize',
 ]
 

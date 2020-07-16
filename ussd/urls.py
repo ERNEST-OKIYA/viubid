@@ -5,6 +5,6 @@ from .views import KenyaSafaricomUssdView, GhanaMtnUssdView
 
 
 urlpatterns=[
-	path('', KenyaSafaricomUssdView.as_view(), name='ke_saf_ussd'),
-	
+	url(r'^$', KenyaSafaricomUssdView.as_view(), name='ke_saf_ussd'),
+	url(r'^gh/mtn/$', GhanaMtnUssdView.as_view(), name='gh_mtn_ussd'),
 ]
