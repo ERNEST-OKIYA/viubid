@@ -102,10 +102,12 @@ class UssdDial(FactoryModel):
 
     @classmethod
     def create(cls,phone_number):
-        if cls.objects.filter(phone_number=phone_number).exists():
-            obj = cls.objects.get(phone_number=phone_number)
+        defaults = {
+            'phone_number':phone_number
+        }
+        obj,created = cls.objects.get_or_create(phone_number=phone_number,defaults=phone_number)
+        if not created:
             obj.no_of_dials+=1
             obj.last_dialed = timezone.now()
             obj.save()
-        else:
-            cls.objects.create(phone_number=phone_number)
+        

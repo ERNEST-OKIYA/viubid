@@ -11,7 +11,9 @@ from django.conf import settings
 
 class ScreenMixin(object):
 
-	pass
+	def format_date(self,date):
+		format = "%d/%m/%Y %H:%M"
+		return date.strftime(format)
 
 
 class RestoreSessionMixin(object):

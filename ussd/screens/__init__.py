@@ -25,9 +25,9 @@ class InitialScreen(UssdScreen, ScreenMixin):
 class HomeScreen(UssdScreen, ScreenMixin):
 
 	MENU_ITEMS = OrderedDict([
-		('1', ("Bid Now", "sm.bid")),
+		('1', ("Bid Now", "sm.bid_items")),
 		('2', ("How it works", "sm.how_it_works")),
-		('3', ("View this product", "sm.view")),
+		('3', ("View products", "sm.view")),
 		('4', ("Customer Care", "sm.customer_care")),
 		
 	])
@@ -43,18 +43,16 @@ class HomeScreen(UssdScreen, ScreenMixin):
 			return self.render_menu()
 
 		opt = self.MENU_ITEMS[args[0]]
-		if opt:
-			return render_screen(opt[1])
-		else:
-			self.error(self.ERRORS.INVALID_CHOICE)
-			return self.render_menu()
+		
+		return render_screen(opt[1])
+		
 
 	def render_menu(self):
 
 		self.nav_menu = None
 		active_bid = helpers.get_active_bid()
 		self.print("Karibu QuickBid.Bid Low, Win Big!")
-		self.print('Get {} for only KES 20!'.format(active_bid.product.name))
+		self.print("You could go home with a JUST ARRIVED fully loaded Probox for only KES 20!")
 		for k, v in self.MENU_ITEMS.items():
 			self.print(str(k) + ':',v[0])
 			
