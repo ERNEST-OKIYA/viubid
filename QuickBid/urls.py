@@ -22,10 +22,11 @@ from admin_portal.views import *
 from django.contrib.auth import views as auth_views
 from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv
 from django.conf.urls import url
+from ussd.views import KenyaSafaricomUssdView
 
 urlpatterns = [
     path('', vw.ProductsList.as_view()),
-    path('ussd/', include('ussd.urls')),
+    path('ussd/', KenyaSafaricomUssdView.as_view()),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),
     path('grappelli/', include('grappelli.urls')),
