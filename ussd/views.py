@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .middleware import KenyaSafaricomUssdMiddleware, GhanaMtnUssdMiddleware
 
 
-@method_decorator(csrf_exempt,KenyaSafaricomUssdMiddleware, 'dispatch')
+@method_decorator(KenyaSafaricomUssdMiddleware, 'dispatch')
 class KenyaSafaricomUssdView(UssdView):
 	pass
 
