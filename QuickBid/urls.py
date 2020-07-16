@@ -25,7 +25,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     url(r'ussd/', include('ussd.urls')),
-    path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),
     path('grappelli/', include('grappelli.urls')),
