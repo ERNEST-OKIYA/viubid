@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv
 
 urlpatterns = [
-    # path('', vw.ProductsList.as_view()),
+    path('', vw.ProductsList.as_view()),
     path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),
@@ -42,7 +42,6 @@ urlpatterns = [
     path('process_products/', process_products, name='process_products'),
     path('process-invalid/', process_invalid, name='process_invalid'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
     path('export-bidders/',ExportPlayersCsv.as_view() , name='export-bidders'),
     path('export-winners/',ExportWinnersCsv.as_view() , name='export-winners'),
     path('export-dials/',ExportDialsCsv.as_view() , name='export-dials'),
