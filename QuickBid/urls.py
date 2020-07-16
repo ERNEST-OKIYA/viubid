@@ -24,7 +24,8 @@ from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv
 from django.conf.urls import url
 
 urlpatterns = [
-    url(r'ussd/', include('ussd.urls')),
+    path('', vw.ProductsList.as_view()),
+    path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),
     path('grappelli/', include('grappelli.urls')),
