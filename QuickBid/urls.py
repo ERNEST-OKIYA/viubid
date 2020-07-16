@@ -24,7 +24,7 @@ from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv
 
 urlpatterns = [
     path('', vw.ProductsList.as_view()),
-    path('ussd', include('ussd.urls')),
+    path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faq/', vw.Faqs.as_view()),
     path('grappelli/', include('grappelli.urls')),
