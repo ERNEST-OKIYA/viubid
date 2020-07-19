@@ -1172,7 +1172,7 @@ def process_active_bids(request):
 		columns = [i for i in includes]
 		objects = []
 
-		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+		for i in all_objects.filter(bid_entry__bid__is_open=True).order_by(order_direction + column)[start:start + length].\
 				values('bid_entry__user__phone_number','bid_entry__user__profile__first_name',
 				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
 				'bid_entry__bid__code', 'amount',
