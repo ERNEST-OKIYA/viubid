@@ -8,7 +8,7 @@ from django.views import View
 class ProductsList(View):
     def get(self,request):
         
-        bids = Bid.objects.filter(is_open=True).all()
+        bids = Bid.objects.filter(is_open=True).all().order_by('-priority')
         next_bids = Bid.objects.filter(product__offered=True).order_by('-id')[1:5]
         # products = {
         #     'name':bid.product.name,
