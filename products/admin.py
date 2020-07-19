@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Product
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('code','name', 'description','price','priority',)
+    list_display = ('code','name', 'description','price',)
     # fields = ('name','description','image','width','height')
     display_links = ('name')
     list_filter = ('name',)
