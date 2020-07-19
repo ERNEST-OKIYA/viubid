@@ -150,6 +150,7 @@ class Checkouts(View):
 			try:
 
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+				print(response.text,"RES")
 				
 				
 				

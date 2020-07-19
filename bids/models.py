@@ -41,6 +41,7 @@ class Bid(FactoryModel):
         choices=BidDuration.BID_DURATION_CHOICES,
         default=BidDuration.ONE_WEEK)
     open_at = models.DateTimeField(default=timezone.now)
+    priority = models.IntegerField(default =0)
     closes_at = models.DateTimeField(default=timezone.now()+timedelta(weeks=1))
     
     def __str__(self):

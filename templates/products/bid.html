@@ -9,7 +9,8 @@
     
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="{% static "js/JNM.js" %}"></script><link rel="icon" href="{% static "images/icon.ico" %}" type="image/x-icon">
+    <script src="{% static "js/JNM.js" %}"></script>
+    <link rel="icon" href="{% static "images/icon.ico" %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static "dist/css/bootstrap.css" %}">
@@ -34,6 +35,9 @@
   }
   .blue{
     color: #002698;
+  }
+  .bg-blue{
+   background-color: #095BDA;
   }
   .blacker{
     color: #6b7280;
@@ -93,21 +97,21 @@
       
 
        <!-- How it Works-->
-       <section class="section section-lg bg-white">
+       <section class="section section-lg bg-blue">
         <div class="container">
-          <h1 class="text-center" style="color: #002698;font-weight: bold;">Bid Low, <span style="color:#F29100;font-weight: bolder;">Win Big!</span></h1>
+          <h1 class="text-center orange" style="font-weight: bold;">Bid Low, <span style="font-weight: bolder;">Win Big!</span></h1>
           <div style="margin-top: 2%;">
-            <h5 class="text-center orange">Choose an Item you want to bid on.</h5>
-            <p class="text-lg-center blacker" style="margin-top: 2%;font-weight: bold;">
+            <h5 class="text-center text-white">Choose an Item you want to bid on.</h5>
+            <p class="text-center text-white" style="margin-top: 2%;">
               Deposit KES 20 via MPESA number 4032353 and specify your low
               unique bid on the product on offer. EG if a TV is on offer and<br>
               your bid amount is 43, Enter TV 43.
             </p>
 
-            <p class="text-center orange" style="margin-top: 2%;">
+            <h5 class="text-center orange" style="margin-top: 2%;">
               Once the Auction closes and you have the lowest unique bid,
               You buy the TV at 43 Shillings.
-            </p>
+            </h5>
 
            
             
@@ -140,13 +144,27 @@
                   
                   <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
                 </figure>
-                
 
+
+                
+                  <!-- Countdown-->
+
+                  <div style="border-top: 1px solid #d2d6dc; margin-top:4%;padding:3px;">
+                  
+                 <p style="color: #161e2e;">Ends In:   <strong><span id="{{bid.code}}" class="counter_t" data-closes_at="{{bid.closes_at}}" style="color: red;" onload="get_timer()"></span>
+                 </strong>
+                 </p>
+                  
+                  </div>
+
+                  <!--End countdown-->
                   <!--Play via mpesa-->
+
+
                   
                   <div style="border-top: 1px solid #d2d6dc; border-bottom: 1px solid #d2d6dc;margin-top:4%;padding:3px;">
                     <h5>Bid via Mpesa</h5>
-                    <p class="" style="color: #161e2e;">
+                    <p  style="color: #161e2e;">
                       
                       Send just KES <strong>20</strong> to PB <strong>4032353</strong> with <strong>{{bid.code}}</strong> and your bid amount as the account name.
                      
@@ -229,14 +247,18 @@
 		
   </body><!-- Google Tag Manager --><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P9FT69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P9FT69');</script><!-- End Google Tag Manager -->
 
-
-
 <script>
     $('#id_bid').click(function() {
+
+      try{
 
         var phone_number = $("#id_phone_number").val();
         var bid_value = $("#id_bid_value").val();
         var bid_code = $("#id_bid_code").val();
+      }
+      catch{
+        console.log = function(){};
+      }
         
         if (!$.isNumeric(phone_number))
         {
@@ -277,5 +299,86 @@
 
       
 </script>
+<script>
+window.onload=function get_timer()
+
+  {
+    var debug = false;
+    var counters = document.querySelectorAll('[class^=counter_t]');
+    
+    for(var i in counters){
+      var code = counters[i].id;
+      try{
+      
+      var closes_at = counters[i].dataset.closes_at.slice(0,-4);
+      }
+      catch{
+        console.log = function(){};
+
+      }
+      
+      countdown(code,closes_at);
+    }
+  
+          
+  },1000;
+  </script>
+  <script>
+  function countdown(code,closes_at)
+    {
+      var debug = false;
+      // Set the date we're counting down to
+      
+      
+      var countDownDate = new Date(closes_at).getTime();
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+         
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      try{
+        
+        
+
+      // Display the result in the element with id="demo"
+      document.getElementById(code).innerHTML = days + " days " + hours + " hrs "
+      + minutes + " mins " + seconds + " secs ";
+      }
+    
+      catch{
+        console.log = function(){};
+      }
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        try{
+
+          document.getElementById(code).innerHTML = "anytime from now";
+      }
+      catch{
+        console.log = function(){};
+      }
+    }
+    
+      });
+
+
+      }
+    
+  
+  
+  
+  </script>
   
 </html>
