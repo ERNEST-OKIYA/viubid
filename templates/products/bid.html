@@ -10,11 +10,14 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="{% static "js/JNM.js" %}"></script><link rel="icon" href="{% static "images/logo.ico" %}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800,900%7CMontserrat:100,200,300,400,500,600,700,800,900">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static "dist/css/bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "dist/css/fonts.css" %}">
     <link rel="stylesheet" href="{% static "dist/css/style.css" %}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.all.min.js"></script>
    
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
 
@@ -35,11 +38,12 @@
   .blacker{
     color: #6b7280;
   }
+
 </style>
   </head>
   <body>
-    <!-- <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div> -->
-    <div class="preloader">
+    
+    <div class="preloader"><div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
       <div class="preloader-body">
         <div class="cssload-container">
           <div class="cssload-speeding-wheel"></div>
@@ -50,24 +54,9 @@
       <header class="section page-header">
         <!--RD Navbar-->
         <div class="rd-navbar-wrap">
-          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px" data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="0px" data-xl-stick-up-offset="0px" data-xxl-stick-up-offset="0px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
             <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
-            <div class="rd-navbar-aside-outer rd-navbar-collapse bg-gray-900">
-              <div class="rd-navbar-aside">
-                <div class="rd-navbar-aside-left">
-                  <ul class="list-inline list-inline-lg">
-                    <li>
-                      <div class="unit unit-spacing-sm align-items-center">
-                        <div class="unit-left"><span class="icon icon-md text-middle fa-phone text-primary"></span></div>
-                        <div class="unit-body header-phone-wrap">Contact us:&nbsp;<a class="header-phone" href="tel:#">0712345678</a></div>
-                      </div>
-                    </li>
-                    
-                  </ul>
-                </div>
-                
-              </div>
-            </div>
+            
             <div class="rd-navbar-main-outer">
               <div class="rd-navbar-main">
                 <!--RD Navbar Panel-->
@@ -79,17 +68,16 @@
                     <!--Brand--><a class="brand" href="/"><img src="{% static "images/Quickbid-Clear.svg" %}" alt="" width="329" height="57"/></a>
                   </div>
                 </div>
-                <div class="rd-navbar-main-element align-items-center">
-                  <div class="rd-navbar-nav-wrap align-items-center">
+                <div class="rd-navbar-main-element align-content-lg-center" style="margin-right: 40%;">
+                  <div class="rd-navbar-nav-wrap">
                     <ul class="rd-navbar-nav">
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="/">Home</a>
                       </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">Bid</a>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">How to bid</a>
                       </li>
                       
                       </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">FAQ</a>
-                      </li>
+                      
                       
                       <li class="rd-nav-item"><a class="rd-nav-link" href="#">T&Cs</a>
                       </li>
@@ -105,13 +93,13 @@
       
 
        <!-- How it Works-->
-       <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
+       <section class="section section-lg bg-white">
         <div class="container">
           <h1 class="text-center" style="color: #002698;font-weight: bold;">Bid Low, <span style="color:#F29100;font-weight: bolder;">Win Big!</span></h1>
           <div style="margin-top: 2%;">
-            <h5 class="text-center orange">Choose an Item you want to buy.</h5>
+            <h5 class="text-center orange">Choose an Item you want to bid on.</h5>
             <p class="text-lg-center blacker" style="margin-top: 2%;font-weight: bold;">
-              Deposit KES 20 via MPESA number 153621 and specify your low
+              Deposit KES 20 via MPESA number 4032353 and specify your low
               unique bid on the product on offer. EG if a TV is on offer and<br>
               your bid amount is 43, Enter TV 43.
             </p>
@@ -121,10 +109,7 @@
               You buy the TV at 43 Shillings.
             </p>
 
-            <h3 class="text-center blue" style="margin-top: 2%;">
-              Bid, Win, Save, <strong class="">REPEAT</strong>
-            </h3>
-            
+           
             
         
           
@@ -132,30 +117,26 @@
       </section>
 
        <!-- Current Auctions-->
-       <section class="section novi-bg novi-bg-img section-lg bg-white section-top-shadow" id="current_auction">
+       <section class="section section-lg bg-gray-100" id="current_auction" style="padding-top: 10px;">
         <div class="container">
-          <div class="row col-12">
+        
+          <div class="row">
             
             {% for bid in bids %}
         
-            <div class="col-xl-6 col-lg-6 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6" >
              
-
-                
               <!-- Post Modern-->
-              <div class="post-classic" style="width: 400px;">
-              <div class="post-modern-caption" style="margin-bottom: 3%;">
+              <div class="bg-white" style="width: 100%;border-bottom: 5px solid #d2d6dc">
+              <div class="" style="padding: 30px 20px 30px 20px;">
+              <div class="" style="margin-bottom: 3%;">
                 <h4 class="">{{bid.product.name}}</h4>
                 <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
                 <div class="">{{bid.product.description}}</div>
               </div>
-              <div class="post-classic" style="width: 400px;">
+              <div class="">
                 
-                <div class="post-modern-countdown countdown" data-format="HMS" data-until="+65000"></div>
-                <div class="post-classic-badge"><p>Save up to</p>
-                  <div class="post-classic"> <h3 class="">99%</h3></div>
-                </div>
-                <figure class="post-classic-thumbnail">
+                <figure class="">
                   
                   <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
                 </figure>
@@ -163,14 +144,14 @@
 
                   <!--Play via mpesa-->
                   
-                  <div style="background-color: #f4f5f7; border-top: 1px solid #d2d6dc; border-bottom: 1px solid: #d2d6dc;margin-top:4%;padding:6%;">
-                    <h5>Play Via Mpesa</h5>
+                  <div style="border-top: 1px solid #d2d6dc; border-bottom: 1px solid #d2d6dc;margin-top:4%;padding:3px;">
+                    <h5>Bid via Mpesa</h5>
                     <p class="" style="color: #161e2e;">
                       
-                      Send just KES 20 to PB 153621 with {{bid.code}} and your bid amount as the account name.
+                      Send just KES <strong>20</strong> to PB <strong>4032353</strong> with <strong>{{bid.code}}</strong> and your bid amount as the account name.
                      
                     </p>
-                    <p class="" style="color:#FF5733;"> Example:<br> Send KES <strong>20 </strong>to <strong>153621</strong> account name <strong>{{bid.code}}</strong> 120 to bid KES 120</p>
+                    <p class="" style="color:#FF5733;"> Example: <strong>{{bid.code}} 120</strong> to bid KES 120</p>
                   
 
                  
@@ -193,6 +174,7 @@
                 </div>
               </div>
             </div>
+          </div>
           
             {% endfor %}
           </div>
@@ -206,38 +188,12 @@
      
 
       <!-- Finished Auctions-->
-      <section class="section novi-bg novi-bg-img section-lg bg-gray-100 section-top-shadow">
+      <section class="section section-lg bg-gray-100 section-top-shadow" style="padding-top: 20px;min-height: 400px;">
         <div class="container">
           <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;"> Auctions</span></h2>
-          <div class="row col-12">
-            
-            {% for bid in bids %}
-        
-            <div class="col-xl-6 col-lg-6 col-sm-6">
-             
-
-                
-              <!-- Post Modern-->
-              <div class="post-classic" style="width: 400px;">
-              
-              <div class="post-classic" style="width: 400px;">
-  
-                <figure class="post-classic-thumbnail">
-                  
-                  <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
-                </figure>
-                
-                </div>
-                <div class="post-modern-caption" style="margin-top: 3%;">
-                  <h4 class="">{{bid.product.name}}</h4>
-                  <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
-                  <div class="">{{bid.product.description}}</div>
-                </div>
-              </div>
-            </div>
           
-            {% endfor %}
-          </div>
+            
+           <p class="text-lg-center blacker">Be the first one to go home with amazing products on Auction for only <strong>KES 20!</strong></p>
           
       </section>
 
@@ -278,63 +234,47 @@
 <script>
     $('#id_bid').click(function() {
 
-      var phone_number = $("#id_phone_number").val();
-      var bid_value = $("#id_bid_value").val();
-      var bid_code = $("#id_bid_code").val();
-      $("#id_bid_success").html("Please check your phone and enter PIN to Authorize");
-      $("#id_bid_success").show();
+        var phone_number = $("#id_phone_number").val();
+        var bid_value = $("#id_bid_value").val();
+        var bid_code = $("#id_bid_code").val();
+        
+        if (!$.isNumeric(phone_number))
+        {
+            $("#id_bid_success").hide();
+            $("#id_bid_error").html("* Invalid Phone Number. Please Enter a number");
+            $("#id_bid_error").show();
+        }
 
-
-
-      if (!$.isNumeric(phone_number))
-      {
-          $("#id_bid_success").hide();
-          $("#id_bid_error").html("* Invalid Phone Number. Please Enter a number");
-          $("#id_bid_error").show();
-      }
       else {
 
-      // make POST ajax call
-      $.ajax({
-          type: 'POST',
-          url: "/ipn/checkout/",
-          data: {"phone_number":phone_number,"bid_value":bid_value,"bid_code":bid_code},
-          success: function (response) {
-              console.log(response);
-              if (response['error']!=undefined)
-              
-              {
-                  
-                  $("#id_bid_error").html("");
-                  $("#id_bid_success").html("");
-                  $("#id_bid_error").html(response['error']);
-                  $("#id_bid_success").hide();
-                  $("#id_bid_error").show();
-
-              
-              }
-              else if(response['error']==undefined)
-              {
-                  
-                  $("#id_bid_error").html("");
-                  
-                  $("#id_bid_error").hide();
-              
-              }
-              
-          },
-          error: function (response) {
-              console.log(response);
-              $("#id_bid_success").html("");
-              $("#id_bid_error").html(response['responseText']['error']);
-              $("#id_bid_error").show();
-              $("#id_bid_success").hide();
-          }
-      })
-  }
-      
-
+          // make POST ajax call
+            $.ajax({
+                type: 'POST',
+                url: "/ipn/checkout/",
+                data: {"phone_number":phone_number,"bid_value":bid_value,"bid_code":bid_code},
+                success: function (data) {
+                          Swal.fire({
+                          icon:'success',
+                          confirmButtonColor: '#002698',
+                          text: 'CHECK YOUR PHONE AND ENTER PIN TO COMPLETE',
+                          padding: '3em',
+                          height:100,
+                          width:400,
+                          // html: `
+                          // <pre><code>CHECK YOUR PHONE AND ENTER PIN TO COMPLETE</code></pre>
+                          //     <pre><code>PHONE NUMBER:${data.phone_number}</code></pre>
+                          //     <pre><code>PRODUCT BID ON:${data.product}</code></pre>
+                          //     <pre><code>Bid Value:${data.bid_value}</code></pre>
+                          // `,
+                          confirmButtonText: 'Close',
+                        
+                    
+            })
+            }
+          })
+      }
   })
+
       
 </script>
   

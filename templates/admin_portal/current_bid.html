@@ -1,0 +1,225 @@
+{% extends "admin_portal/admin_portal_base1.html" %}
+{% load staticfiles %}
+{% block extra_style %}
+<!-- DataTables -->
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.css" %}">
+<link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+
+<!-- jQuery -->
+<script src=""{% static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src=""{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css
+
+">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.min.css">
+
+
+{% endblock %}
+
+{% block page-nav %}
+  <li class="breadcrumb-item"><a href="/mgr/dashboard/">home</a></li>
+  <li class="breadcrumb-item active">current bid</li>
+  {% endblock %}
+
+{% block content %}
+
+<div class="col-12">
+  <div class="card ">
+    <div class="card-header">
+      <h3 class="card-title">Current Bid</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-2">
+        <div class="row">
+            <div class="col-12">
+            <table id="currentbid" class="table">
+                <thead>
+                  <tr>
+                    
+                    <th>Item on Bid</th>
+                    <th>Description</th>
+                    <th>RRP</th>
+                    
+                   
+              
+                    
+                  </tr>
+                </thead>
+          
+                <tbody>
+                    <tr>
+                        <td>{{active_bid.product.name}}</td>
+                        <td>{{active_bid.product.description}}</td>
+                        <td>{{active_bid.product.price}}</td>
+                    </tr>
+
+          
+                </tbody>
+                
+              </table>
+              </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xl-4">
+            <p id="firstname"></p>
+            
+            </div>
+
+            <div class="col-sm-6 col-xl-4">
+               
+                <p id="middlename"></p>
+               
+            </div>
+
+            <div class="col-sm-6 col-xl-4">
+                
+                <p id="lastname"></p>
+                
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                
+                <p id="phonenumber"></p>
+                
+            </div>
+            <div class="col-sm-6 col-xl-4">
+                
+                <p id="bidvalue"></p>
+            </div>
+
+
+
+        </div>
+        <div class="row">
+            
+            <div class="col-sm-6 col-xl-6 offset-3">
+                <button class="btn-icon-vertical mb-3 btn-transition btn-block btn btn-outline-info" id="getwinner">
+                    <i class="fas fa-trophy btn-icon-wrapper"> </i>
+                    <span class="badge badge-primary badge-dot badge-dot-sm badge-dot-inside"></span>Get Winner
+                </button>
+            </div>
+        </div>
+      
+  </div>
+  <!-- /.card-body -->
+</div>
+<!-- /.card -->
+</div>
+<!-- /.col -->
+  
+
+{% endblock %}
+
+
+{% block jslinks %}
+<!-- DataTables -->
+
+<script src="{% static "plugins/datatables/jquery.dataTables.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-euro.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.all.min.js"></script>
+
+
+{% endblock %}
+{% block pagescripts%}
+<script>
+	$('#getwinner1').click(function(){
+
+	$.ajax({
+          type: 'POST',
+          url: "/mgr/current-bid/",
+          success: function (response) {
+              
+              {
+				  console.log(response);
+                  $('#firstname').html(response.firstname.toLocaleString());
+                  $('#middlename').html(response.middlename.toLocaleString());
+                  $('#lastname').html(response.lastname.toLocaleString());
+                  $('#phonenumber').html(response.phonenumber.toLocaleString());
+                  $('#bidvalue').html(Number(response.bidvalue).toLocaleString());
+				
+              }
+		  }
+              
+      })
+
+		
+	});
+
+
+</script>
+<script type="text/javascript" charset="utf8">
+
+
+    $(document).ready(function () {
+  
+      $('#currentbid').DataTable({
+  
+        
+        
+        "autoWidth": false,
+        "bPaginate":false,
+        "bFilter": false, //hide Search bar
+        "bInfo": false// hide showing entries
+
+        
+      })
+  
+  
+    })
+  
+  </script>
+  <script>
+      $('#getwinner').click(function(){
+        Swal.fire({
+            title: "GET WINNER",
+            text: "You will not be able to reverse this action",
+            type: " warning ",
+            showCancelButton: true,
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Yes, get winner",
+            cancelButtonText: " No, cancel!",
+            showLoaderOnConfirm: true,
+            
+            preConfirm:function() {
+                $.ajax({
+                type: "POST",
+                url: '/mgr/current-bid/',
+                success: function(data) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'AND THE WINNER IS ...',
+                    width: 800,
+                    height:500,
+                    padding: '3em',
+                    html: `
+                        <pre><code>First Name:${data.firstname}</code></pre>
+                        <pre><code>Middle Name:${data.middlename}</code></pre>
+                        <pre><code>Last Name:${data.lastname}</code></pre>
+                        <pre><code>Phone Number:${data.phonenumber}</code></pre>
+                        <pre><code>Bid Value:${data.bidvalue}</code></pre>
+                    `,
+                    confirmButtonText: 'Close',
+                    
+                    })
+                },
+                error: function(data) {
+                    Swal.fire("Cancelled", "Your imaginary file is safe: ) ", " error ");
+                }
+                });
+            }
+        });
+      });
+  </script>
+
+{% endblock %}
