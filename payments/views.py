@@ -11,6 +11,7 @@ from factory.helpers import Helpers
 helpers = Helpers()
 import logging
 logger = logging.getLogger(__name__)
+from functools import lru_cache
 
 DEBUG = settings.DEBUG
 import requests
@@ -28,6 +29,7 @@ def standardize_msisdn(msisdn):
 	else:
 		return msisdn.replace(' ','').strip()
 
+@lru_cache
 def generate_token():
 
 	consumer_key = settings.VARIABLES.get('CONSUMER_KEY')
@@ -133,7 +135,7 @@ class Checkouts(View):
 			payload = {
 					"BusinessShortCode": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 					"Password": settings.VARIABLES.get('PASSWORD'),
-					"Timestamp": "20190228132847",
+					"Timestamp": settings.VARIABLES.get('Timestamp'),
 					"TransactionType": "CustomerPayBillOnline",
 					"Amount": 20,
 					"PartyA": phone_number,
@@ -148,7 +150,7 @@ class Checkouts(View):
 			try:
 
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
-				print(response.text)
+				
 				
 				
 				self.response['phone_number']= phone_number

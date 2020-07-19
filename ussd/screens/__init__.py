@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from flex.ussd.screens import UssdScreen, render_screen
+from ast import literal_eval
 
 
 from . import casts
@@ -8,7 +9,9 @@ from .mixins import ScreenMixin
 # from .helpers import Fetcher
 # fetcher = Fetcher()
 from factory.helpers import Helpers
+from . utils import Fetcher
 helpers = Helpers()
+fetcher = Fetcher()
 
 
 class InitialScreen(UssdScreen, ScreenMixin):
@@ -38,26 +41,31 @@ class HomeScreen(UssdScreen, ScreenMixin):
 
 
 	def handle_input(self, *args):
-		if len(args) > 1 or args[0] not in self.MENU_ITEMS:
+		menu = self.session.ctx.bid_menu
+		if len(args) > 1 or args[0] not in menu:
 			self.error(self.ERRORS.INVALID_CHOICE)
 			return self.render_menu()
 
-		opt = self.MENU_ITEMS[args[0]]
-		
-		return render_screen(opt[1])
-		
+		opt = menu[args[0]]
+		code = opt[1]
+		if code in ['sm.how_it_works','sm.view','sm.customer_care']:
+			return render_screen(code)
+			
+		return render_screen('sm.bid',code=code)
 
 	def render_menu(self):
-
-		self.nav_menu = None
-		active_bid = helpers.get_active_bid()
-		self.print("Karibu QuickBid.Bid Low, Win Big!")
-		self.print("You could go home with a JUST ARRIVED fully loaded Probox for only KES 20!")
-		for k, v in self.MENU_ITEMS.items():
+		self.get_menu()
+		menu = self.session.ctx.bid_menu
+		self.print('Karibu Quickbid. Bid Low, Win Big')
+		for k, v in menu.items():
 			self.print(str(k) + ':',v[0])
 			
 		return self.CON
 
+	def get_menu(self):
+		menu = fetcher.fetch_bids_menu()
+		self.session.ctx.bid_menu = menu
+		
 	def render(self, opt=None, *args):
 		if opt is not None and not args:
 			return self.handle_input(opt)

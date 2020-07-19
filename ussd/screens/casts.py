@@ -9,7 +9,7 @@ import requests
 from . utils import Fetcher
 from requests.auth import HTTPBasicAuth
 from ast import literal_eval
-
+from functools import lru_cache
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -116,7 +116,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 		payload = {
 				"BusinessShortCode": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 				"Password": settings.VARIABLES.get('PASSWORD'),
-				"Timestamp": "20201012092847",
+				"Timestamp": settings.VARIABLES.get('Timestamp'),
 				"TransactionType": "CustomerPayBillOnline",
 				"Amount": 20,
 				"PartyA": self.session.phone_number,
@@ -129,16 +129,17 @@ class BidScreen(UssdScreen, ScreenMixin):
 
 
 		response = requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+		
 		rv = response.json()
 		
-
+	@lru_cache
 	def generate_token(self):
 
 		consumer_key = settings.VARIABLES.get('CONSUMER_KEY')
 		consumer_secret = settings.VARIABLES.get('CONSUMER_SECRET')
 		r = requests.get(settings.VARIABLES.get('TOKEN_URL'), auth=HTTPBasicAuth(consumer_key, consumer_secret))
 		token=r.json()
-		print(token)
+		
 		
 		return token.get('access_token')
 
