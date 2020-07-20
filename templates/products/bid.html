@@ -278,15 +278,17 @@
                           if (data.success==false)
                           {
                             var icon = 'error'
-                            var html =''
+                            var html =`
+                            <p>You can bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
+                            `
                           }
                           else{
                             var icon = 'success'
                             var html = `
                             <p>If no prompt appears on your phone, please make sure you have atleast KES 20 in your MPESA.</p>
-                            <p>You can also bid on this product by sending KES 20 to paybill 4032353</p>
-                            <p>with Account No as ${data.bid_code} ${data.bid_value}</p>
-
+                            <p>You can also bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
                             `
                           }
 

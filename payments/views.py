@@ -158,7 +158,8 @@ class Checkouts(View):
 					success = True
 				
 				else:
-					message = f"Oops! something went wrong.Send KES 20 "+\
+					message = "Oops! something is not right."
+					text = f"Oops! something is not right.Send KES 20 "+\
 						      f"to MPESA paybill {settings.VARIABLES.get('BUSINESS_SHORTCODE')} " +\
 							  f"with Account number as {bid_code} {bid_value} to place a bid of KES {bid_value} on {product}."
 
@@ -166,7 +167,7 @@ class Checkouts(View):
 
 					
 
-					sms.stkpush_down(phone_number,message)
+					sms.stkpush_down(phone_number,text)
 					
 
 					
