@@ -260,10 +260,6 @@
       var code = $(this).data().code;
       var phone_number = $("#"+code+"_phone_number").val();
       var bid_value = $("#"+code+"_bid_value").val();
-      console.log(code);
-      console.log(phone_number);
-      console.log(bid_value);
-  
         if (!$.isNumeric(phone_number))
         {
             $("#id_bid_success").hide();
@@ -282,24 +278,25 @@
                           if (data.success==false)
                           {
                             var icon = 'error'
+                            var html =''
                           }
                           else{
                             var icon = 'success'
+                            var html = `
+                            <p>If no prompt appears on your phone, please make sure you have atleast KES 20 in your MPESA.</p>
+                            <p>You can also bid on this product by sending KES 20 to paybill 4032353</p>
+                            <p>with Account No as ${data.bid_code} ${data.bid_value}</p>
+
+                            `
                           }
 
                           Swal.fire({
                           icon:icon,
                           confirmButtonColor: '#095BDA',
-                          text: data.message,
+                          title: data.message,
                           padding: '3em',
                           width:400,
-                          
-                          // html: `
-                          // <pre><code>CHECK YOUR PHONE AND ENTER PIN TO COMPLETE</code></pre>
-                          //     <pre><code>PHONE NUMBER:${data.phone_number}</code></pre>
-                          //     <pre><code>PRODUCT BID ON:${data.product}</code></pre>
-                          //     <pre><code>Bid Value:${data.bid_value}</code></pre>
-                          // `,
+                          html:html,
                           confirmButtonText: 'Close',
                         
                     

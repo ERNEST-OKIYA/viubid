@@ -131,8 +131,6 @@ class Checkouts(View):
 			source = 'WEB'
 			bid = helpers.get_bid_by_code(bid_code)
 			product = bid.product.name
-			
-
 			headers={"Authorization":"Bearer %s" % access_token}
 			
 
@@ -179,9 +177,10 @@ class Checkouts(View):
 				
 				self.response['phone_number']= phone_number
 				self.response['product']= active_bid.product.name
-				self.response['bid_value']= bid_code
+				self.response['bid_value']= bid_value
 				self.response['message'] = message
 				self.response['success'] = success
+				self.response['bid_code'] = bid_code
 
 
 				return JsonResponse(self.response,status=200)
