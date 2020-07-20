@@ -201,7 +201,7 @@ VARIABLES={'CONSUMER_KEY':'Ylg9fzpD8E57tUf7fJFf8BRX7ReBTlKO',
 		   'CONSUMER_SECRET':'Xaplj15j2dppGDIw',
 		   'BUSINESS_SHORTCODE':'4032353',
            'Timestamp':'20190228132847',
-		   'DEFAULTCALLBACKURL':'https://ipn.quickbid.co.ke:7024/checkout/response',
+		   'DEFAULTCALLBACKURL':'https://ipn.quickbid.co.ke:7024/ipn/checkout/response/',
 		   'PASSWORD':'NDAzMjM1M2E1MTFhZWU3ZGI0YzVkY2QzNGEwYjJkNjI3Njc5ZDQ2YTg3ZjkxMmMyYjY1YzkxZTkzODQ2ZDg0MzdhMzNkMmQyMDE5MDIyODEzMjg0Nw==',
 		   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
 		   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}

@@ -79,6 +79,9 @@ class Message:
                
         return self.send(user.phone_number,text)
 
+    def stkpush_down(self,msisdn,text):
+        return self.send(msisdn,text)
+
     
     def non_unique_bid(self,user,bids):
         for b in bids:

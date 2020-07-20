@@ -12,6 +12,7 @@ helpers = Helpers()
 import logging
 logger = logging.getLogger(__name__)
 from functools import lru_cache
+from messaging.factory import Message
 
 DEBUG = settings.DEBUG
 import requests
@@ -20,6 +21,7 @@ from requests.auth import HTTPBasicAuth
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+sms = Message()
 
 # Create your views here.
 
@@ -127,6 +129,8 @@ class Checkouts(View):
 			access_token = generate_token()
 			active_bid = helpers.get_bid_by_code(bid_code)
 			source = 'WEB'
+			bid = helpers.get_bid_by_code(bid_code)
+			product = bid.product.name
 			
 
 			headers={"Authorization":"Bearer %s" % access_token}
@@ -150,20 +154,42 @@ class Checkouts(View):
 			try:
 
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
-				print(response.text,"RES")
+				rv = response.json()
+				if rv.get('ResponseCode') =='0':
+					message = "Check your phone and Enter your MPESA PIN to complete."
+					success = True
+				
+				else:
+					message = f"Oops! something went wrong.Send KES 20 "+\
+						      f"to MPESA paybill {settings.VARIABLES.get('BUSINESS_SHORTCODE')} " +\
+							  f"with Account number as {bid_code} {bid_value} to place a bid of KES {bid_value} on {product}."
+
+					success = False
+
+					
+
+					sms.stkpush_down(phone_number,message)
+					
+
+					
+
+				
 				
 				
 				
 				self.response['phone_number']= phone_number
 				self.response['product']= active_bid.product.name
 				self.response['bid_value']= bid_code
+				self.response['message'] = message
+				self.response['success'] = success
 
 
 				return JsonResponse(self.response,status=200)
 
 			except Exception as e:
 				DEBUG and logger.debug(str(e))
-				self.response['error']= "* Oops, there was an error placing your bid, Please try again Later."
+				self.response['message']= "* Oops, there was an error placing your bid, Please try again Later."
+				self.response['success']=False
 				return JsonResponse(self.response,status=200)
 
 	@method_decorator(csrf_exempt)
