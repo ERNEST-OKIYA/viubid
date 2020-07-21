@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.deleted_at = timezone.now()
         self.save()
 
-     def get_full_name(self):
+    def get_full_name(self):
         return self.profile.first_name + ' ' + self.profile.last_name
 
 
