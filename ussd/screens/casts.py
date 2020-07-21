@@ -78,6 +78,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 		else:
 			self.print('Enter your Mpesa PIN in the next prompt to complete')
 			self.stkpush(value)
+			self.nav_menu = None
 			return self.END
 		return render_screen('sm.bid')
 	
