@@ -1,523 +1,126 @@
+{% extends "products/products_base.html" %}
 {% load staticfiles %}
 {% load humanize %}
-<!DOCTYPE html>
 
-<html class="wide wow-animation" lang="en">
-  <head>
-    <title>Terms and Conditions</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="{% static "js/JNM.js" %}"></script><link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800,900%7CMontserrat:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" href="{% static "dist/css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "dist/css/fonts.css" %}">
-    <link rel="stylesheet" href="{% static "dist/css/style.css" %}">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-   
-    <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}
-
-
-    
-.terms ol { 
-    list-style-type: decimal;
-   }
-.terms ul ul, ol ul {
-    list-style-type: circle;
-    margin-left: 15px; 
-}
-.terms ol ol, ul ol { 
-    list-style-type: lower-latin;
-    margin-left: 15px; 
-}
-.terms ol li { 
-   display: list-item;
-   margin-left: 15px;
-    padding-left: 10px;
-    
-}
-
-    
-    
-    
-    </style>
+{% block content %}
+<section class="section section-lg bg-gray-100">
+  <div class="container">
+  <h2 class="" style="color: #002698;font-weight: bold;">Terms and <span style="color:#F29100;font-weight: bolder;">Conditions</span></h2>
+ <div class="" style="margin-top: 10px;">
+  <h5 class="title">DEFINITIONS OF TERMS</h5>
+  
+  <div style="margin-left:8px;">
+  <p class="text-black">1. AUCTION</p>
+  <p style="margin-left: 10px;">
+      The lowest unique bid format used by QuickBid in order to determine the winning bid.
+ </p>
+ <p class="text-black">2. BID</p>
+ <p style="margin-left: 10px;">An amount in Kenya Shillings that a Bidder has entered or intends to enter into the Auction for a specific Item.</p>
+ <p class="text-black">3. BID ENTRY FEE</p>
+ <p style="margin-left: 10px;">
+    The amount in Kenya Shillings (Ksh) sent via Mpesa in order to place a Bid.
+ </p>
 
 
-  </head>
-  <body>
-    <!-- <div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div> -->
-    <div class="preloader">
-      <div class="preloader-body">
-        <div class="cssload-container">
-          <div class="cssload-speeding-wheel"></div>
-        </div>
-      </div>
-    </div>
-    <div class="page">
-      <header class="section page-header">
-        <!--RD Navbar-->
-        <div class="rd-navbar-wrap">
-          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px" data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
-            <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
-            
-            <div class="rd-navbar-main-outer">
-              <div class="rd-navbar-main">
-                <!--RD Navbar Panel-->
-                <div class="rd-navbar-panel">
-                  <!--RD Navbar Toggle-->
-                  <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                  <!--RD Navbar Brand-->
-                  <div class="rd-navbar-brand">
-                    <!--Brand--><a class="brand" href="index.html"><img src="{% static "images/logo-1.png" %}" alt="" width="329" height="57"/></a>
-                  </div>
-                </div>
-                <div class="rd-navbar-main-element">
-                  <div class="rd-navbar-nav-wrap">
-                    <ul class="rd-navbar-nav">
-                      <li class="rd-nav-item "><a class="rd-nav-link" href="/">Home</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#current_auction">Bid</a>
-                      </li>
-                      
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="/faq">FAQ</a>
-                      </li>
-                      
-                      <li class="rd-nav-item active"><a class="rd-nav-link" href="/terms">T&Cs</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </header>
-      
+ <p class="text-black">4. BIDDER</p>
+ <p style="margin-left: 10px;">
+    The User of the service that has placed or intends to place a Bid.
+ </p>
+ <p class="text-black">5. ITEM</p>
+ <p style="margin-left: 10px;">
+    The product(s) or other worthy inventory that is the focus of a specific Auction.
+ </p>
+ <p class="text-black">6. NON-UNIQUE BID</p>
+ <p style="margin-left: 10px;">
+    A Bid that has been placed on a specific Auction by a Bidder where at least one other Bidder has also placed an identical Bid on the same Auction.
+ </p>
 
+ <p class="text-black">7. RRP (Recommended Retail Price)</p>
+ <p style="margin-left: 10px;">
+    The manufacturer’s recommended retail price for a specific Item within Our Auctions.
+ </p>
+
+ <p class="text-black"> 8. UNIQUE BID</p>
+ <p style="margin-left: 10px;">
+    A Bid that has been placed on a specific Auction by a Bidder where no other Bidder has placed an identical Bid on the same Auction.
+ </p>
+</div>
+
+<h5 class="title" style="margin-top:10px;">ELIGIBILITY TO PARTICIPATE WITH QUICKBID</h5>
+<div style="margin-left: 8px;">
+    <p class="text-black">• By using Our Website you confirm that:</p>
+    <p style="margin-left: 10px;">
+        i) You are legally capable of entering into binding legal contracts;
+
+    </p>
+    <p style="margin-left: 10px;">
+        ii) You are at least 18 years old. You may be required to provide proof of Your age at such time as You Win an Auction on Our Website or at any other time as we deem necessary;
+
+    </p>
+    <p style="margin-left: 10px;">
+        iii) You are able to make payments to Us using your Mpesa Account;
+
+    </p>
+
+    <p style="margin-left: 10px;">
+        iv) You are a resident of the Republic of Kenya;
+
+    </p>
+
+    <p style="margin-left: 10px;">
+        v) You are accessing Our Website from within the Republic of Kenya;
+
+    </p>
+    <p class="text-black">• You are participating as an individual only and not as part of a commercial or reseller organization;</p>
+    <p class="text-black">• Only one User Account is permitted per person and per telephone number. At the time of a User Winning an Auction, or at any other time that We deem necessary, We may contact the User by the registered telephone number affiliated to the mobile money account. We will only dispatch the Item(s) that have been Won as and when We are satisfied that the registered telephone number belongs to the registered User. We may ask that the User confirms certain Account details over the telephone in order to confirm this.</p>
+    <p class="text-black">• We reserve the right to terminate any User at Our sole discretion. In general, We will only take these actions if, in Our reasonable opinion, a User has:</p>
+    <p style="margin-left: 10px;">
+        i) violated any laws or the rights of third parties;
+    </p>
+    <p style="margin-left: 10px;">
        
+        ii) failed to honor payments due to Us;
 
-
-
-      
-
-      <!-- About As-->
-      <section class="section novi-bg novi-bg-img section-lg">
-        <div class="container">
-            <h2 class="text-center text-sm-left">Terms and Conditions</h2>
-          <div class="row row-50">
-           
-            <div class="col-12">
-                <ol class="terms">
-                    <li><strong class="text-black">GENERAL</strong>
-                    <ol>
-                        <li>
-                            SOKO MIA (herein after referred to as the "the Company") is a trading name of CROSSGATE SOLUTIONS Ltd, a company registered under the laws of Kenya whose registered address is: P.O. Box 175-00606, MADONNA HOUSE, PLOT NO.209/123, NAIROBI.
-                        </li>
-                        <li>
-                            CROSSGATE SOLUTONS and its affiliates together are authorized and regulated by the Auctioneers Board of Kenya under licence number 005867
-                        </li>
-                        <li>
-                            This agreement establishes the Terms and Conditions that will govern the contractual relationship between the Company and you as a Registering /Participating customer with the company. The Terms shall apply to gaming via all media/electronic platforms including but not limited to mobile devices, computers and laptops. You are required to accept these Terms and Conditions when registering for an account with the Company and you are bound by these Terms and Conditions throughout the existence of the relationship. The company reserves the right to decline your registration/ participation without being bound to provide any reasons whatsoever at any time.
-                        </li>
-                        <li>
-                            These Terms and Conditions are categorized for ease of reference and understanding. It is important that you make yourself aware of these Terms and Conditions as a participating customer. Reference to "you", "your", the "player", "customers", or "subscriber" is reference to any person using the Company auctioneering/bidding platform or the services and/or any registered customer of the Company thereof. Reference to "the Company", "us", "Our" "we" is reference to CROSSGATE SOLUTIONS LTD, The Company and or its successors in title and assigns.
-                        </li>
-                        <li>
-                            The Company reserves the right to change these Terms and Conditions at any time and without prior notice. The Company will endeavour to inform you about major modifications to the Terms and Conditions. Nevertheless, it is your responsibility to regularly check for any changes. Should you, due to any possible changes, not wish to continue using the services of the Company, you can withdraw uncommitted funds without penalty and close the account by sending email to: info@SOKO MIA.com, to that effect. A response will be sent to you confirming receipt of your decision to discontinue your engagement with the Company. Failure by you to receive a message for any reason whatsoever shall not be taken to mean that the Company has any continued obligation towards you from the date of your withdrawal.
-                        </li>
-                        <li>
-                            The Company will respect your privacy in line with the Company's privacy policy and will endeavour to at all times preserve your information in the strictest confidence as it possibly can. The Company shall not be liable for any loss of data by itself or by other contracted independent service providers on whom the Company will wholly or partially be reliant on to deliver the services.
-                        </li>
-                        <li>
-                            The Company will not disclose your personal information to third parties unless such disclosure:
-                            <ol>
-                               <li> is required for the processing of your requests;</li>
-                               <li>is a duty and/or legal obligation of the company;</li>
-                               <li>is required to enforce/ apply the Terms and Conditions and other agreements;</li>
-                               <li>is required to adequately protect our rights or property, including via the exchange of information with other companies and organizations for the purposes of information verification, fraud protection and credit risk reduction. Personal information that you provide may be disclosed to a credit reference agency, which may keep a record of the information.</li>
-                            </ol>
-                        </li>
-                        <li>
-                            The contractual relationship between you and the Company is governed by these Terms and Conditions and by the relevant and applicable Laws of Kenya, Kenya being the operational jurisdiction of the Company and its service/products where they will be offered directly to all its duly registered players and /or through its service providers and intermediaries.
-                        </li>
-                        <li>
-                            By agreeing to these Terms and Conditions and where you participate in any auction, or place a bid(s), using the provided SOKO MIA platforms, you accept and agree to be bound by these terms and conditions and any amendment or variation thereto and the Rules which apply to the applicable products available from time to time. You are acknowledging that the company shall retain the right to use from time to time, all data collected to carry out market survey/ campaign /research, send customer satisfaction questionnaires, market and promote its services and those of its affiliated companies.
-                        </li>
-                        <li>
-                            The Company is not responsible for any consequences resulting from major incidents such as any strike, terrorist activities, political crisis, war, natural catastrophe and saturation of the telecommunication networks, cyber-attacks, hacking etc., which could lead to a total or partial access reduction to its services, loss of data by itself or by other contracted independent service providers on whom the Company will wholly or partially be reliant on to deliver the services.
-                        </li>
-                    </ol>
-                </li >
-                <li> <strong class="text-black">DEFINITION </strong>
-                    <ol>
-                        <li>
-                            Bidder- Means a Registered user who submits a Bid according to T&C.
-                        </li>
-                        <li>
-                            Bid- means a proposal by a unique Bidder to pay a decided Bid Amount for a product or each auction.
-                        </li>
-                        <li>
-                            Auction- means a unique auction according to the auction format as specified by soko mia. 
-                        </li>
-                        <li>
-                            Lowest & Unique Bid- means the lowest bid that placed by a Unique user only and not placed the same amount  by any other users.
-                        </li>
-                        <li>
-                            Not unique-Means that the bid (upto 2 decimal place) which is a duplicate of any other registered bid by any user for a particular auction(same amount placed by two or more users).
-                        </li>
-                        <li>
-                            Unique But Not Lowest- means the bid (upto 2 decimal place) which is unique (i.e. not yet been placed by any other bidder) BUT is not the lowest among all bids registered for that particular item.
-                        </li>
-                        <li>
-                            Winning Bid Amount -means the Lowest & Unique Bid amount which is paid by the Bidder to purchase the product.
-                        </li>
-                        <li>
-                            Bid Price- Means the cost per single bid placed in Kenya Shillings(ksh/kes)
-                        </li>
-                        <li>
-                            Lowest Unique Bidder- means a user who place the lowest & unique bid & that bid must be Lowest & Unique until the Auction closed is declared a Winner for that particular product.
-                        </li>
-                        <li>
-                            WIN or WON - means Winning the Auction by placing the lowest Unique Bid on a specific Auction.
-                        </li>
-                        <li>
-                            RRP (Recommended Retail Price)- means the actual retail price for a specific Item as originally purchased or supplied from/by supplier. 
-                        </li>
-                    </ol>
-
-
-                </li>
-                <li>
-                    <strong class="text-black">ELIGIBILITY </strong>
-                    <ol>
-                        <li>
-                            Any person aged 18 or over.
-                        </li>
-                        <li>
-                            Each user only opens a single soko mia account.
-                        </li>
-                        <li>
-                            Provides a valid mobile phone number
-                        </li>
-                        <li>
-                            Provides Use names and/or addresses and/or personal data.
-                        </li>
-                        <li>
-                            Winner must have to provide the Id proof & address proof for delivery of the product.
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black">REGISTRATION/PARTICIPATION</strong>
-                    <p>
-                        Customers  participate by entering their bids via mobile money with the following process:
-                    </p>
-                    <ol>
-                        <li>
-                            Go to paybill <strong class="text-black">825440</strong>
-                        </li>
-                        <li>
-                            Enter bid number on the account name
-                        </li>
-                        <li>
-                            Insert <strong class="text-black">Sh20</strong> under the amount
-                            <ol>
-                                <li>
-                                    Customers will then receive a receipt notification from the mobile money provider as well as one sms from soko mia with details such as the status of the bid, unique or not unique or tips on how to grow chances to place better bids.
-                                </li>
-                                <li>
-                                    During the auction, bidders receive SMS alerts for marketing purposes on soko mia, in order to encourage repeat purchases. This sms alerts may be charged at the discretion of soko mia, but will be less than kes 10. These notifications may include tip on the current auction, a ‘last chance to bid’ alert, and a results alert with a promotion for the next auction included within it.
-                                </li>
-                                <li>
-                                    The final message that people will receive where applicable is the Winning Bidder message and how much they won the item for.
-                                </li>
-                                <li>
-                                    The winner will pay Soko Mia the purchase price of the product and collect the product and/or request for delivery to their location of choice
-                                </li>
-                            </ol>
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black">BIDDING </strong>
-                    <ol>
-                        <li>
-                            A bidder can place a bid in between 1 and 1000. However, always remember that bid can be two decimal places eg 1.01 to 1000.00 any other pattern than this pattern will be considered as an invalid bid. Winner will be the lowest unique bidder who will be lowest and unique till the auction closed.
-
-                            <strong class="text-black">Example:</strong >
-                            <p>Bidder 1 placed bid amount: 0.01</p>                                                                                
-
-                            <p>Bidder 2 placed bid amount: 0.02</p>
-
-                            <p>Bidder 3 placed bid amount: 0.03</p>
-
-                            <p>Bidder 4 placed bid amount: 0.03</p>
-
-                            <p>Bidder 5 placed bid amount: 0.01</p>
-
-                            <p>Bidder 6 placed bid amount: 0.05</p>
-
-                            <p>Bidder 7 placed bid amount: 0.02</p>
-
-                            <p>Bidder 8 placed bid amount: 0.04</p>
-
-                            <p>
-                                Then the 0.01 bid is shows “not unique”, 0.02 shows “not unique”, 0.03 shows also “not unique”, 0.04 is shows “Lowest & unique bid” and the 0.05 shows “Unique but not lowest”. So finally, the winner is the 0.04 that means the bidder 8 is the winner and he/she will be declared as the winner at the auction close. All the auction winners are declared as soon as the auction closes, sometimes there may be a period of up to 72 working hours from when an Auction closes until the auction results are announced. This period is to allow for the reconciliation of Bids and the auditing of results for genuine winner if server detects any fraud if fund auction will be cancelled & the corresponding user will be blocked from our platform temporarily.
-                            </p>
-                            <ol>
-                                <li>
-                                    Bids cannot be cancelled. By bidding for an item you agree to be bound by the conditions of bid included in the item`s description (go to the description) so long as those conditions are not in violation of the Terms and Conditions or unlawful. In case of consumer goods, sellers on the Service may or may not specify the retail prices of the items being sold. You are advised to independently verify the retail prices of such items if you so desire.
-                                </li>
-                                <li>
-                                    We wish to inform you that there might be times when due to failure in the network or firewall issues, you might not receive update sms from soko mia. Therefore, you are requested to kindly log on to soko mia frequently & check your bid status from time to time.
-
-                                </li>
-                                <li>
-                                    All bids and products are subject to VAT at the prevailing rate (currently 14%), together with any other applicable taxes that may arise from time to time.
-                                </li>
-                            </ol>
-                        
-                        </li>
-                        
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black">WRITTEN COMMUNICATIONS / NOTICES</strong>
-                    <ol>
-                        <li>
-                            We are required by law in some cases that certain communications from Us to You need to be in written form. You agree and accept that in most cases communication from Us to You shall be electronic, in the form of SMS text, or in some cases via emails or notices on Our Website. You agree that these electronic means of communication comply fully with any legal requirement that such communications be in writing and that any contracts, notices and other communications that We provide to You electronically constitute legal written communication.
-                        </li>
-                        <li>
-                            Any notices or communications that You require to be issued to Us must be sent via email to help@sokomia.co.ke and detail Your name, address and registered telephone number.
-                        </li>
-                        <li>
-                            We may issue any notice to You via SMS, email or postal address that You provide to Us when registering and notice will be deemed received and properly served two days after an email is sent or three days after the date of posting any letter. Further, You agree that in proving the service of any notice, it will be sufficient to prove that, in the case of SMS it was dispatched, in the case of a letter, that such letter was properly addressed, stamped and placed in the post and, in the case of an email, that such email was sent to the email address provided by the User at registration or amended at some time since registration.
-                        </li>
-                        <li>
-                            By registering with soko mia you agree to receive promotional and other messages via SMS and/or via our email mailing list so we can contact you from time to time regarding our latest offers, auction reminders and general information. This includes but is not limited to, information on auctions you have bid on and How Low offers.
-                        </li>
-                        <li>
-                            SOKO MIA may share your information with sponsors of the auctions you have bid on, this includes but is not limited to, name & phone number.
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black">CONFIRMATION OF THE WINNER’S DETAILS</strong>
-                    <ol>
-                        <li>
-                            t is a condition precedent to formation of a Contract between the Winning User and Us that the telephone number held by Us at the time of Winning the Auction is valid and that the User can be reached by calling or text it via SMS. In the event that the telephone number is not correct, the Contract cannot be formed and the Win will be forfeited.
-                        </li>
-                        <li>
-                            Upon completion of an Auction, the Winner will be required to confirm their registered telephone number by receiving a text from Us. We will attempt to call or text the Winner’s registered telephone number within two (2) working days of the Auction ending and may request that the User confirms some details from their Account in order to verify the User. In the event that the telephone number on file has voicemail, We will leave a message requesting that the User returns Our call to verify their Account. Alternatively, the Winner may call or email Us to request a call back. In any event, the only acceptable methods of verification is for Us to call and/or text You on the telephone number that You have provided as part of Your User Account details.
-                        </li>
-                        <li>
-                            The Winner will have 14 days to confirm to How Low their information, if the Winner does not confirm within this time period How Low will presume the User does not want the prize and it will be forfeited by the User.
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black"> DELIVERY OF THE PRODUCT </strong>
-                    <ol>
-                        <li>
-                            Delivery will be made from our partner's warehouse to the registered address provided by the User. Deliveries are made solely within the republic of Kenya
-                        </li>
-                        <li>
-                            Delivery if free of all charges to the point of destination/collection point.
-                        </li>
-                        <li>
-                            Couriers received should be checked for damage in front of the delivery person or collection point and in case of any damage the item should be returned back without signing for acceptance.
-                        </li>
-                        <li>
-                            tems that have been Won on Our Website will normally be dispatched to the Winner within 3 working days of Contract formation and payment of the Auction ending price by the User. In exceptional circumstances We may be unable to honour this timescale and the dispatch may be slightly later, We will always contact the Winner to inform them of any delays to the delivery.
-                        </li>
-                        <li>
-                            You will receive a dispatch confirmation via SMS to the registered telephone number when the Item has been dispatched. We may at Our sole discretion choose to use a courier or parcel delivery service that utilises a parcel tracking facility, where this is the case, You will also receive the courier’s details and the parcel tracking number in Your dispatch email. Tracking is provided purely in accordance with the courier’s own Terms and Conditions which may be found on the courier’s Website.
-                        </li>
-                        <li>
-                            Any dispatch or delivery times quoted are estimates only and We cannot guarantee any exact dates or delivery timescales in any way. You agree that any delays to delivery imposed upon Us by Our couriers or the like are out of Our control, and that such delays would be acceptable to You.
-                        </li>
-                        
-                    </ol>
-                </li>
-                <li>
-                    <strong class="text-black">REFUND & CACELLATION & RETURN POLICY</strong>
-                    <ol>
-                        <li>
-                            The Items that are the subject of Auctions on Our Website vary hugely; for this reason We are unable to offer a standard period within which You may return a faulty Item. Our policy is therefore to assess each Item on an individual basis and apply a ‘reasonable time’ principle in accordance with Kenya Law. If We determine that Your Item has developed a fault within what We consider to be a reasonable time, We will arrange for the Item to be collected from You at Our expense and a repaired or replacement Item will be returned to You within a reasonable time, again at Our expense. Where We are unable to provide a repaired or replacement Item, We reserve the right to issue a full refund of the purchase price, which will constitute full consideration for the Item. Where the Item appears to have been the subject of abuse, accidental damage or misuse We reserve the right to refuse to provide a repaired or replacement Item and to charge You for the cost of Us collecting the Item from You and returning the Item to You. For Items which store data, it is Your responsibility to backup Your own data prior to the Item being returned; any repaired or replacement Item will be returned to You without any of Your personal data or files.
-                        </li>
-                        <li>
-                            Media Items are not covered by the return policy above where they have been opened or have had their seal broken. Media Items will only be eligible for return in exchange for a replacement product if they are found to be faulty. For the purposes of these Terms and Conditions, ‘Media Items’ include without limitation; audio products, video products; computer software or any similarly licensed Item. Box sets or sets of any sort may only be returned in their entirety; partial refunds for individual components from within a full set will not be issued.
-                        </li>
-                    </ol>
-
-                </li>
-                <li>
-                    <strong class="text-black">USE OF THE SERIVCE, WEBSITE AND ALL OTHER MEDIA/ELECTRONIC PLATFORMS.</strong>
-                    <p>
-                        Information and Content Information accessed by you on the Mobile service, Website and all other media/electronic platforms is for your personal use only and the distribution or commercial exploitation of such information is strictly prohibited. No warranty is given as to the uninterrupted provision of such information, its accuracy or as to the results obtained through its use. The information is not intended to amount to advice or recommendations and is provided for information purposes only.
-                        Your computer or mobile device and internet connection may affect the performance and/or operation of the Mobile service, Website and all other media/electronic platforms. The Company does not guarantee that the Mobile service, Website and all other media/electronic platforms, will operate without faults or errors or that the Company services will be provided without interruption. The Company does not accept any liability for any failures or issues that arise due to your equipment, internet connection or internet or telecommunication service provider (including, for example, if you are unable to place bets or stakes or to view or receive certain information in relation to particular events).
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black">SETTING OFF / WITHHOLDING PAYMENT / RETENTION OF TITLE</strong>
-                    <p>
-                        In the case of an outstanding payment of any kind and / or chargeback against the User, any Items delivered to the User will remain the property of SOKO MIA until such time as the amounts owed to Us are paid in full. During this time, You undertake to store the Item separately from Your other possessions and not take beneficial use of the Item until such time as the payment has been received and cleared in full.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> ANTI-MONEY LAUNDERING POLICY</strong>
-                    <p>
-                        The Company shall not be used to carry out any illegal activities by participants and all players shall adhere to the strictest discipline and moral turpitude in their dealings with the company and shall enhance the company ability to adhere to the provisions of The Proceeds of Crime and Anti-Money Laundering Act No. 9 of 2009 of Kenya and as it shall be amended from time to time and all other enabling laws and conventions.
-                        The Company will subject all transactions to serious scrutiny to prevent money laundering and other illegal activities.
-                        If you become aware of any suspicious activity relating to individual(s), participants, players, officials or of any correctness or malfunctioning of the Games, its software or appliances, you must report suspicious transactions will be reported to the relevant Authorities and where the company suffers pecuniary loss or injury to its person or reputation, all legal means will be employed to restore such injuries at the risk of the perpetrator.
-                        The Company may suspend, block or close your account and withhold funds if so required by the Proceeds of Crime and Anti-Money Laundering Act No. 9 of 2009 or any relevant legislation or as demanded by the authorities.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black">  DISCLAIMER</strong>
-                    <p>
-                        SOKO MIA or its partners, licensors or associates shall not be liable for any direct, indirect, incidental, special, or consequential damages arising out of the use of or inability to use SOKO MIA, including their legal representatives, directors, agents, controlled companies and employees shall not be liable for incorrect or incomplete contents published on the site or concerning the Service whether these are generated by users, Members or any other instrument or program associated to the Service or used by the Service.
-
-                        SOKO MIA shall not be liable for any technical malfunction or problem of any network or telephone line, online computer system, server or provider, computer equipment, software, lack of e-mail or traffic congestion of the Internet or any site or combination of these, including tort or damage to user or Member computers and computer of any person, that may arise from taking part or downloading material related to the SOKO MIA Web Site or its Services.
-
-                        If you are dissatisfaction with the Website, then you have to stop to using the its Services. Any material downloaded or otherwise obtained through the use of the Website is done at your own discretion and risk and you will be solely responsible for any damage to your computer system or loss of data that results from such download.
-                        With regards to the Auction process and / or other elements of Our Website, We will not be liable for; any losses arising from Your negligence; any failure to follow Our instructions as to placing Bids; any use of websites linked to Our Website but not operated by Us; any loss or damage due to viruses or other malicious software that may infect Your computer equipment, software, data or other property caused by You accessing, using or downloading from Our Website, or from transmissions via emails or attachments received from Us; faulty operations of computers during Bid placement and / or for incorrect or overly slow transmission of Bidding data by the internet provider and / or any damage that occurs due to Bids submitted by You not being received by Us or not being received promptly or not being considered, as a consequence of technical faults with Our software or hardware (whether same are within Our control or otherwise)
-                        We accept no liability for any indirect losses howsoever caused including without limitation; loss of income or revenue; loss of business; loss of profits or future contracts; loss of anticipated savings; loss of data; or waste of management or office time or space whether caused by tort, negligence, breach of Contract or otherwise, even if foreseeable.
-                        For the avoidance of doubt, the above provisions do not in any way limit Our liability; for death or personal injury caused by Our negligence; under section 2(3) of the Consumer Protection Act 1987; for fraud or fraudulent misrepresentation; or for any matter for which it would be illegal for Us to exclude, or attempt to exclude, Our liability.
-                        We warrant to You that all of the Items purchased from Us through Our Website are of satisfactory quality and reasonably fit for all of the purposes for which the Items of that kind are commonly supplied.
-                        All Items are sold with the manufacturer’s limited warranty only, where applicable
-                        You are agree to indemnify, defend and hold SOKO MIA, harmless from all claims, damages and expenses made by any third party arising out of your content, your use of the website, your connection to SOKO MIA, or your violation of these Terms or Privacy Policy.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> LIMITATION OF LIABILITY</strong>
-                    <p>
-                        Excluding jurisdictions in which said provisions are limited In no event shall  SOKO MIA or its suppliers be liable towards members or third parties for any indirect, consequent, exemplary, accidental, including but not limited to, damages for loss of profits, goodwill , the unauthorized access to or alterations of your transmissions or data, statements or conduct of any third party on the Website, use, data or other intangible losses arising out of or in connection with the use of the website or its Service.
-
-                        SOKO MIA assumes no liability whatsoever for any monetary or other damage suffered by you on account of: The delay, failure, interruption, or corruption of any data or other information transmitted in connection with use of the Service; Any interruption or errors in the operation of the service offered by the platform. Non receipt of status of the bid by the bidder due to Operator network failure/congestion/any other reason.
-
-                        Notwithstanding anything to the contrary contained in this agreement SOKO MIA’s liability to the member for any cause whatsoever, will at all times be limited to the amount paid by the Member, regardless of the form of action.
-                        For the avoidance of doubt, the above provisions do not in any way limit Our liability; for death or personal injury caused by Our negligence; under section 2(3) of the Consumer Protection Act 1987; for fraud or fraudulent misrepresentation; or for any matter for which it would be illegal for Us to exclude, or attempt to exclude, Our liability.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> TRADEMARK PROPERTY </strong>
-                    <p>
-                        SOKO MIA trademarks and its logo, and SOKO MIA website texts are belong to Crossgate Solutions Limited. All other trademarks belong to their respective owners. You cannot in any reason, use the intellectual property of SOKO MIA reproduce texts, images or any other data published on the website without having received prior written consent from Crossgate Solutions Limited.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> EXTERNAL LINKS </strong>
-                    <p>
-                        Our Website may contain links to other websites operated by third parties, and these sites may likewise contain links to other websites. Despite conducting careful checks, We assume no liability for the content of external links. The operators of the sites linked to and from this site are solely responsible for their contents. We hereby expressly distance ourselves from all content of any and all websites linked to Our Website. We cannot take any responsibility for the content of the data protection and privacy guidelines of third-party websites.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> TRANSFER OF RIGHTS AND OBLIGATIONS </strong>
-                    <p>
-                        The Contract between You and Us is binding on You and Us and on Our respective successors and assigns. You may not transfer, assign, charge or otherwise dispose of a Contract, or any of Your rights or obligations arising under it, without Our prior written consent. We may transfer, assign, charge, sub-Contract or otherwise dispose of a Contract, or any of Our rights or obligations arising under it, at any time during the term of the Contract. We are entitled to involve third parties to satisfy Our contractual obligations without being required to notify You.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> OUR RIGHT TO VARY THESE TERMS AND CONDITIONS </strong>
-                    <p>
-                        We may at any time and at Our sole discretion revise these Terms and Conditions to reflect inter alia, changes in market Conditions affecting Our business, changes in technology, changes in payment methods, changes in relevant laws and regulatory requirements and changes in Our system’s capabilities. You will be subject to the policies and Terms and Conditions in force at the latest time that You accept them, unless any change is required to be made by law or governmental authority (in which case it will apply to orders previously placed by You), or if We notify You of the change to those policies or these Terms and Conditions (in which case We have the right to assume that You have accepted the change to the Terms and Conditions unless You notify Us to the contrary within seven days of receipt by You of the notification of the changes).
-
-                        You may be required to download software and / or agree to additional Terms and Conditions from time to time. Unless otherwise expressly provided by the additional Terms and Conditions, those additional Terms are hereby incorporated into these Terms and Conditions.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> VIRUSES, HACKING AND OTHER OFFENCES </strong>
-                    <p>
-                        You are expressly prohibited from misusing Our Website in any way. In these Conditions misuse is defined as; introducing viruses, Trojans, worms, logic bombs or other material which is malicious or technologically harmful; gaining or attempting to gain access to Our Website, the server on which Our Website is stored or any server, computer or database connected to Our Website; attacking or attempting to attack Our Website via any denial of service attack or distributed denial of service attack; or, attacking or attempting to attack Our Website by any other means that is recognised as an attack vector.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black">  FORCE MAJEURE AND OTHER EVENTS OUTSIDE OF HOW LOW’S CONTROL </strong>
-                    <p>
-                        We are not liable or responsible for any failure to perform, or delay in performance of, any of Our obligations under a Contract that is caused by any act, event, non-happening, omission or accident beyond Our reasonable control. Such events are called ‘Force Majeure Events’ and include particularly, without limitation; strikes, lock-outs or other industrial action; civil commotion, riot, invasion, terrorist attack or threat of terrorist attack, war (whether declared or not) or threat or preparation for war, fire, explosion, implosion, storm, flood, earthquake, subsidence, epidemic or other natural disaster; impossibility of the use of railways, shipping, aircraft, motor transport or other means of public or private transport; impossibility of the use of public or private telecommunications networks; and, the acts, decrees, legislation, regulations or restrictions of any government.
-
-                        Our performance under any Contract is deemed to be suspended for the period that the force majeure event continues, and We will have an extension of time for performance for the duration of that period. We will use Our reasonable endeavours to bring the force majeure event to a close or to find a reasonable alternative solution by which We are able to perform Our obligation under the Contract despite the force majeure event.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> TERM OF PROVISIONS </strong>
-                    <p>
-                        These Terms and Conditions remain in full force and effect from acceptance until terminated by either party on 30 days’ written notice or unless terminated in accordance with these Terms and Conditions.
-                        These Terms and Conditions take precedence over any information displayed on Our Website or any other publication at all times.
-                    </p>
-                </li>
-                <li>
-                    <strong class="text-black"> GENERAL PROVISIONS </strong>
-                    <ol>
-                        <li>
-                            We reserve the right to act upon Our sole discretion in implementing the Terms and Conditions. Further, We reserve the right to take action against anyone who, in Our opinion, is in breach of these Terms and Conditions. Such action includes, without limitation, terminating Your registration and terminating access to Our Site and Auctions on Our Site and via mobile money.
-                        </li>
-                        <li>
-                            We are the owner or licensee of all intellectual property rights on Our Website and material published on it. All such material is protected by copyright laws and treaties around the world and all rights relating to the same are reserved. You may not modify or reproduce any digital or paper copies of any material either printed or downloaded from Our Website nor use any illustrations, photographs, video or audio sequences or any graphics separately from any accompanying text. Further You may not use any of the materials on Our Website for commercial purposes.
-                        </li>
-                        <li>
-                            These Terms and Conditions and any document expressly referred to in them represent the entire agreement between Us and You in relation to the subject matter of any Contract and supersede any prior agreement, understanding or arrangement between Us and You, whether oral or in writing.
-                        </li>
-                        <li>
-                            We each acknowledge that, in entering into a Contract, neither of Us has relied on any representation, undertaking or promise given by the other or to be implied from anything said or written in negotiations between Us and You prior to such Contract except as expressly stated in these Terms and Conditions.
-                        </li>
-                        <li>
-                            These Terms and Conditions and any document expressly referred to in them represent the entire agreement between Us and You in relation to the subject matter of any Contract and supersede any prior agreement, understanding or arrangement between Us and You, whether oral or in writing.
-                        </li>
-                        <li>
-                            We each acknowledge that, in entering into a Contract, neither of Us has relied on any representation, undertaking or promise given by the other or to be implied from anything said or written in negotiations between Us and You prior to such Contract except as expressly stated in these Terms and Conditions.
-                        </li>
-                        <li>
-                            In the event that you are the successful bidder, You will automatically be deemed to grant to SOKO MIA  an irrevocable right to publish, through all types of media broadcasting, including the internet, for the purposes of promoting the auction, Your full name (as well as Your nick name), hometown, photograph, and video materials without any claim for broadcasting, printing or other rights, for a period of up to thirty-six months from the date of prize award. You also give SOKO MIA the right to publish, for a period of up to thirty-six months from the date of the auction, any additional information that You voluntarily provide, and any testimonial or other commentary relating to the auction or the product, attributed by consent to you. You shall have no claim against SOKO MIA for invasion of privacy or on any other ground(s) by reason of the publication or broadcasting of Your Name, hometown, photograph, video materials, or information voluntarily provided by You.
-                        </li>
-                        <li>
-                            Neither You nor Us will have any remedy in respect of any untrue statement made by the other, whether orally or in writing, prior to the date of any Contract (unless such untrue statement was made fraudulently) and the other party´s only remedy will be for breach of Contract as provided in these Terms and Conditions.
-                        </li>
-                        <li>
-                            A waiver by Us of any breach or default hereunder shall not be deemed to be a waiver of any preceding or subsequent breach or default. Further, failure by Us to exercise any of the rights or remedies to which We are entitled under the Contract will not constitute a waiver of such rights or remedies and will not relieve You from compliance or performance of such obligations. No waiver by Us of any of these Conditions will be effective unless it is expressly stated to be a waiver and is communicated to You by Us in writing.
-                        </li>
-                    </ol>
-                </li>
-
-                </ol>
+    </p>
+    <p style="margin-left: 10px;">
+       
+        iii) used false or misleading information during registration or amendment of their details
+    </p>
+    <p style="margin-left: 10px;">
+       v) You are accessing Our Website from within the Republic of Kenya;
                 
-            
-            </div>
-          </div>
-        </div>
-      </section>
+    </p>
+    <p class="text-black">
+        Where a User Account is terminated due to a breach of these Terms and Conditions, We reserve the right to set off any amounts incurred as direct or indirect loss and/or expense by Us investigating the alleged breach prior to returning any Balance back to the User.
+    </p>
 
-      <footer class="footer novi-bg novi-bg-img">
+</div>
+<h5 class="title" style="margin-top:10px;">HOW TO BID</h5>
+<div style="margin-left: 8px;">
+    <p class="text-black">
+        1) To place a Bid on Our Website or otherwise, You must first make payment of Ksh20 via mobile money.
         
-        <div class="footer-panel">
-          <div class="container">
-            <p class="rights"><span>&copy;&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>SokoMia Auctions.</span><span>.&nbsp;</span><a href="#">All rights reserved. Auctioneers licence no. 005867</a> <span style="float: right;margin-right: 5%;"><a href="https://www.facebook.com/Soko-Mia-110900567287396/?view_public_for=110900567287396"><i class="fa fa-facebook"></i></a></span> <span style="float: right; margin-right: 5%; margin-left: 2%;"><a href="https://www.instagram.com/sokomiakenya/"><i class="fa fa-instagram"></i></a></span> <span style="float: right; margin-right: 3%; margin-left: 2%;"><a href="https://twitter.com/soko_mia"><i class="fa fa-twitter"></i></a></span></p>
-          </div>
-        </div>
-      </footer>
-    </div>
-    <div class="snackbars" id="form-output-global"></div>
-    <script src="{% static "dist/js/core.min.js" %}"></script>
-    <script src="{% static "dist/js/script.js" %}"></script>
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-	
-	<!--LIVEDEMO_00 -->
+    
+    </p>
+    <p class="text-black">
+        
+        2) We reserve the right to cancel or remove a User’s Bids at Our sole discretion if We believe that the User has acted fraudulently or is in breach of these Terms and Conditions.
+        
+    
+    </p>
+    <p class="text-black">
+        
+        3) All Bids are final and no refunds will be issued for Bid Prices paid by You unless the Auction is terminated by Us. Your statutory rights are not affected by this term.
+    </p>
 
-	<script type="text/javascript">
-	 var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-7078796-5']);
-	  _gaq.push(['_trackPageview']);
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'https://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();</script>
-		
-  </body><!-- Google Tag Manager --><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P9FT69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P9FT69');</script><!-- End Google Tag Manager -->
+</div>
 
 
 
+ </div>
+</div>
+</section>
 
-</html>
+{% endblock %}
+
+

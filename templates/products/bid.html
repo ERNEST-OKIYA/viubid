@@ -1,108 +1,8 @@
+{% extends "products/products_base.html" %}
 {% load staticfiles %}
 {% load humanize %}
-<!DOCTYPE html>
 
-<html class="wide wow-animation" lang="en">
-  <head>
-    <title>Place bids on products for only KES 20 with quickbid.co.ke </title>
-    <meta charset="utf-8">
-    
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="{% static "js/JNM.js" %}"></script>
-    <link rel="icon" href="{% static "images/icon.ico" %}" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{% static "dist/css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "dist/css/fonts.css" %}">
-    <link rel="stylesheet" href="{% static "dist/css/style.css" %}">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.all.min.js"></script>
-   
-    <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
-
-    <style>
-      body {
-    font-family: Roboto, Ubuntu, Arial, sans-serif;
-    font-size: 100%;
-}
-    </style>
-
-<style>
-  .orange{
-    color:#F29100
-  }
-  .blue{
-    color: #002698;
-  }
-  .bg-blue{
-   background-color: #095BDA;
-  }
-  .blacker{
-    color: #6b7280;
-  }
-  .facebook-blue{
-    color: #3b5998;
-  }
-
-</style>
-  </head>
-  <body>
-    
-    <div class="preloader"><div class="ie-panel"><a href="https://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
-      <div class="preloader-body">
-        <div class="cssload-container">
-          <div class="cssload-speeding-wheel"></div>
-        </div>
-      </div>
-    </div>
-    <div class="page">
-      <header class="section page-header">
-        <!--RD Navbar-->
-        <div class="rd-navbar-wrap">
-          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="0px" data-xl-stick-up-offset="0px" data-xxl-stick-up-offset="0px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
-            <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
-            
-            <div class="rd-navbar-main-outer">
-              <div class="rd-navbar-main">
-                <!--RD Navbar Panel-->
-                <div class="rd-navbar-panel">
-                  <!--RD Navbar Toggle-->
-                  <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                  <!--RD Navbar Brand-->
-                  <div class="rd-navbar-brand">
-                    <!--Brand--><a class="brand" href="/"><img src="{% static "images/Quickbid-Clear.svg" %}" alt="" width="329" height="57"/></a>
-                  </div>
-                </div>
-                <div class="rd-navbar-main-element align-content-lg-center" style="margin-right: 30%;">
-                  <div class="rd-navbar-nav-wrap">
-                    <ul class="rd-navbar-nav">
-                      <li class="rd-nav-item active"><a class="rd-nav-link" href="/">Home</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">How to bid</a>
-                      </li>
-                      
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">FAQ</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">Contacts</a>
-                      </li>
-                      
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#">T&Cs</a>
-                      </li>
-
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </header>
-
-      
-
+   {% block content %}
        <!-- How it Works-->
        <section class="section section-lg bg-blue">
         <div class="container">
@@ -226,51 +126,10 @@
           
       </section>
 
+      {% endblock %}
 
-    
-
-      <footer class="footer novi-bg novi-bg-img">
-        
-        
-        <div class="footer-panel">
-          <div class="container text-center">
-            
-            <p class="rights"><a href="#">Nairobi Channels Auctioneers, the provider of this website is licenced under Auctioneers Licensing Board of Kenya licence No. 2020/0010/5951.</a>
-            </p>
-            
-            <p class="rights">
-              <span>&copy;&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>Quick Bid Auctions. All rights Reserved</span><span>.&nbsp;</span>
-
-            </p>
-            <p class="rights">
-              Find us on social media
-            </p>
-            <p class="rights">
-              <span><a href="https://www.facebook.com/QuickbidKE/"><i class="fa fa-facebook-square fa-3x facebook-blue text-xl"></i></a></span> <span style="float: right; margin-right: 5%; margin-left: 2%;"></span>
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
-    <div class="snackbars" id="form-output-global"></div>
-    <script src="{% static "dist/js/core.min.js" %}"></script>
-    <script src="{% static "dist/js/script.js" %}"></script>
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-	
-	<!--LIVEDEMO_00 -->
-
-	<script type="text/javascript">
-	 var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-7078796-5']);
-	  _gaq.push(['_trackPageview']);
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'https://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();</script>
-		
-  </body><!-- Google Tag Manager --><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P9FT69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P9FT69');</script><!-- End Google Tag Manager -->
-
+{% block page_scripts %}
 <script>
     $('.bid-btn').click(function(e) {
       e.preventDefault();
@@ -409,4 +268,4 @@ window.onload=function get_timer()
   
   </script>
   
-</html>
+{% endblock %}
