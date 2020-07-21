@@ -49,6 +49,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.deleted_at = timezone.now()
         self.save()
 
+     def get_full_name(self):
+        return self.profile.first_name + ' ' + self.profile.last_name
+
+
     
 class Profile(FactoryModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
