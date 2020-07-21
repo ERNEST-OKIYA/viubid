@@ -94,8 +94,9 @@
                  
                  <form method="post" name="bid_form" action="/ipn/checkout/">
                   <input type="text" class="form-group form-control" placeholder="Your phone Number" id="{{bid.code}}_phone_number">
+                  <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_phone_error"></p>
                   <input type="number" class="form-group form-control" placeholder="Bid Amount e.g 43" id="{{bid.code}}_bid_value">
-                  <p id="id_bid_success" style="display: none; color: #155724;"></p>
+                  <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_bid_value_error"></p>
                   <button  id="{{bid.code}}" data-code={{bid.code}} class="bid-btn button button-icon button-icon-right form-group form-control" style="background-color: #002698;border-color:#002698;color: white;"><span class="icon novi-icon"></span>Place your Bid</button>
                   </div>
                 </form>
@@ -138,12 +139,20 @@
       var bid_value = $("#"+code+"_bid_value").val();
         if (!$.isNumeric(phone_number))
         {
-            $("#id_bid_success").hide();
-            $("#id_bid_error").html("* Invalid Phone Number. Please Enter a number");
-            $("#id_bid_error").show();
+          $("#"+code+"_bid_value_error").hide();
+          $("#"+code+"_phone_error").html("* Please enter a valid phone number");
+          $("#"+code+"_phone_error").show();
+        }
+        else if(bid_value != Math.floor(bid_value)){
+          $("#"+code+"_phone_error").hide();
+          $("#"+code+"_bid_value_error").html("* Please Enter bid value without cents.Did you mean "+Math.floor(bid_value)+" ?");
+          $("#"+code+"_bid_value_error").show();
+
         }
 
       else {
+        $("#"+code+"_phone_error").hide();
+        $("#"+code+"_bid_value_error").hide();
 
           // make POST ajax call
             $.ajax({
