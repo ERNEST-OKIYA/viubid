@@ -9,6 +9,7 @@ urlpatterns=[
             url('^$', Dashboard.as_view(), name='dashboard'),
             # # url('', Dashboard.as_view(), name='dashboard'),
             url('^winners/$', Winners.as_view(), name='winners'),
+            url('^sms-outbox/$', OutBox.as_view(), name='outbox'),
             url('^bids/$', Bids.as_view(), name='bids'),
             url('^ussd-dials/$', UssdDials.as_view(), name='ussd-dials'),
             url('^products/$', Products.as_view(), name='products'),

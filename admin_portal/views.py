@@ -34,6 +34,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from bids.models import BidEntry,InvalidBid
 from winners.models import Winner
 from bids.models import Bid,BidEntry,UserBid,UssdDial
+from messaging.models import OutgoingSMS
 
 
 def change_password(request):
@@ -1462,3 +1463,140 @@ class ExportInvalidCsv(View):
 
 	def dispatch(self, *args, **kwargs):
 		return super(ExportInvalidCsv, self).dispatch(*args, **kwargs)
+
+
+
+class OutBox(View):
+    
+	def get(self, request):
+    		
+		fields = OutgoingSMS.objects.values(
+			'phone_number',
+			'text',
+			'status',
+			'identifier',
+			'status_reason',
+			'success',
+			'created_at')
+
+		return render(request, 'admin_portal/sms-outbox.html', {'data': fields})
+
+		# return render (request,'admin_portal/Playerss.html',{'data':all_Playerss})
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super(OutBox, self).dispatch(request, *args, **kwargs)
+
+
+def process_outbox(request):
+	includes = [
+			'phone_number',
+			'text',
+			'status',
+			'identifier',
+			'status_reason',
+			'success',
+			'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		OutgoingSMS._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search !='':
+
+		print(global_search, 'search value')
+
+		all_objects = OutgoingSMS.objects.filter(
+				   Q(phone_number__icontains=global_search) |
+				   Q(identifier__icontains=global_search) |
+				   Q(status__icontains=global_search)).all()
+		
+				   
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+				values('phone_number',
+					'text',
+					'status',
+					'identifier',
+					'status_reason',
+					'success',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = OutgoingSMS.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=OutgoingSMS.objects.values(
+				'phone_number',
+				'text',
+				'status',
+				'identifier',
+				'status_reason',
+				'success',
+				'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].\
+			values('phone_number',
+					'text',
+					'status',
+					'identifier',
+					'status_reason',
+					'success',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = OutgoingSMS.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+
+class ExportOutBoxCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'phone_number': 'Phone Number',
+							'text':"Message",
+							'status':'Status',
+							'identifier':'Identifier',
+							'status_reason':'Status Reason',
+							'success':'Success',
+							'created_at':'Date sent'
+									}
+		field_serializer_map = {'created_at': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = OutgoingSMS.objects.values('phone_number',
+			'text',
+			'status',
+			'identifier',
+			'status_reason',
+			'success',
+			'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super(ExportOutBoxCsv, self).dispatch(*args, **kwargs)
