@@ -1,15 +1,10 @@
 import requests
 import logging
 from django.conf import settings
+from .models import OutgoingSMS
 
 logger = logging.getLogger(__name__)
 DEBUG = settings.DEBUG
-
-app={'key':'9b1e459909484acb90ecfdcbfe01d6da', 
-     'secret':'868972b8221744129f50b6b77314b77e',
-     'profile_id':'1703051'}
-ujumbe_url='https://sms.crossgatesolutions.com/api/v2/sendSms'
-
 
 
 
@@ -97,18 +92,9 @@ class Message:
                
     
     def send(self,msisdn,message):
-        print(message)
-        
-        
-            # payload = dict(sender='QUICKBID',message=message,msisdns=[msisdn])
-            # url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
-        
-            # try:
-            #     r=requests.post(url,json=payload)
-            #     logger.info('RESPONSE {}'.format(r.json()))
-            # except Exception as e:
-            #     logger.DEBUG('ERROR {}'.format(str(e)))
-            # return r.json() or {}
+        return OutgoingSMS.create(msisdn,message)
+
+       
 
     def isfloat(self,value):
         try:
