@@ -307,7 +307,7 @@ def process_winners(request):
 		Winner._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -427,7 +427,7 @@ def process_products(request):
 		Product._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -537,7 +537,7 @@ def process_players(request):
 		User._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		
 
@@ -633,7 +633,7 @@ def process_payins(request):
 		PayIn._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -734,7 +734,7 @@ def process_payouts(request):
 		Payout._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -835,7 +835,7 @@ def process_transactions(request):
 		Transaction._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -944,7 +944,7 @@ def process_bids(request):
 		Bid._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -1058,7 +1058,7 @@ def process_all_bids(request):
 		UserBid._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -1159,7 +1159,7 @@ def process_active_bids(request):
 		UserBid._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -1258,7 +1258,7 @@ def process_dials(request):
 		UssdDial._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -1343,6 +1343,8 @@ class InvalidBids(View):
 			'user__profile__last_name',
 			'user__phone_number', 
 			'bid_value',
+			'bill_ref_no',
+			'notes',
 			'created_at'
 			)
 
@@ -1360,6 +1362,8 @@ def process_invalid(request):
 			'user__profile__last_name',
 			'user__phone_number', 
 			'bid_value',
+			'bill_ref_no',
+			'notes',
 			'created_at']
 	draw = request.GET['draw']
 	start = int(request.GET['start'])
@@ -1370,7 +1374,7 @@ def process_invalid(request):
 		InvalidBid._meta.get_fields()) if n == order_column][0]
 	global_search = request.GET['search[value]']
 
-	if global_search is not '':
+	if global_search !='':
 
 		print(global_search, 'search value')
 
@@ -1388,6 +1392,8 @@ def process_invalid(request):
 			'user__profile__last_name',
 			'user__phone_number', 
 			'bid_value',
+			'bill_ref_no',
+			'notes',
 			'created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
@@ -1412,6 +1418,8 @@ def process_invalid(request):
 			'user__profile__last_name',
 			'user__phone_number', 
 			'bid_value',
+			'bill_ref_no',
+			'notes',
 			'created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
@@ -1435,6 +1443,8 @@ class ExportInvalidCsv(View):
 							'user__profile__last_name': 'Last Name',
 							'user__phone_number': 'Phone Number',
 							'bid_value': 'Bid Value Entered',
+							'bill_ref_no':'Bill Ref No.',
+							'notes': 'Notes',
 							'created_at': 'Bid Date',
 					  }
 		field_serializer_map = {'created_at': (
@@ -1445,6 +1455,8 @@ class ExportInvalidCsv(View):
 			'user__profile__last_name',
 			'user__phone_number', 
 			'bid_value',
+			'bill_ref_no',
+			'notes',
 			'created_at').all()
 		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 

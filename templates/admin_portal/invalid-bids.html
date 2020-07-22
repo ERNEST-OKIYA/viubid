@@ -43,7 +43,9 @@
           <th>Middle Name</th>
           <th>Last Name</th>
           <th>Phone Number</th>
-          <th>Bid Value Entered</th>
+          <th>Bid Value</th>
+          <th>Bill Ref No Entered</th>
+			    <th>Notes</th>
           <th>Date Placed</th>
           
         </tr>
@@ -97,7 +99,7 @@
       "info": true,
       "autoWidth": true,
       "lengthMenu": [[10,5, 25, 50, 100], [10,5, 25, 50, 100]],
-      columnDefs:[{targets:5,"type":"date-euro", render:function(data){
+      columnDefs:[{targets:7,"type":"date-euro", render:function(data){
       return moment(data).format('DD/MM/YYYY HH:mm');
     }}],
     order: [0, 'desc'],
