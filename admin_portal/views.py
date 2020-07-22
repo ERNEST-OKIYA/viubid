@@ -1066,7 +1066,7 @@ def process_all_bids(request):
 		all_objects = UserBid.objects.filter(
 				   Q(bid_entry__user__phone_number__icontains=global_search) |
 				   Q(bid_entry__user__profile__first_name=global_search) |
-				   Q(bid_entry__source = global_search) |
+				   Q(source__icontains = global_search) |
 				   Q(bid_entry__user__profile__last_name=global_search)).all()
 
 		columns = [i for i in includes]
@@ -1167,7 +1167,7 @@ def process_active_bids(request):
 		all_objects = UserBid.objects.filter(bid_entry__bid__is_open=True).\
 			filter(Q(bid_entry__user__phone_number__icontains=global_search) |
 				   Q(bid_entry__user__profile__first_name=global_search) |
-				   Q(bid_entry__source = global_search) |
+				   Q(source__icontains = global_search) |
 				   Q(bid_entry__user__profile__last_name=global_search)).all()
 
 		columns = [i for i in includes]
