@@ -1343,7 +1343,7 @@ class InvalidBids(View):
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
-			'bid_value',
+			# 'bid_value',
 			'bill_ref_no',
 			'notes',
 			'created_at'
@@ -1362,7 +1362,7 @@ def process_invalid(request):
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
-			'bid_value',
+			# 'bid_value',
 			'bill_ref_no',
 			'notes',
 			'created_at']
@@ -1382,8 +1382,7 @@ def process_invalid(request):
 		all_objects = InvalidBid.objects.filter(Q(user__profile__first_name__icontains=global_search) |
 											Q(user__profile__middle_name__icontains=global_search) |
 											Q(user__profile__last_name__icontains=global_search) |
-											Q(user__phone_number__icontains=global_search) |
-											Q(bid_value__icontains=global_search)).all()
+											Q(user__phone_number__icontains=global_search)).all()
 
 		columns = [i for i in includes]
 		objects = []
@@ -1392,7 +1391,7 @@ def process_invalid(request):
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
-			'bid_value',
+			# 'bid_value',
 			'bill_ref_no',
 			'notes',
 			'created_at'):
@@ -1418,7 +1417,7 @@ def process_invalid(request):
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
-			'bid_value',
+			# 'bid_value',
 			'bill_ref_no',
 			'notes',
 			'created_at'):
@@ -1443,7 +1442,7 @@ class ExportInvalidCsv(View):
 							'user__profile__middle_name':'Middle Name',
 							'user__profile__last_name': 'Last Name',
 							'user__phone_number': 'Phone Number',
-							'bid_value': 'Bid Value Entered',
+							# 'bid_value': 'Bid Value Entered',
 							'bill_ref_no':'Bill Ref No.',
 							'notes': 'Notes',
 							'created_at': 'Bid Date',
@@ -1455,7 +1454,7 @@ class ExportInvalidCsv(View):
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
-			'bid_value',
+			# 'bid_value',
 			'bill_ref_no',
 			'notes',
 			'created_at').all()
