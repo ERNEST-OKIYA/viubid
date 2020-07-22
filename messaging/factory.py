@@ -25,10 +25,10 @@ class Message:
     
     
     def code_not_found(self,user,code):
-        text = "Your product code {} ".format(code)+\
-               "Did not match any product on bid. "+\
+        text = "The product code {} you entered ".format(code)+\
+               "did not match any product on bid. "+\
                "Please check and try again.Your money "+\
-               "has been added to your wallet."
+               "has been added to your wallet.visit www.quickbid.co.ke to view available deals."
                
         return self.send(user.phone_number,text)
     
@@ -67,7 +67,7 @@ class Message:
     
     def code_not_open(self,user,code):
         text = f"No item with bid code {code} was found." +\
-               " Your money has been added to your wallet."
+               " Your money has been added to your wallet.go to www.quickbid.co.ke to view available deals."
                
         return self.send(user.phone_number,text)
 

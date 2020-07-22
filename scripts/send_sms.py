@@ -34,6 +34,7 @@ def run():
                 
                 rv = r.json()
                 print(rv)
+                
                 msg.success = rv.get('success')
                 msg.identifier = rv.get('identifier')
                 msg.status = 1
