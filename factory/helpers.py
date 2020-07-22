@@ -316,6 +316,7 @@ class Helpers:
             notes = "Unresolved Bid format"
             user = self.get_user(phone_number)
             InvalidBid.create(user,'',notes,bill_ref_no)
+            sms.incorrect_fomart(bill_ref_no,phone_number)
             DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
             return None
 

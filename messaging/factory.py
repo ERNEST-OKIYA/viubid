@@ -89,6 +89,13 @@ class Message:
 
             return self.send(b.bid_entry.user.phone_number,text)
 
+    def incorrect_fomart(self,bill_ref_no,phone_number):
+        text = f"The Account number format {bill_ref_no} you entered is incorrect. "+\
+                "Please Enter account number in the format BIDCODE followed by your bid value "+\
+                "EG if a TV is on offer and your bid amount is 43, Enter TV 43.visit www.quickbid.co.ke to view available deals."
+
+        return self.send(phone_number,text)
+
                
     
     def send(self,msisdn,message):
