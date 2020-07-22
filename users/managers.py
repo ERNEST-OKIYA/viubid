@@ -20,8 +20,6 @@ class UserManager(BaseUserManager):
     def create_user(self, phone_number, password, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        message = "Welcome to CHOMOA HELA - Game Rahisi washindi Kibao.Tuma 20/= kwa Paybill 523388 Kisha Bonyeza *680# na unaeza shinda 20,000/= au Jackpot Mzuka PAPO HAPO!"
-        OutgoingSMS.create(phone_number,message)
         return self._create_user(phone_number, password, **extra_fields)
 
     def create_superuser(self, phone_number, password, **extra_fields):

@@ -124,7 +124,7 @@ class Helpers:
         return bid.is_critical_mass_passed
     def get_min_unique_bid(self,bid):
         # entries = bid.entries.all()
-        user_bids =UserBid.objects.filter(bid_entry__bid=bid).filter(amount__gte=1).all()
+        user_bids = UserBid.objects.filter(bid_entry__bid=bid).filter(amount__gte=1).all()
         sorted_entries = sorted(user_bids, key = lambda e : e.amount)
         for k,g in groupby(sorted_entries,lambda se: se.amount):
             bo = next(g)
