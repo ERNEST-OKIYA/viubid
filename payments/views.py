@@ -78,6 +78,9 @@ class Payins(View):
 				user = helpers.get_user(msisdn)
 				if not Profile.objects.filter(user=user).exists():
 					helpers.create_profile(user,first_name,middle_name,last_name)
+				elif not helpers.wallet_exists(user):
+					helpers.create_wallet(user)
+
 
 				
 			items = helpers.tare_bill_ref_number(bill_reference_number,msisdn)
@@ -85,7 +88,7 @@ class Payins(View):
 				code = items.get('code')
 				amount = items.get('amount')
 				source = items.get('source')
-				helpers.create_bid_entry(user,amount,transaction_id,code,source)
+				helpers.create_bid_entry(user,amount,transaction_id,code,source,bill_reference_number,transaction_amount)
 			
 			else:
 				logger.debug('Invalid bid amount {}'.format(bill_reference_number))

@@ -87,11 +87,13 @@ class UserBid(FactoryModel):
 class InvalidBid(FactoryModel):
 
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    bid_value = models.CharField(max_length = 20)
+    bid_value = models.CharField(max_length = 20,null=True,blank=True)
+    notes = models.CharField(max_length=200,null=True,blank=True)
+    bill_ref_no = models.CharField(max_length=20,null=True,blank=True)
 
     @classmethod
-    def create(cls,user,bid_value):
-        return cls.objects.create(user= user,bid_value=bid_value)
+    def create(cls,user,bid_value,notes,bill_ref_no=bill_ref_no):
+        return cls.objects.create(user= user,bid_value=bid_value,notes=notes,bill_ref_no=bill_ref_no)
 
 
 

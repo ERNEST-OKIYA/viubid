@@ -183,7 +183,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+BID_TICKET_COST = 20
 USSD = dict(
 	URLS = (
 		r'^/ussd/$',

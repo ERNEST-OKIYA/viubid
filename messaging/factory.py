@@ -37,8 +37,9 @@ class Message:
                
         return self.send(user.phone_number,text)
     
-    def less_amount(self,user):
-        text = "The minimum amount for this bid is KES 20. Please send KES 20 to Paybill 153621. Enter your bid value as account Name."
+    def less_amount(self,user,code,to_add,w_balance):
+        text = f"The minimum amount required to bid is KES 20.Your wallet balance is KES {w_balance} "+\
+            f" Please deposit KES {to_add} to Paybill 4032353 to bid."
         
         return self.send(user.phone_number,text)
             
@@ -47,10 +48,7 @@ class Message:
         	"for poduct with code {} ".format(code)+\
             "is {} ".format(ticket_price)+\
             ".{} Has been added to your wallet.".format(to_wallet)+\
-            "You can use it on your next bid."
-               
-               
-               
+            "You can use it on your next bid."     
         return self.send(user.phone_number,text)
     
     def user_bid(self,user,amount,bid_entry,unique):
@@ -72,10 +70,9 @@ class Message:
 
         return self.send(user.phone_number,text)
     
-    def code_not_open(self,user):
-        text = "No item is open for bidding at the moment" +\
-               " Please check again later for available deals.Your money "+\
-               "has been added to your wallet."
+    def code_not_open(self,user,code):
+        text = f"No item with bid code {code} was found." +\
+               " Your money has been added to your wallet."
                
         return self.send(user.phone_number,text)
 
@@ -100,16 +97,18 @@ class Message:
                
     
     def send(self,msisdn,message):
+        print(message)
         
-            payload = dict(sender='QUICKBID',message=message,msisdns=[msisdn])
-            url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
         
-            try:
-                r=requests.post(url,json=payload)
-                logger.info('RESPONSE {}'.format(r.json()))
-            except Exception as e:
-                logger.DEBUG('ERROR {}'.format(str(e)))
-            return r.json() or {}
+            # payload = dict(sender='QUICKBID',message=message,msisdns=[msisdn])
+            # url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
+        
+            # try:
+            #     r=requests.post(url,json=payload)
+            #     logger.info('RESPONSE {}'.format(r.json()))
+            # except Exception as e:
+            #     logger.DEBUG('ERROR {}'.format(str(e)))
+            # return r.json() or {}
 
     def isfloat(self,value):
         try:

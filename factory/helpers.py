@@ -14,6 +14,7 @@ from django.conf import settings
 sms = Message()
 import logging
 logger = logging.getLogger(__name__)
+import re
 
 DEBUG = settings.DEBUG
 
@@ -42,6 +43,8 @@ class Helpers:
 
     def create_wallet(self,user):
         return Wallet.create(user=user)
+    def wallet_exists(self,user):
+        return Wallet.objects.filter(user=user).exists()
     
     
 
@@ -150,78 +153,76 @@ class Helpers:
             return False
 
 
-    def create_bid_entry(self,user,amount,transaction_id,code,source):
+    # def create_bid_entry(self,user,amount,transaction_id,code,source):
         
-        bid = self.get_bid_by_code(code)
-        amount = Decimal(amount)
-        # if amount < 20:
-        #     return sms.less_amount(user)
-
-        if bid:
-            bid_entry = BidEntry.create(user,bid)
-            Transaction.record(user,amount,transaction_id,
-                    'bid ticket',bid_entry)
-
-            return self.create_user_bid(user,amount,bid_entry,source)
-                    
-            
-
-        else:
-            sms.code_not_open(user)
-            self.deposit(user,amount,transaction_id,subject='bid not open')
-
-
-
-    # def create_bid_entry(self,code,user,amount,transaction_id):
     #     bid = self.get_bid_by_code(code)
     #     amount = Decimal(amount)
-    #     if bid is not False and self.is_bid_open(bid):
+    #     if amount < settings.BID_TICKET_COST:
+    #         notes = 'Amount less than ticket cost'
+    #         InvalidBid.create(user,amount,notes)
+    #         return sms.less_amount(user)
+
+    #     if bid:
+    #         bid_entry = BidEntry.create(user,bid)
+    #         Transaction.record(user,amount,transaction_id,
+    #                 'bid ticket',bid_entry)
+
+    #         return self.create_user_bid(user,amount,bid_entry,source)
+                    
             
-    #         if bid:
-    #             if bid.ticket_price > amount:
-    #                 amount_to_add = bid.ticket_price - amount
-    #                 if self.get_wallet_balance(user) < amount_to_add:
 
-    #                     self.deposit(user,amount,transaction_id)
-    #                     sms.less_amount(user,code,amount_to_add)
-    #                 else:
-    #                     Wallet.debit(user,amount_to_add)
-    #                     bid_entry = BidEntry.create(user,bid)
-    #                     Transaction.record(user,amount,transaction_id,
-    #                                 'bid ticket',bid_entry)
-                    
-    #                     sms.bid_entry_message(bid_entry)
-    #                     return bid_entry
-                        
-                    
-                    
-    #             elif bid.ticket_price < amount:
-    #                 over = amount - bid.ticket_price
-    #                 self.deposit(user,over,transaction_id,subject='over')
-    #                 sms.more_amount(user,code,bid.ticket_price,over)
-                    
-    #             else:
-    #                 bid_entry = BidEntry.create(user,bid)
-    #                 Transaction.record(user,amount,transaction_id,
-    #                                 'bid ticket',bid_entry)
-                    
-    #                 sms.bid_entry_message(bid_entry)
-    #                 return bid_entry
-                
-    #         else:
-
-    #             sms.code_not_found(user,code)
-    #             self.deposit(user,amount,transaction_id,subject='bid not found')
-                
     #     else:
-    #         if bid is False:
-    #             sms.code_not_found(user,code)
-    #             self.deposit(user,amount,transaction_id,subject='bid not found')
-    #         else:
-    #             sms.code_not_open(user,bid)
-    #             self.deposit(user,amount,transaction_id,subject='bid not open')
-            
-            
+    #         sms.code_not_open(user)
+    #         self.deposit(user,amount,transaction_id,subject='bid not open')
+
+
+
+    def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
+        bid = self.get_bid_by_code(code)
+        amount = Decimal(amount)
+        w_balance = self.get_wallet_balance(user)
+        if bid:
+            if amount < settings.BID_TICKET_COST:
+                amount_to_add = settings.BID_TICKET_COST - amount 
+                if w_balance < amount_to_add:
+                    self.deposit(user,amount,transaction_id)
+                    w_balance = self.get_wallet_balance(user)
+                    amount_to_add = settings.BID_TICKET_COST - w_balance
+                    sms.less_amount(user,code,amount_to_add,w_balance)
+                    notes = 'Amount less than ticket cost'
+                    return InvalidBid.create(user,amount,notes,bill_ref_no)
+                else:
+                    Wallet.debit(user,amount_to_add)
+                    bid_entry = BidEntry.create(user,bid)
+                    Transaction.record(user,amount,transaction_id,
+                                'bid ticket',bid_entry)
+                    
+                    return self.create_user_bid(user,bid_value,bid_entry,source,bill_ref_no)
+                    
+                
+                
+            elif  amount > settings.BID_TICKET_COST:
+                over = amount - bid.ticket_price
+                self.deposit(user,over,transaction_id,subject='over')
+                # sms.more_amount(user,code,bid.ticket_price,over)
+                bid_entry = BidEntry.create(user,bid)
+                return self.create_user_bid(user,bid_value,bid_entry,source,bill_ref_no)
+                
+            else:
+                bid_entry = BidEntry.create(user,bid)
+                Transaction.record(user,amount,transaction_id,
+                                'bid ticket',bid_entry)
+                
+                return self.create_user_bid(user,bid_value,bid_entry,source,bill_ref_no)
+                
+        else:
+            notes = 'Bid not found'
+            InvalidBid.create(user,amount,notes,bill_ref_no)
+
+            sms.code_not_found(user,code)
+            return self.deposit(user,amount,transaction_id,subject='bid not found')
+                
+        
     def user_exists(self,phone_number):
         return User.objects.filter(phone_number=phone_number).exists()
     
@@ -234,8 +235,9 @@ class Helpers:
         
         return BidEntry.objects.get(pk=code)
     
-    def create_user_bid(self,user,amount,bid_entry,source):
+    def create_user_bid(self,user,amount,bid_entry,source,bill_ref_no):
         try:
+            
             user_bid = UserBid.create(user,bid_entry,amount,source)
             if self.is_bid_unique(bid_entry.bid,amount):
                 unique = True
@@ -249,7 +251,8 @@ class Helpers:
         except Exception as e:
             
             DEBUG and logger.debug('CREATE BID ERROR Error ---{}'.format(str(e)))
-            InvalidBid.create(user,amount)
+            notes = str(e)
+            InvalidBid.create(user,amount,notes,bill_ref_no)
             return None
 
         
@@ -288,27 +291,35 @@ class Helpers:
                     code = code.upper()
                     amount = str(bill_ref_no).split()[1]
                     source = str(bill_ref_no).split()[2]
+                    amount = int(amount)
 
                 elif len(bill_ref_no.split()) == 2:
                     code = str(bill_ref_no).split()[0]
                     code = code.upper()
                     amount = str(bill_ref_no).split()[1]
                     source = 'DIRECT DEPOSIT'
-
-                elif len(bill_ref_no.split()) == 1 and '.' not in bill_ref_no:
-                    amount = bill_ref_no[3:]
-                    code = bill_ref_no[0:3]
-                    source = 'DIRECT DEPOSIT'
+                    amount = int(amount)
 
 
+                else:
+                    code = bill_ref_no[:2].upper()
+                    digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
+                    amount = int(digits)
+                    source = bill_ref_no[2:].strip().replace(code,'').replace(digits,'')
+                    if source=='':
+                        source = 'DIRECT DEPOSIT'
+
+                
 
                 return {'code':code,'amount':amount,'source':source}
         except Exception as e:
+            notes = "Unresolved Bid format"
             user = self.get_user(phone_number)
-            InvalidBid.create(user,bill_ref_no)
+            InvalidBid.create(user,'',notes,bill_ref_no)
             DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
             return None
 
+    
     def is_bid_unique(self,bid,amount):
         entries = UserBid.objects.filter(bid_entry__bid=bid,amount=amount).count()
         if entries > 1:
