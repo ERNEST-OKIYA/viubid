@@ -15,6 +15,8 @@ sms = Message()
 import logging
 logger = logging.getLogger(__name__)
 import re
+from products.models import Product
+import difflib
 
 DEBUG = settings.DEBUG
 
@@ -272,6 +274,7 @@ class Helpers:
 
     def tare_bill_ref_number(self,bill_ref_no,phone_number):
         try:
+            
             if bill_ref_no.isdigit():
                 amount = int(bill_ref_no)
                 return {'code':None,'amount':amount,'source':'DIRECT DEPOSIT'}
@@ -343,6 +346,10 @@ class Helpers:
             return True
         except ValueError:
             return False
+
+    def available_products(self):
+        return list(Product.objects.values_list('name', flat=True))
+
         
         
         

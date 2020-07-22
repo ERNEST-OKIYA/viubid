@@ -90,10 +90,16 @@ class InvalidBid(FactoryModel):
     bid_value = models.CharField(max_length = 20,null=True,blank=True)
     notes = models.CharField(max_length=200,null=True,blank=True)
     bill_ref_no = models.CharField(max_length=20,null=True,blank=True)
+    resolved = models.IntegerField(default=0)
+    resolve_notes = models.CharField(max_length=200, null=True,blank=True)
 
     @classmethod
     def create(cls,user,bid_value,notes,bill_ref_no=bill_ref_no):
         return cls.objects.create(user= user,bid_value=bid_value,notes=notes,bill_ref_no=bill_ref_no)
+
+    @classmethod
+    def get_unprocessed(cls,limit):
+        return cls.objects.filter(resolved=False).order_by('id')[:limit]
 
 
 

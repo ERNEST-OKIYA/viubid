@@ -62,7 +62,7 @@ def run():
                 msg.status_reason= str(e)
                 msg.status =2
                 msg.save()
-                logger.DEBUG('ERROR {}'.format(str(e)))
+                logger.error('ERROR {}'.format(str(e)))
 
 
         time.sleep(1) #wait  seconds before processing again

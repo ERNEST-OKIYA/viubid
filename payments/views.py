@@ -88,6 +88,9 @@ class Payins(View):
 				code = items.get('code')
 				amount = items.get('amount')
 				source = items.get('source')
+				if not code:
+					code = 'PN'
+
 				helpers.create_bid_entry(user,amount,transaction_id,code,source,bill_reference_number,transaction_amount)
 			
 			else:
@@ -155,6 +158,7 @@ class Checkouts(View):
 			try:
 
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+				print(response.text)
 				rv = response.json()
 				if rv.get('ResponseCode') =='0':
 					message = "Check your phone and Enter your MPESA PIN to complete."
