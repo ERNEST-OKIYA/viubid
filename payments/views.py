@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 from functools import lru_cache
 from messaging.factory import Message
-from jobs.tasks import stkpush
+
 DEBUG = settings.DEBUG
 import requests
 from requests.auth import HTTPBasicAuth
@@ -156,9 +156,14 @@ class Checkouts(View):
 
 			
 			try:
-				stkpush.delay(payload,headers)
+
+				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+				
+				rv = response.json()
+				
 				message = "Check your phone and Enter your MPESA PIN to complete."
 				success = True
+				
 				self.response['phone_number']= phone_number
 				self.response['product']= active_bid.product.name
 				self.response['bid_value']= bid_value
