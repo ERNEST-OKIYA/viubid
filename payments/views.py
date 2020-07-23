@@ -160,12 +160,22 @@ class Checkouts(View):
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
 				
 				rv = response.json()
-				logger.info(f'{response.text}')
-				message = "Check your phone and Enter your MPESA PIN to complete."
-				success = True
+				print(rv)
+				if rv.get('ResponseCode')=='0':
+				
+					message = "Check your phone and Enter your MPESA PIN to complete."
+					success = True
+
+				else:
+					success = False
+					message = 'Oops! Something is not right'
+					text = "Oops! Something is not right. "+\
+					f"Send KES 20 to MPESA paybill 4032353 with account number as {bid_code} {bid_value}"+\
+					f" to place a bid of KES {bid_value} on {product}."
+					sms.stkpush_down(phone_number,text)
 				
 				self.response['phone_number']= phone_number
-				self.response['product']= active_bid.product.name
+				self.response['product']= product
 				self.response['bid_value']= bid_value
 				self.response['message'] = message
 				self.response['success'] = success
