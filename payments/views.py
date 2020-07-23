@@ -31,7 +31,7 @@ def standardize_msisdn(msisdn):
 	else:
 		return msisdn.replace(' ','').strip()
 
-@lru_cache
+
 def generate_token():
 
 	consumer_key = settings.VARIABLES.get('CONSUMER_KEY')
