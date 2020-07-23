@@ -160,7 +160,7 @@ class Checkouts(View):
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
 				
 				rv = response.json()
-				
+				print(rv)
 				message = "Check your phone and Enter your MPESA PIN to complete."
 				success = True
 				
