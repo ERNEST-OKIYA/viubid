@@ -166,6 +166,11 @@ class Checkouts(View):
 					message = "Check your phone and Enter your MPESA PIN to complete."
 					success = True
 
+				elif rv.get('errorCode')=='500.001.1001':
+					message = 'Please wait, there is a similar Transaction underway.'
+					success = False
+					logger.warn(f'STKPUSH --> {message}')
+
 				else:
 					success = False
 					message = 'Oops! Something is not right'
@@ -173,6 +178,7 @@ class Checkouts(View):
 					f"Send KES 20 to MPESA paybill 4032353 with account number as {bid_code} {bid_value}"+\
 					f" to place a bid of KES {bid_value} on {product}."
 					sms.stkpush_down(phone_number,text)
+					logger.warn(f'STKPUSH --> {response.text}')
 				
 				self.response['phone_number']= phone_number
 				self.response['product']= product
@@ -188,6 +194,7 @@ class Checkouts(View):
 				DEBUG and logger.debug(str(e))
 				self.response['message']= "* Oops, there was an error placing your bid, Please try again Later."
 				self.response['success']=False
+				logger.error(f'STKPUSH Error --> {str(e)}')
 				return JsonResponse(self.response,status=200)
 
 	@method_decorator(csrf_exempt)
