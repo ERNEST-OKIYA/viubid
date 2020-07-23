@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'ussd',
     'flex.ussd',
     'django.contrib.humanize',
+    'jobs',
 ]
 
 MIDDLEWARE = [

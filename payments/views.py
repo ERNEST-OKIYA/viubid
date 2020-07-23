@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 from functools import lru_cache
 from messaging.factory import Message
-
+from jobs.tasks import stkpush
 DEBUG = settings.DEBUG
 import requests
 from requests.auth import HTTPBasicAuth
@@ -156,33 +156,9 @@ class Checkouts(View):
 
 			
 			try:
-
-				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
-				print(response.text)
-				rv = response.json()
-				if rv.get('ResponseCode') =='0':
-					message = "Check your phone and Enter your MPESA PIN to complete."
-					success = True
-				
-				else:
-					message = "Oops! something is not right."
-					text = f"Oops! something is not right.Send KES 20 "+\
-						      f"to MPESA paybill {settings.VARIABLES.get('BUSINESS_SHORTCODE')} " +\
-							  f"with Account number as {bid_code} {bid_value} to place a bid of KES {bid_value} on {product}."
-
-					success = False
-
-					
-
-					sms.stkpush_down(phone_number,text)
-					
-
-					
-
-				
-				
-				
-				
+				stkpush.delay(payload,headers)
+				message = "Check your phone and Enter your MPESA PIN to complete."
+				success = True
 				self.response['phone_number']= phone_number
 				self.response['product']= active_bid.product.name
 				self.response['bid_value']= bid_value
