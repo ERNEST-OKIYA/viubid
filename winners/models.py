@@ -8,4 +8,8 @@ class Winner(FactoryModel):
 
     user = models.ForeignKey(User, on_delete = models.DO_NOTHING)
     bid = models.ForeignKey(Bid, on_delete = models.DO_NOTHING)
+
+    @classmethod
+    def create(cls,user,bid):
+        return cls.objects.create(user=user,bid=bid)
     

@@ -10,22 +10,8 @@ class ProductsList(View):
         
         bids = Bid.objects.filter(is_open=True).all().order_by('-priority')
         next_bids = Bid.objects.filter(product__offered=True).order_by('-id')[1:5]
-        # products = {
-        #     'name':bid.product.name,
-        #     'price':bid.product.price,
-        #     'description':bid.product.description,
-        #     'code': bid.product.code,
-        #     'image':bid.product.image.url,
-            # 'n_name':next_bids.product.name,
-            # 'n_price':next_bids.product.price,
-            # 'n_description':next_bids.product.description,
-            # 'n_code':next_bids.product.code,
-            # 'n_image':next_bids.product.image.url,
-            
-        
-
-
-        return render(request,'products/bid.html',{'bids':bids,'next_bids':next_bids})
+        previous_bids = Bid.objects.filter(is_open=False).all()
+        return render(request,'products/bid.html',{'bids':bids,'previous_bids':previous_bids})
     
     def post(self,request):
         pass

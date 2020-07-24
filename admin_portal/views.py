@@ -38,6 +38,11 @@ from messaging.models import OutgoingSMS
 from django.views.decorators.csrf import csrf_exempt
 from factory.helpers import Helpers
 helpers = Helpers()
+import random
+import string
+
+
+
 
 
 def change_password(request):
@@ -1606,10 +1611,17 @@ class ExportOutBoxCsv(View):
 
 class BidActions(View):
 
+	def generate_ref_no(self,sl=5):
+		letters = string.ascii_uppercase
+		return ''.join(random.choice(letters) for i in range(sl))
+
 	def post(self,request):
 		code = request.POST.get('code')
+		create_similar = request.POST.get('create_similar')
 		bid = helpers.get_bid_by_code(code)
 		winner = helpers.get_min_unique_bid(bid)
+		if not winner:
+			winner = UserBid.objects.filter(bid_entry__bid=bid,bid_entry__bid__is_open=True).order_by('amount').first()
 		data = {
 			'firstname':winner.bid_entry.user.profile.first_name,
 			'middlename':winner.bid_entry.user.profile.middle_name,
@@ -1617,6 +1629,18 @@ class BidActions(View):
 			'phonenumber':winner.bid_entry.user.phone_number,
 			'bidvalue':winner.amount
 		}
+		
+		bid.is_open = False
+		bid.save()
+		helpers.create_winner(winner.bid_entry.user,bid)
+		if create_similar:
+			bid.pk = None
+			bid.closes_at = timezone.now() + timedelta(days=1)
+			bid.open_at = timezone.now()
+			bid.created_at = timezone.now()
+			bid.is_open = True
+			bid.ref_no = self.generate_ref_no()
+			bid.save()
 
 		return JsonResponse(data)
 

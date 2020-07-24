@@ -3,6 +3,7 @@ from users.models import User,Profile
 from wallets.models import Wallet
 from messaging.models import OutgoingSMS
 from payments.models import RawCheckout,PayIn
+from winners.models import Winner
 import random
 import uuid
 import string
@@ -11,12 +12,14 @@ from bids.models import BidEntry,UserBid,Bid,InvalidBid,UssdDial
 from messaging.factory import Message
 from decimal import Decimal
 from django.conf import settings
+from django.db.models import Min
 sms = Message()
 import logging
 logger = logging.getLogger(__name__)
 import re
 from products.models import Product
 import difflib
+from django.core.exceptions import ObjectDoesNotExist
 
 DEBUG = settings.DEBUG
 
@@ -139,16 +142,18 @@ class Helpers:
         return None
     
     def get_bid_by_code(self,code):
-        from django.core.exceptions import ObjectDoesNotExist
         try:
-            return Bid.objects.get(code=code)
+            return Bid.objects.filter(code=code,is_open=True).last()
+        
+        # try:
+        #     return Bid.objects.get(code=code)
         except ObjectDoesNotExist as e:
             DEBUG and logger.debug('BID  Error ---{}'.format(str(e)))
             return False
     
 
     def get_active_bid(self):
-        from django.core.exceptions import ObjectDoesNotExist
+        
         try:
             return Bid.objects.filter(is_open=True).last()
         except ObjectDoesNotExist:
@@ -352,6 +357,10 @@ class Helpers:
 
     def available_products(self):
         return list(Product.objects.values_list('name', flat=True))
+
+    
+    def create_winner(self,user,bid):
+        return Winner.create(user,bid)
 
         
         

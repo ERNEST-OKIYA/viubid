@@ -34,7 +34,7 @@
    
     <div class="card-shadow-primary card-border mb-3 card">
         <div class="dropdown-menu-header">
-            <div class="dropdown-menu-header-inner bg-secondary">
+            <div class="dropdown-menu-header-inner bg-primary">
                 
                 <div class="menu-header-content">
                     <img src="{{bid.product.image.url}}" style="width: 90%; height: auto;">
@@ -124,8 +124,8 @@
             </div>
         </div>
         <div class="text-center d-block card-footer">
-            <button class="mr-2 border-0 btn-transition btn btn-outline-danger">END BID</button>
-            <button class="border-0 btn-transition btn btn-outline-success">END AND CREATE SIMILAR</button>
+            <button type="button" class="border-0 btn-transition btn btn-outline-danger end" data-product="{{bid.product.name}}" data-code="{{bid.code}}">END BID</button>
+            <button type="button" class="border-0 btn-transition btn btn-outline-success create-similar" data-product="{{bid.product.name}}" data-code="{{bid.code}}">END AND CREATE SIMILAR</button>
         </div>
     </div>
    
@@ -152,26 +152,51 @@
 {% endblock %}
 {% block pagescripts%}
 <script>
-	$('#getwinner1').click(function(){
-
-	$.ajax({
-          type: 'POST',
-          url: "/mgr/current-bid/",
-          success: function (response) {
-              
-              {
-				  console.log(response);
-                  $('#firstname').html(response.firstname.toLocaleString());
-                  $('#middlename').html(response.middlename.toLocaleString());
-                  $('#lastname').html(response.lastname.toLocaleString());
-                  $('#phonenumber').html(response.phonenumber.toLocaleString());
-                  $('#bidvalue').html(Number(response.bidvalue).toLocaleString());
-				
-              }
-		  }
-              
-      })
-
+	$('.create-similar').click(function(){
+        var code = $(this).data().code;
+        var product = $(this).data().product;
+        
+        Swal.fire({
+            title: "GET WINNER FOR " + product + " Bid Code " + code +" ?",
+            text: "You will not be able to reverse this action",
+            type: " warning ",
+            showCancelButton: true,
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Yes, get winner",
+            cancelButtonText: "No Cancel",
+            showLoaderOnConfirm: true,
+            
+            preConfirm:function() {
+                $.ajax({
+                type: "POST",
+                url: '/mgr/bid-actions/',
+                data: {"code":code,"create_similar":true},
+                success: function(data) {
+                    Swal.fire({
+                    icon:'success',
+                    title: 'AND THE WINNER IS ...',
+                    width: 800,
+                    height:500,
+                    padding: '3em',
+                    html: `
+                        <p>First Name:${data.firstname}</p>
+                        <p>Middle Name:${data.middlename}</p>
+                        <p>Last Name:${data.lastname}</p>
+                        <p>Phone Number:${data.phonenumber}</p>
+                        <p>Bid Value:${data.bidvalue}</p>
+                    `,
+                    confirmButtonText: 'Close',
+                    
+                    })
+                },
+                error: function(data) {
+                    Swal.fire("Cancelled", "Action has been Cancelled: ) ", "error");
+                }
+                });
+            }
+        });
 		
 	});
 

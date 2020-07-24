@@ -28,7 +28,7 @@ class BidDuration:
     
 class Bid(FactoryModel):
     
-    code = models.CharField(max_length=20,unique=True)
+    code = models.CharField(max_length=20)
     ref_no = models.CharField(max_length = 5,default = generate_ref_no)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING,
                                 related_name='product')
