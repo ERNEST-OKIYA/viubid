@@ -46,6 +46,10 @@ class Bid(FactoryModel):
     
     def __str__(self):
         return self.code
+
+    @classmethod
+    def active(cls):
+        return cls.objects.filter(is_open=True).order_by('-priority')
     
 class BidEntry(FactoryModel):
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)

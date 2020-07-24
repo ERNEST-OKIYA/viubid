@@ -14,6 +14,7 @@ urlpatterns=[
             url('^ussd-dials/$', UssdDials.as_view(), name='ussd-dials'),
             url('^products/$', Products.as_view(), name='products'),
             url('^active-bids/$', ActiveBids.as_view(), name='active-bids'),
+            url('^bid-actions/$', BidActions.as_view(), name='bid-actions'),
             url('^all-bids/$', AllBids.as_view(), name='all-bids'),
             url('^bidders/$', Players.as_view(), name='bidders'),
             url('^payins/$', IncomingPayments.as_view(), name='payins'),

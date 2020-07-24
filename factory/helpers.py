@@ -154,6 +154,9 @@ class Helpers:
         except ObjectDoesNotExist:
             return False
 
+    def get_active_bids(self):
+        return Bid.active()
+
 
     # def create_bid_entry(self,user,amount,transaction_id,code,source):
         

@@ -35,6 +35,9 @@ from bids.models import BidEntry,InvalidBid
 from winners.models import Winner
 from bids.models import Bid,BidEntry,UserBid,UssdDial
 from messaging.models import OutgoingSMS
+from django.views.decorators.csrf import csrf_exempt
+from factory.helpers import Helpers
+helpers = Helpers()
 
 
 def change_password(request):
@@ -1599,3 +1602,28 @@ class ExportOutBoxCsv(View):
 
 	def dispatch(self, *args, **kwargs):
 		return super(ExportOutBoxCsv, self).dispatch(*args, **kwargs)
+
+
+class BidActions(View):
+
+	def post(self,request):
+		code = request.POST.get('code')
+		bid = helpers.get_bid_by_code(code)
+		winner = helpers.get_min_unique_bid(bid)
+		data = {
+			'firstname':winner.bid_entry.user.profile.first_name,
+			'middlename':winner.bid_entry.user.profile.middle_name,
+			'lastname':winner.bid_entry.user.profile.last_name,
+			'phonenumber':winner.bid_entry.user.phone_number,
+			'bidvalue':winner.amount
+		}
+
+		return JsonResponse(data)
+
+	def get(self,request):
+		active_bids = helpers.get_active_bids()
+		return render(request,'admin_portal/current_bids.html',{'active_bids':active_bids})
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)

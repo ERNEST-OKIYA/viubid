@@ -57,22 +57,11 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="/mgr/dashboard/" class="nav-link">Home</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">Contact</a>
-        </li>
+        
       </ul>
   
       <!-- SEARCH FORM -->
-      <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-navbar" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </form>
+      
   
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
@@ -80,7 +69,7 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="" data-slide="" href="#">
            
-            <i class="fas fa-user-circle text-primary"> Welcome, {{request.user.get_full_name}}</i></a>
+            <i class="fas fa-user-circle text-primary"> Welcome, {{request.user.profile.first_name}}</i></a>
            
         </li>
       </ul>
@@ -196,6 +185,16 @@
               <i class="nav-icon far fa-comment-alt text-success"></i>
               <p>
                 SMS Outbox
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/mgr/bid-actions/" class="nav-link">
+              <i class="nav-icon fas fa-cog text-warning"></i>
+              <p>
+                Bid Actions
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
