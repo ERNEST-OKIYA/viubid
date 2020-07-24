@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 DEBUG = settings.DEBUG
 import time
-import json as simplejson
+import json
 
 
 
@@ -53,7 +53,7 @@ def run():
                 msg.status =2
                 msg.save()
 
-            except simplejson.scanner.JSONDecodeError:
+            except json.decoder.JSONDecodeError:
     
                 msg.status_reason='JSONDecodeError'
                 msg.status =2
