@@ -50,6 +50,11 @@ class Bid(FactoryModel):
     @classmethod
     def active(cls):
         return cls.objects.filter(is_open=True).order_by('-priority')
+
+    def cm_passed(self):
+        return True if (self.entries.count()*20) >= self.critical_mass else False
+
+    
     
 class BidEntry(FactoryModel):
     user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
