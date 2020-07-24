@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 DEBUG = settings.DEBUG
 import time
-import simplejson
+import json as simplejson
 
 
 
