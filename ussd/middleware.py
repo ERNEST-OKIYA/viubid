@@ -22,6 +22,8 @@ class KenyaSafaricomUssdMiddleware(UssdMiddleware):
 		rv = dict(req.GET.items())
 		rv.setdefault('phone_number', rv.get('msisdn'))
 		
+
+		
 		return rv
 
 	def prepare_request(self, request):
@@ -64,11 +66,11 @@ class GhanaMtnUssdMiddleware(UssdMiddleware):
 		rv['service_code'] = strip_ussd_code(rv.get('ussd_code')) or None
 		if 'user_request' in rv:
 			if str(rv.get('type', '')).lower() == 'initiation':
-				rv['request_input'] = strip_ussd_code(rv['user_request'])
+				rv['request_inputs'] = strip_ussd_code(rv['user_request'])
 				if rv['service_code']:
-					rv['request_input'] = rv['request_input'][len(rv['service_code']):]
+					rv['request_inputs'] = rv['request_inputs'][len(rv['service_code']):]
 			else:
-				rv['request_input'] = rv['user_request']
+				rv['request_inputs'] = rv['user_request']
 		return rv
 
 	def teardown_request(self, req, res):

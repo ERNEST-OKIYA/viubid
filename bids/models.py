@@ -123,7 +123,7 @@ class UssdDial(FactoryModel):
         defaults = {
             'phone_number':phone_number
         }
-        obj,created = cls.objects.get_or_create(phone_number=phone_number,defaults=phone_number)
+        obj,created = cls.objects.get_or_create(phone_number=phone_number,defaults=defaults)
         if not created:
             obj.no_of_dials+=1
             obj.last_dialed = timezone.now()

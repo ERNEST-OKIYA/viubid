@@ -12,8 +12,8 @@ class UssdMiddleware(object):
 		phone_number=None,
 		session_id=None,
 		initial_code=None,
-		ussd_string=None,
-		request_input=None
+		request_input=None,
+		request_inputs=None
 	)
 
 	def __init__(self, get_response):
@@ -39,7 +39,7 @@ class UssdMiddleware(object):
 			)
 
 	def validate_request_data(self, data, request):
-		for k in ('service_code', ('ussd_string', 'request_input'), 'phone_number', 'session_id'):
+		for k in ('service_code', ('request_input', 'request_inputs'), 'phone_number', 'session_id'):
 			if isinstance(k, (tuple, list)):
 				ok = any((True for x in k if data.get(x) is not None))
 			else:
@@ -66,8 +66,8 @@ class UssdMiddleware(object):
 	def prepare_request(self, request):
 		service_code = request.ussd_data['service_code']
 		base_code = request.ussd_data.get('initial_code')
-		argstr = request.ussd_data['ussd_string']
-		args = request.ussd_data['request_input']
+		argstr = request.ussd_data['request_input']
+		args = request.ussd_data['request_inputs']
 
 		request.service_code = service_code
 
