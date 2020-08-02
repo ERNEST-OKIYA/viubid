@@ -430,7 +430,7 @@ class Helpers:
             if len(match)!=0:
                 try:
 
-                    bid = Bid.objects.filter(lookups__contains=match).last()
+                    bid = Bid.objects.filter(lookups__contains=list(match[0].lower())).last()
                 
                     return bid.code
                 except:
