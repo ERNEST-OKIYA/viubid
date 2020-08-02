@@ -192,8 +192,14 @@ class Helpers:
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
         bid = self.get_bid_by_code(code)
         if not bid:
-            bid_code = self.get_bid_code(code)
-            bid = self.get_bid_by_code(bid_code)
+            digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+            bill_ref_extract = bill_ref_no
+            if len(digits)>0:
+                digits = digits[0]
+                amount = int(digits)
+                bill_ref_extract = bill_ref_no.replace(digits,'')
+            code = self.get_bid_code(bill_ref_extract)
+            bid = self.get_bid_by_code(code)
         amount = Decimal(amount)
         w_balance = self.get_wallet_balance(user)
         if bid:
@@ -320,24 +326,26 @@ class Helpers:
 
                 else:
                     try:
-                        digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
-                        amount = int(digits)
+                        digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                
+                        bill_ref_extract = bill_ref_no
+                        if len(digits)>0:
+                            digits = digits[0]
+                            amount = int(digits)
+                            bill_ref_extract = bill_ref_no.replace(digits,'')
+                        code = self.get_bid_code(bill_ref_extract)
                     
                     except ValueError:
                         amount = digits.replace("'","")
                         return sms.incorrect_bid_amount(phone_number,amount)
                         
-                    code = bill_ref_no[:2].upper()
+                    code = self.get_bid_code()
                     
-                    source = bill_ref_no[2:].strip().replace(code,'').replace(digits,'')
+                    source = bill_ref_extract.strip().replace(code,'').replace(digits,'')
                     if source=='':
                         source = 'DIRECT DEPOSIT'
 
-                    
-
-
                 
-
                 return {'code':code,'amount':amount,'source':source}
         except Exception as e:
             try:
