@@ -448,7 +448,7 @@ class Helpers:
         
         bids = Bid.objects.filter(is_open=True).all()
         for bid in bids:
-            
+            lookups = bid.lookups
             if lookups:
                 lookups = [x.upper() for x in bid.lookups]
                 print('Lookups -->', lookups)
