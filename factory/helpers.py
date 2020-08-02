@@ -409,9 +409,10 @@ class Helpers:
 
 
     def get_bid_code(self,value):
-        bids = Bid.objects.filter(is_open=True)
+        bids = Bid.objects.filter(is_open=True).all()
         for bid in bids:
             lookups = bid.lookups
+            print('LOOKUPS -->',lookups)
             if lookups:
                 match = difflib.get_close_matches(value,lookups,n=1)
                 if len(match)!=0:
