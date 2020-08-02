@@ -429,7 +429,7 @@ class Helpers:
         bids = Bid.objects.filter(is_open=True).all()
         for bid in bids:
             lookups = bid.lookups
-            lookups_list.append(lookups)
+            lookups_list.extend(lookups)
 
         return lookups_list
 
