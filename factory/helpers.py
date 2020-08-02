@@ -416,7 +416,7 @@ class Helpers:
         if lookups:
             match = difflib.get_close_matches(value,lookups,n=1)
             if len(match)!=0:
-                return bid.code
+                return Bid.objects.filter(lookups__contains=[match]).last()
 
             else:
                 return False
