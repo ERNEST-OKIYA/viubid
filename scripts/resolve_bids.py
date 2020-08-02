@@ -57,7 +57,7 @@ def run():
                         if len(amount)!=0:
                             amount = amount[0]
                         transaction_amount = 20
-                        user = BidEntry.objects.filter(bid_entry__bid=bid).user
+                        user = BidEntry.objects.filter(bid=bid).user
                         payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=user.phone_number).last()
                         transaction_id = payin.transaction_id
                         print("bid resolved")
