@@ -419,45 +419,50 @@ class Helpers:
         return bill_ref_no
 
 
+    # def get_bid_code(self,value):
+        
+    #     f_lookups = self.get_lookups()
+        
+
+    #     print('LOOKUPS -->',f_lookups)
+            
+    #     if f_lookups:
+    #         match = difflib.get_close_matches(value.upper(),f_lookups,n=1)
+    #         print(match)
+    #         if len(match)!=0:
+    #             try:
+
+    #                 bid = Bid.objects.filter(lookups__contains=match).last()
+                
+    #                 return bid.code
+    #             except:
+    #                 return False
+
+    #         else:
+    #             return False
+
+    #     else:
+    #         return False
+
     def get_bid_code(self,value):
         
-        lookups = self.get_lookups()
-        f_lookups = [item for sublist in lookups for item in sublist]
-
-
-        print('LOOKUPS -->',f_lookups)
-            
-        if f_lookups:
-            match = difflib.get_close_matches(value.upper(),f_lookups,n=1)
-            print(match)
-            if len(match)!=0:
-                try:
-
-                    bid = Bid.objects.filter(lookups__contains=match).last()
-                
-                    return bid.code
-                except:
-                    return False
-
-            else:
-                return False
-
-        else:
-            return False
-
-    def get_lookups(self):
-        lookups_list = []
         bids = Bid.objects.filter(is_open=True).all()
         for bid in bids:
-            lookups = bid.lookups
-            for l in lookups:
+            
+            if lookups:
+                lookups = [x.upper() for x in bid.lookups]
+                print('Lookups -->', lookups)
+                match = difflib.get_close_matches(value.upper(),lookups,n=1)
+                print('MATCH -->', match)
+                if match:
+                    print('Code -->',bid.code)
+                    return bid.code
+                else:
+                    continue
 
-                lookups_list.extend(list(l))
-
-        lookups_list = [x.upper() for x in lookups_list]
-
-        return lookups_list
-
+        return False
+            
+    
 
 
 
