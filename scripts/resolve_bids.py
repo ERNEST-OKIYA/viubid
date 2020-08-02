@@ -57,8 +57,8 @@ def run():
                         if len(amount)!=0:
                             amount = amount[0]
                         transaction_amount = 20
-                        user = BidEntry.objects.get(bid=bid).user
-                        payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=user.phone_number).last()
+                        
+                        payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
                         print("bid resolved")
                         # helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
