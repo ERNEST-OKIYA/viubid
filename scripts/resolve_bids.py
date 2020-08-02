@@ -26,18 +26,18 @@ def run():
         #get un processed deposits for processing
 
         invalid_bids=InvalidBid.get_unprocessed(limit=ROWS_SELECTION_LIMIT)
-        for bid in invalid_bids:
-            bill_ref_no = bid.bill_ref_no
-            notes = bid.notes
+        for i_bid in invalid_bids:
+            bill_ref_no = i_bid.bill_ref_no
+            notes = i_bid.notes
             
 
 
             
             try:
                 if notes =='Amount less than ticket cost':
-                    bid.resolved =2
-                    bid.resolve_notes = "Cannot be resolved. Amount added to wallet."
-                    bid.save()
+                    i_bid.resolved =2
+                    i_bid.resolve_notes = "Cannot be resolved. Amount added to wallet."
+                    i_bid.save()
                 else:
                     print('Bill REF NO -->',bill_ref_no)
                     digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
@@ -58,7 +58,7 @@ def run():
                             amount = amount[0]
                         transaction_amount = 20
                         
-                        payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=bid.user.phone_number).last()
+                        payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=i_bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
                         print("bid resolved")
                         # helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
