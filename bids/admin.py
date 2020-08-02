@@ -19,7 +19,7 @@ class UserBidAdmin(admin.ModelAdmin):
 
 class AdvertizerAdmin(admin.ModelAdmin):
     list_display = ('name','created_at')
-    fields = ('amount','created_at')
+    fields = ('name','created_at')
     
 admin.site.register(Bid, BidAdmin)
 admin.site.register(BidEntry, BidEntryAdmin)
