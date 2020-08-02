@@ -422,7 +422,7 @@ class Helpers:
     def get_bid_code(self,value):
         f_lookups = self.get_lookups()
 
-        print('LOOKUPS -->',lookups)
+        print('LOOKUPS -->',f_lookups)
             
         if lookups:
             match = difflib.get_close_matches(value.upper(),f_lookups,n=1)
