@@ -449,7 +449,7 @@ class Helpers:
             lookups = bid.lookups
             for l in lookups:
             
-                lookups_list.extend(lookups)
+                lookups_list.extend(l)
 
         lookups_list = [x.upper() for x in lookups_list]
 
