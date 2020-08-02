@@ -27,7 +27,7 @@ def run():
 
         invalid_bids=InvalidBid.get_unprocessed(limit=ROWS_SELECTION_LIMIT)
         for i_bid in invalid_bids:
-            bill_ref_no = i_bid.bill_ref_no
+            bill_ref_no = helpers.sanitize_billref_no(i_bid.bill_ref_no)
             notes = i_bid.notes
             
 

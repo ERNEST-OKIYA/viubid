@@ -1346,7 +1346,7 @@ class InvalidBids(View):
 
 	def get(self, request):
     		
-		fields = InvalidBid.objects.values(
+		fields = InvalidBid.objects.exclude(resolved=1).values(
 			'user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
@@ -1387,7 +1387,7 @@ def process_invalid(request):
 
 		print(global_search, 'search value')
 
-		all_objects = InvalidBid.objects.filter(Q(user__profile__first_name__icontains=global_search) |
+		all_objects = InvalidBid.objects.exclude(resolved=1).filter(Q(user__profile__first_name__icontains=global_search) |
 											Q(user__profile__middle_name__icontains=global_search) |
 											Q(user__profile__last_name__icontains=global_search) |
 											Q(user__phone_number__icontains=global_search)).all()
@@ -1406,7 +1406,7 @@ def process_invalid(request):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
-		total_count = InvalidBid.objects.count()
+		total_count = InvalidBid.objects.exclude(resolved=1).count()
 		return JsonResponse({
 					"sEcho": draw,
 					"iTotalRecords": total_count,
@@ -1417,7 +1417,7 @@ def process_invalid(request):
 
 	else:
 
-		all_objects = InvalidBid.objects.all()
+		all_objects = InvalidBid.objects.exclude(resolved=1)
 
 		columns = [i for i in includes]
 		objects = []
@@ -1432,7 +1432,7 @@ def process_invalid(request):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
-		total_count = InvalidBid.objects.count()
+		total_count = InvalidBid.objects.exclude(resolved=1).count()
 		return JsonResponse({
 					"sEcho": draw,
 					"iTotalRecords": total_count,

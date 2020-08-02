@@ -479,11 +479,11 @@ class Helpers:
             lookups = bid.lookups
             if lookups:
                 lookups = [x.upper() for x in bid.lookups]
-                print('Lookups -->', lookups)
+                
                 match = difflib.get_close_matches(value.upper(),lookups,n=1)
-                print('MATCH -->', match)
+                
                 if match:
-                    print('Code -->',bid.code)
+                    
                     return bid.code
                 
                 continue
