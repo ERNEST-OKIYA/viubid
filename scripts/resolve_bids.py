@@ -40,15 +40,21 @@ def run():
                     bid.save()
                 else:
                     print('Bill REF NO -->',bill_ref_no)
-                    bill_ref_extract = bill_ref_no.replace(re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0],'')
+                    digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                    if len(digits)!=0:
+                        digits = digits[0]
+                    bill_ref_extract = bill_ref_no.replace(digits,'')
                     print('Bill Ref No Extract',bill_ref_extract)
                     code = helpers.get_bid_code(bill_ref_extract)
+                    print('CODE GOT -->',code)
                     bid = helpers.get_bid_by_code(code)
                     
                     if bid:
                         
                         
-                        amount = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
+                        amount = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                        if len(amount)!=0:
+                            amount = amount[0]
                         transaction_amount = 20
                         payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
