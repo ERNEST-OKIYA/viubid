@@ -420,7 +420,10 @@ class Helpers:
 
 
     def get_bid_code(self,value):
-        f_lookups = self.get_lookups()
+        
+        lookups = self.get_lookups()
+        f_lookups = [item for sublist in lookups for item in sublist]
+
 
         print('LOOKUPS -->',f_lookups)
             
