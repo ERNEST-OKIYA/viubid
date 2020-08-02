@@ -430,7 +430,7 @@ class Helpers:
             if len(match)!=0:
                 bid = Bid.objects.filter(lookups__contains=match).last()
                 print(bid)
-                return bid
+                return bid.code
 
             else:
                 return False
