@@ -216,7 +216,7 @@ LOGOUT_REDIRECT_URL='/login/'
 LOGIN_REDIRECT_URL = '/mgr/dashboard'
 LOGIN_URL='/login/'
 
-
+USSDCODE = '*229*99#'
 USSD = dict(
 	URLS = (
 		r'^/ussd/$',

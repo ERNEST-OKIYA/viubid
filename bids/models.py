@@ -4,6 +4,7 @@ from products.models import Product
 from users.models import User
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 
@@ -43,6 +44,7 @@ class Bid(FactoryModel):
     open_at = models.DateTimeField(default=timezone.now)
     priority = models.IntegerField(default =0)
     closes_at = models.DateTimeField(default=timezone.now()+timedelta(weeks=1))
+    lookups = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     
     def __str__(self):
         return self.code
@@ -82,7 +84,7 @@ class BidEntry(FactoryModel):
 class UserBid(FactoryModel):
     bid_entry = models.ForeignKey(BidEntry,on_delete=models.DO_NOTHING,
                 related_name='bid_entries')
-    amount = models.DecimalField(max_digits=8,decimal_places=2)
+    amount = models.DecimalField(max_digits=10,decimal_places=2)
     source = models.CharField(max_length=50, default='DIRECT DEPOSIT')
     non_unique_sms_sent = models.BooleanField(default=False)
     
@@ -128,4 +130,6 @@ class UssdDial(FactoryModel):
             obj.no_of_dials+=1
             obj.last_dialed = timezone.now()
             obj.save()
-        
+
+class Advertizer(FactoryModel):
+    name = models.CharField(max_length=100)

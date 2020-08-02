@@ -20,6 +20,8 @@ import re
 from products.models import Product
 import difflib
 from django.core.exceptions import ObjectDoesNotExist
+from bids.models import Advertizer
+
 
 DEBUG = settings.DEBUG
 
@@ -189,6 +191,9 @@ class Helpers:
 
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
         bid = self.get_bid_by_code(code)
+        if not bid:
+            bid_code = self.get_bid_code(code)
+            bid = self.get_bid_code(bid_code)
         amount = Decimal(amount)
         w_balance = self.get_wallet_balance(user)
         if bid:
@@ -282,6 +287,7 @@ class Helpers:
 
     def tare_bill_ref_number(self,bill_ref_no,phone_number):
         try:
+            user = self.get_user(phone_number)
             
             if bill_ref_no.isdigit():
                 amount = int(bill_ref_no)
@@ -313,23 +319,49 @@ class Helpers:
 
 
                 else:
+                    try:
+                        digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
+                        amount = int(digits)
+                    
+                    except ValueError:
+                        amount = digits.replace("'","")
+                        return sms.incorrect_bid_amount(phone_number,amount)
+                        
                     code = bill_ref_no[:2].upper()
-                    digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
-                    amount = int(digits)
+                    
                     source = bill_ref_no[2:].strip().replace(code,'').replace(digits,'')
                     if source=='':
                         source = 'DIRECT DEPOSIT'
+
+                    
+
 
                 
 
                 return {'code':code,'amount':amount,'source':source}
         except Exception as e:
-            notes = "Unresolved Bid format"
-            user = self.get_user(phone_number)
-            InvalidBid.create(user,'',notes,bill_ref_no)
-            sms.incorrect_fomart(bill_ref_no,phone_number)
-            DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
-            return None
+            try:
+                digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
+                amount = int(digits)
+                code = self.get_bid_code()
+                if not code:
+                    notes = "Unresolved Bid format"
+                    InvalidBid.create(user,'',notes,bill_ref_no)
+                    sms.incorrect_fomart(bill_ref_no,phone_number)
+                    DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
+                    return None
+                
+                else:
+                    return {'code':code,'amount':amount,'source':''}
+
+            
+            except ValueError:
+                amount = digits.replace("'","")
+                return sms.incorrect_bid_amount(phone_number,amount)
+
+        
+
+            
 
     
     def is_bid_unique(self,bid,amount):
@@ -358,9 +390,43 @@ class Helpers:
     def available_products(self):
         return list(Product.objects.values_list('name', flat=True))
 
+    def advertizers(self):
+        return list(Advertizer.objects.values_list('name', flat=True))
+
     
     def create_winner(self,user,bid):
         return Winner.create(user,bid)
+
+    def sanitize_billref_no(self,bill_ref_no):
+        bill_ref_no = bill_ref_no.upper().replace(',','').replace('SH','').replace('BIDCODE','')\
+            .replace('_','').replace('-','').replace('..','').replace('/','').replace('KSH','')\
+            .replace('/=','').replace('cents','')
+        
+        for a in self.advertizers():
+            bill_ref_no = bill_ref_no.replace(a,'')
+
+        return bill_ref_no
+
+
+    def get_bid_code(self,value):
+        bids = Bid.objects.all()
+        for bid in bids:
+            lookups = bid.lookups
+            if lookups:
+                match = difflib.get_close_matches(value,lookups,n=1)
+                if len(match)!=0:
+                    return bid.code
+
+                else:
+                    return False
+
+            else:
+                return False
+
+
+
+
+
 
         
         

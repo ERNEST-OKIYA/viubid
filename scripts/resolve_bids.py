@@ -40,28 +40,22 @@ def run():
                     bid.save()
                 else:
                     bill_ref_extract = bill_ref_no.replace(re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0],'')
-                    products = helpers.available_products()
-                    product = difflib.get_close_matches(bill_ref_extract,products)
-                    print(product)
-                    if len(product)==1:
-                        bid_p = Bid.objects.filter(product__name=product[0]).last()
-                        code = bid_p.code
-                        source = 'DIRECT DEPOSIT'
+                    code = helpers.get_bid_code(bill_ref_extract)
+                    bid = helpers.get_bid_by_code(code)
+                    print(bid)
+                    if bid:
+                        
                         amount = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
                         transaction_amount = 20
                         payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
-                        bid.resolved =1
-                        bid.resolve_notes = "Successfully Resolved"
-                        bid.save()
-                        helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
+                        print("bid resolved")
+                        # helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
                         
 
                 
             except Exception as e:
-                bid.resolve_notes= str(e)
-                bid.resolved =2
-                bid.save()
+                print(f'{repr(e)}')
                 logger.error('ERROR {}'.format(str(e)))
 
 
