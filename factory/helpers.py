@@ -193,7 +193,7 @@ class Helpers:
         bid = self.get_bid_by_code(code)
         if not bid:
             bid_code = self.get_bid_code(code)
-            bid = self.get_bid_code(bid_code)
+            bid = self.get_bid_by_code(bid_code)
         amount = Decimal(amount)
         w_balance = self.get_wallet_balance(user)
         if bid:
@@ -341,9 +341,14 @@ class Helpers:
                 return {'code':code,'amount':amount,'source':source}
         except Exception as e:
             try:
-                digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
-                amount = int(digits)
-                code = self.get_bid_code()
+                digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                
+                bill_ref_extract = bill_ref_no
+                if len(digits)>0:
+                    digits = digits[0]
+                    amount = int(digits)
+                    bill_ref_extract = bill_ref_no.replace(digits,'')
+                code = self.get_bid_code(bill_ref_extract)
                 if not code:
                     notes = "Unresolved Bid format"
                     InvalidBid.create(user,'',notes,bill_ref_no)
