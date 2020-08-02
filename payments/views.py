@@ -82,7 +82,7 @@ class Payins(View):
 					helpers.create_wallet(user)
 
 
-				
+			bill_reference_number = helpers.sanitize_billref_no(bill_reference_number)	
 			items = helpers.tare_bill_ref_number(bill_reference_number,msisdn)
 			if isinstance(items,dict):
 				code = items.get('code')
