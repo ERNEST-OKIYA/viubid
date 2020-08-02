@@ -41,9 +41,10 @@ def run():
                 else:
                     print('Bill REF NO -->',bill_ref_no)
                     digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                    bill_ref_extract = bill_ref_no
                     if len(digits)>0:
                         digits = digits[0]
-                    bill_ref_extract = bill_ref_no.replace(digits,'')
+                        bill_ref_extract = bill_ref_no.replace(digits,'')
                     print('Bill Ref No Extract',bill_ref_extract)
                     code = helpers.get_bid_code(bill_ref_extract)
                     print('CODE GOT -->',code)
