@@ -409,7 +409,8 @@ class Helpers:
 
 
     def get_bid_code(self,value):
-        bids = Bid.objects.filter(is_open=True).all()
+        bids = Bid.objects.filter(is_open=True,lookups__contains=[value]).all()
+        print("BIDS",bids)
         for bid in bids:
             lookups = bid.lookups
             print('LOOKUPS -->',lookups)
