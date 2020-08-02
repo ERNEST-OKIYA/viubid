@@ -330,21 +330,27 @@ class Helpers:
                         bill_ref_extract = bill_ref_no
                         if len(digits)>0:
                             digits = digits[0]
-                            
-                            amount = int(digits)
+
+                            try:
+                                amount = int(digits)
+                            except:
+                                try:
+                                    amount = float(amount)
+                                    amount = int(amount)
+
+                                except ValueError:
+                                    amount = digits.replace("'","")
+                                    return sms.incorrect_bid_amount(phone_number,amount)
+
                             bill_ref_extract = bill_ref_no.replace(digits,'')
                         code = self.get_bid_code(bill_ref_extract)
                     
                     except ValueError:
-                        try:
-                            amount = digits.replace("'","")
-                            if isinstance(amount,float):
-                                amount = int(amount)
+                        amount = digits.replace("'","")
+                        return sms.incorrect_bid_amount(phone_number,amount)
                         
-                        except:
-                            return sms.incorrect_bid_amount(phone_number,amount)
-
-                    code = self.get_bid_code(bill_ref_extract)
+                   
+                    
                     source = bill_ref_extract.strip().replace(code,'').replace(digits,'')
                     if source=='':
                         source = 'DIRECT DEPOSIT'

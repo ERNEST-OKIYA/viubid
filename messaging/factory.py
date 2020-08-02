@@ -72,7 +72,7 @@ class Message:
         return self.send(user.phone_number,text)
 
     def incorrect_bid_amount(self,phone_number,amount):
-        text = f"The minimum bid Amount is KES 1. {amount} is incorrect." +\
+        text = f"Bid amount {amount} is incorrect. Please Enter a " +\
                " Your money has been added to your wallet." +\
                f" {settings.USSDADVIDE}. Visit www.quickbid.co.ke to view available deals."
                
