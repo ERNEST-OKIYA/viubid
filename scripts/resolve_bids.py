@@ -29,6 +29,7 @@ def run():
         for i_bid in invalid_bids:
             bill_ref_no = helpers.sanitize_billref_no(i_bid.bill_ref_no)
             notes = i_bid.notes
+            l_bill_ref_no = i_bid.bill_ref_no
             
 
 
@@ -54,11 +55,11 @@ def run():
                         
                 
                         if len(digits)!=0:
-                            amount = float(amount[0])
+                            amount = float(digits[0])
                             amount = int(amount)
                         transaction_amount = 20
                         
-                        payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=i_bid.user.phone_number).last()
+                        payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
                         
                         helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
