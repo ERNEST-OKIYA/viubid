@@ -428,10 +428,13 @@ class Helpers:
             match = difflib.get_close_matches(value.upper(),lookups,n=1)
             print(match)
             if len(match)!=0:
+                try:
 
-                bid = Bid.objects.filter(lookups__contains=list(match[0])).last()
-                print(bid)
-                return bid.code
+                    bid = Bid.objects.filter(lookups__contains=match).last()
+                
+                    return bid.code
+                except:
+                    return False
 
             else:
                 return False
