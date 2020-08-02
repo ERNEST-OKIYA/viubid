@@ -424,7 +424,7 @@ class Helpers:
 
         print('LOOKUPS -->',f_lookups)
             
-        if lookups:
+        if f_lookups:
             match = difflib.get_close_matches(value.upper(),f_lookups,n=1)
             print(match)
             if len(match)!=0:
