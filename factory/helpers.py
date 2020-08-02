@@ -436,7 +436,7 @@ class Helpers:
     def sanitize_billref_no(self,bill_ref_no):
         bill_ref_no = bill_ref_no.upper().replace(',','').replace('SH','').replace('BIDCODE','')\
             .replace('_','').replace('-','').replace('..','').replace('/','').replace('KSH','')\
-            .replace('/=','').replace('cents','')
+            .replace('/=','').replace('cents','').replace('+','')
         
         for a in self.advertizers():
             

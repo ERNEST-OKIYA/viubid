@@ -52,16 +52,20 @@ def run():
                     
                     if bid:
                         
-                        
-                        amount = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
-                        if len(amount)!=0:
-                            amount = amount[0]
+                
+                        if len(digits)!=0:
+                            amount = float(amount[0])
+                            amount = int(amount)
                         transaction_amount = 20
                         
                         payin = PayIn.objects.filter(bill_reference_number=bill_ref_no,msisdn=i_bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
+                        
+                        helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
                         print("bid resolved")
-                        # helpers.create_bid_entry(bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
+                        i_bid.notes = "bid resolved"
+                        i_bid.resolved = 1
+                        i_bid.save()
                         
 
                 
@@ -70,7 +74,7 @@ def run():
                 logger.error('ERROR {}'.format(str(e)))
 
 
-        time.sleep(1) #wait  seconds before processing again
+        time.sleep(20) #wait  seconds before processing again
 
 
 
