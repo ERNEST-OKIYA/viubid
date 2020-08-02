@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 import re
 from products.models import Product
 import difflib
+from ast import literal_eval
 from django.core.exceptions import ObjectDoesNotExist
 from bids.models import Advertizer
 
@@ -329,16 +330,21 @@ class Helpers:
                         bill_ref_extract = bill_ref_no
                         if len(digits)>0:
                             digits = digits[0]
+                            
                             amount = int(digits)
                             bill_ref_extract = bill_ref_no.replace(digits,'')
                         code = self.get_bid_code(bill_ref_extract)
                     
                     except ValueError:
-                        amount = digits.replace("'","")
-                        return sms.incorrect_bid_amount(phone_number,amount)
+                        try:
+                            amount = digits.replace("'","")
+                            if isinstance(amount,float):
+                                amount = int(amount)
                         
-                    code = self.get_bid_code()
-                    
+                        except:
+                            return sms.incorrect_bid_amount(phone_number,amount)
+
+                    code = self.get_bid_code(bill_ref_extract)
                     source = bill_ref_extract.strip().replace(code,'').replace(digits,'')
                     if source=='':
                         source = 'DIRECT DEPOSIT'

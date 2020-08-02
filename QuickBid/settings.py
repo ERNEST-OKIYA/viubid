@@ -216,7 +216,7 @@ LOGOUT_REDIRECT_URL='/login/'
 LOGIN_REDIRECT_URL = '/mgr/dashboard'
 LOGIN_URL='/login/'
 
-USSDADVIDE = 'Dial *229*99# to resolve your Bid.'
+USSDADVIDE = 'Dial *229*99# to resolve your Bid'
 USSD = dict(
 	URLS = (
 		r'^/ussd/$',
