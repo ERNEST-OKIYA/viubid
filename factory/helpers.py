@@ -428,7 +428,9 @@ class Helpers:
             match = difflib.get_close_matches(value.upper(),lookups,n=1)
             print(match)
             if len(match)!=0:
-                return Bid.objects.filter(lookups__contains=match).last()
+                bid = Bid.objects.filter(lookups__contains=match).last()
+                print(bid)
+                return bid
 
             else:
                 return False
