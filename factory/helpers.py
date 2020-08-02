@@ -439,7 +439,10 @@ class Helpers:
             .replace('/=','').replace('cents','')
         
         for a in self.advertizers():
-            bill_ref_no = bill_ref_no.replace(a,'')
+            
+            bill_ref_no = bill_ref_no.replace(a.upper(),'')
+
+        
 
         return bill_ref_no
 
