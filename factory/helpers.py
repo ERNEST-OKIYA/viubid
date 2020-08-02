@@ -457,8 +457,8 @@ class Helpers:
                 if match:
                     print('Code -->',bid.code)
                     return bid.code
-                else:
-                    continue
+                
+                continue
 
         return False
             
