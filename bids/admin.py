@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bid,BidEntry,UserBid
+from .models import Bid,BidEntry,UserBid,Advertizer
 
 class BidAdmin(admin.ModelAdmin):
     list_display = ('code','critical_mass','product','ticket_price',
@@ -16,8 +16,12 @@ class BidEntryAdmin(admin.ModelAdmin):
 class UserBidAdmin(admin.ModelAdmin):
     list_display = ('amount','bid_entry')
     fields = ('amount','bid_entry')
+
+class AdvertizerAdmin(admin.ModelAdmin):
+    list_display = ('name','created_at')
+    fields = ('amount','created_at')
     
 admin.site.register(Bid, BidAdmin)
 admin.site.register(BidEntry, BidEntryAdmin)
-admin.site.register(UserBid, UserBidAdmin)
+admin.site.register(Advertizer, AdvertizerAdmin)
 
