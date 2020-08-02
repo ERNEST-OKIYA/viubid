@@ -88,9 +88,7 @@ class Payins(View):
 				code = items.get('code')
 				amount = items.get('amount')
 				source = items.get('source')
-				if not code:
-					code = 'PN'
-
+				
 				helpers.create_bid_entry(user,amount,transaction_id,code,source,bill_reference_number,transaction_amount)
 			
 			else:

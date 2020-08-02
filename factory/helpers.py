@@ -311,14 +311,14 @@ class Helpers:
                 if len(bill_ref_no.split()) == 3:
                     code = str(bill_ref_no).split()[0]
                     code = code.upper()
-                    amount = str(bill_ref_no).split()[1]
+                    amount = float(str(bill_ref_no).split()[1])
                     source = str(bill_ref_no).split()[2]
                     amount = int(amount)
 
                 elif len(bill_ref_no.split()) == 2:
                     code = str(bill_ref_no).split()[0]
                     code = code.upper()
-                    amount = str(bill_ref_no).split()[1]
+                    amount = float(str(bill_ref_no).split()[1])
                     source = 'DIRECT DEPOSIT'
                     amount = int(amount)
 
@@ -335,7 +335,7 @@ class Helpers:
                                 amount = int(digits)
                             except:
                                 try:
-                                    amount = float(amount)
+                                    amount = float(digits)
                                     amount = int(amount)
 
                                 except ValueError:
@@ -355,7 +355,7 @@ class Helpers:
                     if source=='':
                         source = 'DIRECT DEPOSIT'
 
-                
+               
                 return {'code':code,'amount':amount,'source':source}
         except Exception as e:
             try:
@@ -364,7 +364,11 @@ class Helpers:
                 bill_ref_extract = bill_ref_no
                 if len(digits)>0:
                     digits = digits[0]
-                    amount = int(digits)
+                    try:
+                        amount = int(digits)
+                    except:
+                        amount = float(digits)
+                        amount = int(amount)
                     bill_ref_extract = bill_ref_no.replace(digits,'')
                 code = self.get_bid_code(bill_ref_extract)
                 if not code:
@@ -379,8 +383,17 @@ class Helpers:
 
             
             except ValueError:
-                amount = digits.replace("'","")
-                return sms.incorrect_bid_amount(phone_number,amount)
+                try:
+                    amount = float(digits)
+                    amount = int(amount)
+                    code = self.get_bid_by_code(bill_ref_extract)
+                    print(code,amount,source)
+                    return {'code':code,'amount':amount,'source':''}
+
+                except:
+                    
+                    amount = digits.replace("'","")
+                    return sms.incorrect_bid_amount(phone_number,amount)
 
         
 
