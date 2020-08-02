@@ -191,6 +191,12 @@ class Helpers:
 
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
         bid = self.get_bid_by_code(code)
+        if not bid:
+            bid_code = self.get_bid_code(code)
+            if bid_code:
+                bid = self.get_bid_by_code(bid_code)
+            else:
+                bid = False
         
         amount = Decimal(amount)
         w_balance = self.get_wallet_balance(user)
@@ -435,6 +441,8 @@ class Helpers:
         for bid in bids:
             lookups = bid.lookups
             lookups_list.extend(lookups)
+
+        lookups_list = [x.upper() for x in lookups_list]
 
         return lookups_list
 
