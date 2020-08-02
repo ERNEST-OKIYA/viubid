@@ -42,8 +42,9 @@ def run():
                     bill_ref_extract = bill_ref_no.replace(re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0],'')
                     code = helpers.get_bid_code(bill_ref_extract)
                     bid = helpers.get_bid_by_code(code)
-                    print(bid)
+                    print("Bid Code",bid.code)
                     if bid:
+                        print('Bill Ref No Extract',bill_ref_extract,'Bill REF NO -->',bill_ref_no)
                         
                         amount = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)[0]
                         transaction_amount = 20
