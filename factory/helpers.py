@@ -200,9 +200,14 @@ class Helpers:
                 bid = False
         
         amount = Decimal(amount)
-        if bid_value <1:
-            sms.incorrect_bid_amount(user.phone_number,bid_value)
-            return False
+        try:
+            if bid_value <1:
+                return sms.incorrect_bid_amount(user.phone_number,bid_value)
+
+        except Exception as e:
+            return sms.incorrect_fomart(bill_ref_no,user.phone_number)
+            logger.error(f'{repr(e)}')
+            
         w_balance = self.get_wallet_balance(user)
         if bid:
             if amount < settings.BID_TICKET_COST:
