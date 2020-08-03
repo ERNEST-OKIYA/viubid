@@ -27,54 +27,49 @@ def run():
 
         invalid_bids=InvalidBid.get_unprocessed(limit=ROWS_SELECTION_LIMIT)
         for i_bid in invalid_bids:
-            
-            # bill_ref_no = helpers.sanitize_billref_no(i_bid.bill_ref_no)
-            # notes = i_bid.notes
-            # l_bill_ref_no = i_bid.bill_ref_no
+            bill_ref_no = helpers.sanitize_billref_no(i_bid.bill_ref_no)
+            notes = i_bid.notes
+            l_bill_ref_no = i_bid.bill_ref_no
             
 
 
             
             try:
-                print("Before -->",i_bid.resolved)
-                i_bid.resolved = 3
-                i_bid.save()
-                print('After -->',i_bid.resolved)
-                # if notes =='Amount less than ticket cost':
-                #     i_bid.resolved =2
-                #     i_bid.resolve_notes = "Cannot be resolved. Amount added to wallet."
-                #     i_bid.save()
-                # else:
+                if notes =='Amount less than ticket cost':
+                    i_bid.resolved =2
+                    i_bid.resolve_notes = "Cannot be resolved. Amount added to wallet."
+                    i_bid.save()
+                else:
                    
-                #     digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
-                #     bill_ref_extract = bill_ref_no
-                #     if len(digits)>0:
-                #         digits = digits[0]
-                #         bill_ref_extract = bill_ref_no.replace(digits,'')
+                    digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
+                    bill_ref_extract = bill_ref_no
+                    if len(digits)>0:
+                        digits = digits[0]
+                        bill_ref_extract = bill_ref_no.replace(digits,'')
                    
-                #     code = helpers.get_bid_code(bill_ref_extract)
+                    code = helpers.get_bid_code(bill_ref_extract)
                     
-                #     bid = helpers.get_bid_by_code(code)
+                    bid = helpers.get_bid_by_code(code)
                     
-                #     if bid:
-                #         amount = float(digits)
-                #         amount = int(amount)
-                #         transaction_amount = 20
-                #         print("amount",amount)
+                    if bid:
+                        amount = float(digits)
+                        amount = int(amount)
+                        transaction_amount = 20
+                        print("amount",amount)
                         
-                #         payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
-                #         transaction_id = payin.transaction_id
-                #         source = ''
+                        payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
+                        transaction_id = payin.transaction_id
+                        source = ''
                         
-                #         helpers.create_bid_entry(i_bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
-                #         print("bid resolved")
-                #         i_bid.notes = "bid resolved"
-                #         i_bid.resolved = 1
-                #         i_bid.save()
+                        helpers.create_bid_entry(i_bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
+                        print("bid resolved")
+                        i_bid.notes = "bid resolved"
+                        i_bid.resolved = 1
+                        i_bid.save()
 
                     
-                #     else:
-                #         print("No matching bid Found")
+                    else:
+                        print("No matching bid Found")
                         
 
                 
