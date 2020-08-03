@@ -110,7 +110,7 @@ class InvalidBid(FactoryModel):
 
     @classmethod
     def get_unprocessed(cls,limit):
-        return cls.objects.filter(resolved=False).order_by('id')[:limit]
+        return cls.objects.filter(resolved=0).order_by('id')[:limit]
 
 
 
