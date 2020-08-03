@@ -72,11 +72,13 @@ class Message:
         return self.send(user.phone_number,text)
 
     def incorrect_bid_amount(self,phone_number,amount):
-        text = f"Bid amount {amount} is incorrect. Please Enter a " +\
+        text = f"Bid amount {amount} is incorrect. Please Enter a value greater than 1 or without decimal points. " +\
                " Your money has been added to your wallet." +\
-               f" {settings.USSDADVIDE}. Visit www.quickbid.co.ke to view available deals."
+               f" Visit www.quickbid.co.ke to view available deals."
                
         return self.send(phone_number,text)
+
+    
 
     def stkpush_down(self,msisdn,text):
         return self.send(msisdn,text)
