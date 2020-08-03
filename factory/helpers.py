@@ -192,7 +192,7 @@ class Helpers:
 
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
         bid = self.get_bid_by_code(code)
-        if Decima(amount) <1:
+        if Decimal(amount) <1:
             return sms.incorrect_bid_amount(user.phone_number,amount)
         if not bid:
             bid_code = self.get_bid_code(code)
