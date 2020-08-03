@@ -1346,7 +1346,7 @@ class InvalidBids(View):
 
 	def get(self, request):
     		
-		fields = InvalidBid.objects.exclude(resolved=1).values(
+		fields = InvalidBid.objects.filter(resolved=0).values(
 			'user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
@@ -1387,7 +1387,7 @@ def process_invalid(request):
 
 		print(global_search, 'search value')
 
-		all_objects = InvalidBid.objects.exclude(resolved=1).filter(Q(user__profile__first_name__icontains=global_search) |
+		all_objects = InvalidBid.objects.filter(resolved=0).filter(Q(user__profile__first_name__icontains=global_search) |
 											Q(user__profile__middle_name__icontains=global_search) |
 											Q(user__profile__last_name__icontains=global_search) |
 											Q(user__phone_number__icontains=global_search)).all()
@@ -1406,7 +1406,7 @@ def process_invalid(request):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
-		total_count = InvalidBid.objects.exclude(resolved=1).count()
+		total_count = InvalidBid.objects.filter(resolved=0).count()
 		return JsonResponse({
 					"sEcho": draw,
 					"iTotalRecords": total_count,
@@ -1417,7 +1417,7 @@ def process_invalid(request):
 
 	else:
 
-		all_objects = InvalidBid.objects.exclude(resolved=1)
+		all_objects = InvalidBid.objects.filter(resolved=0)
 
 		columns = [i for i in includes]
 		objects = []
@@ -1432,7 +1432,7 @@ def process_invalid(request):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
-		total_count = InvalidBid.objects.exclude(resolved=1).count()
+		total_count = InvalidBid.objects.filter(resolved=0).count()
 		return JsonResponse({
 					"sEcho": draw,
 					"iTotalRecords": total_count,
@@ -1458,7 +1458,7 @@ class ExportInvalidCsv(View):
 		field_serializer_map = {'created_at': (
 			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
 
-		qs = InvalidBid.objects.values('user__profile__first_name',
+		qs = InvalidBid.objects.filter(resolved=0).values('user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
