@@ -55,6 +55,7 @@ def run():
                         amount = float(digits)
                         amount = int(amount)
                         transaction_amount = 20
+                        print("amount",amount)
                         
                         payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
