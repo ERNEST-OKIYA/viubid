@@ -20,7 +20,11 @@ from django.conf.urls.static import static
 from products import views as vw
 from admin_portal.views import *
 from django.contrib.auth import views as auth_views
-from admin_portal.views import ExportDialsCsv, ExportPlayersCsv,ExportInvalidCsv,ExportOutBoxCsv
+from admin_portal.views import (
+    ExportDialsCsv, ExportPlayersCsv,
+    ExportInvalidBidsCurrentCsv,ExportOutBoxCsv,
+    ExportInvalidBidsArchivedCsv
+)
 
 urlpatterns = [
     path('', vw.ProductsList.as_view()),
@@ -46,8 +50,10 @@ urlpatterns = [
     path('export-bidders/',ExportPlayersCsv.as_view() , name='export-bidders'),
     path('export-winners/',ExportWinnersCsv.as_view() , name='export-winners'),
     path('export-dials/',ExportDialsCsv.as_view() , name='export-dials'),
-    path('export-invalid/',ExportInvalidCsv.as_view() , name='export-invalid'),
+    path('export-invalid-bids-current/',ExportInvalidBidsCurrentCsv.as_view() , name='export-invalid'),
+    path('export-invalid-bids-archived/',ExportInvalidBidsArchivedCsv.as_view() , name='export-invalid-archived'),
     path('export-sms-outbox/',ExportOutBoxCsv.as_view() , name='export-sms-outbox'),
+    
 
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'),name='login'),
     

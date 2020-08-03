@@ -1441,7 +1441,7 @@ def process_invalid(request):
 
 		})
 
-class ExportInvalidCsv(View):
+class ExportInvalidBidsCurrentCsv(View):
 
 	def get(self, request):
 
@@ -1466,11 +1466,41 @@ class ExportInvalidCsv(View):
 			'bill_ref_no',
 			'notes',
 			'created_at').all()
-		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True,filename=f'Current Invalid Bids')
 
 	def dispatch(self, *args, **kwargs):
-		return super(ExportInvalidCsv, self).dispatch(*args, **kwargs)
+		return super().dispatch(*args, **kwargs)
 
+
+class ExportInvalidBidsArchivedCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'user__profile__first_name':'First Name',
+							'user__profile__middle_name':'Middle Name',
+							'user__profile__last_name': 'Last Name',
+							'user__phone_number': 'Phone Number',
+							# 'bid_value': 'Bid Value Entered',
+							'bill_ref_no':'Bill Ref No.',
+							'notes': 'Notes',
+							'created_at': 'Bid Date',
+					  }
+		field_serializer_map = {'created_at': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = InvalidBid.objects.exclude(resolved=1).values('user__profile__first_name',
+			'user__profile__middle_name',
+			'user__profile__last_name',
+			'user__phone_number', 
+			# 'bid_value',
+			'bill_ref_no',
+			'notes',
+			'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True,filename=f'Archived Invalid Bids')
+
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
 
 
 class OutBox(View):
