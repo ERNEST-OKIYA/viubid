@@ -52,11 +52,8 @@ def run():
                     bid = helpers.get_bid_by_code(code)
                     
                     if bid:
-                        
-                
-                        if len(digits)!=0:
-                            amount = float(digits)
-                            amount = int(amount)
+                        amount = float(digits)
+                        amount = int(amount)
                         transaction_amount = 20
                         
                         payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
@@ -68,6 +65,10 @@ def run():
                         i_bid.notes = "bid resolved"
                         i_bid.resolved = 1
                         i_bid.save()
+
+                    
+                    else:
+                        print("No matching bid Found")
                         
 
                 
