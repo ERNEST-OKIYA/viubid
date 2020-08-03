@@ -55,7 +55,7 @@ def run():
                         
                 
                         if len(digits)!=0:
-                            amount = float(digits[0])
+                            amount = float(digits)
                             amount = int(amount)
                         transaction_amount = 20
                         
