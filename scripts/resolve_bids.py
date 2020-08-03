@@ -76,7 +76,7 @@ def run():
                 logger.error('ERROR {}'.format(str(e)))
 
 
-        time.sleep(20) #wait  seconds before processing again
+        time.sleep(1) #wait  seconds before processing again
 
 
 
