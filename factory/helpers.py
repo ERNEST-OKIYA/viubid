@@ -192,6 +192,8 @@ class Helpers:
 
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
         bid = self.get_bid_by_code(code)
+        if amount <1:
+            return sms.incorrect_bid_amount(user.phone_number,amount)
         if not bid:
             bid_code = self.get_bid_code(code)
             if bid_code:
@@ -200,8 +202,7 @@ class Helpers:
                 bid = False
         
         amount = Decimal(amount)
-        if amount <1:
-            return sms.incorrect_bid_amount(user.phone_number,amount)
+        
         w_balance = self.get_wallet_balance(user)
         if bid:
             if amount < settings.BID_TICKET_COST:
