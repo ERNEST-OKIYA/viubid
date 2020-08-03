@@ -61,6 +61,7 @@ def run():
                         
                         payin = PayIn.objects.filter(bill_reference_number=l_bill_ref_no,msisdn=i_bid.user.phone_number).last()
                         transaction_id = payin.transaction_id
+                        source = ''
                         
                         helpers.create_bid_entry(i_bid.user,amount,transaction_id,code,source,bill_ref_no,transaction_amount)
                         print("bid resolved")
