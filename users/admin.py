@@ -80,7 +80,7 @@ class UserAdmin(BaseUserAdmin, SimpleHistoryAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('phone_number', 'get_first_name','get_last_name', 'is_active',)
+    list_display = ('pk','phone_number', 'get_first_name','get_last_name', 'is_active',)
     list_filter = ('is_active',)
     list_select_related = ('profile', )
 
