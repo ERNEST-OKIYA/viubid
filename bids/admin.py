@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Bid,BidEntry,UserBid,Advertizer
 
 class BidAdmin(admin.ModelAdmin):
-    list_display = ('code','critical_mass','product','ticket_price',
+    list_display = ('pk','code','critical_mass','product','ticket_price',
                     'is_open','duration','open_at','closes_at','priority','ref_no','lookups',)
     readonly_fields = ('ref_no',)
     link_display = ('code','lookups',)
