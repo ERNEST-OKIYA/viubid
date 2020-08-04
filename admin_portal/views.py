@@ -287,6 +287,7 @@ class Winners(View):
 			'bid__code', 
 			'bid__product__name',
 			'bid__product__price',
+			'winning_value',
 			'created_at'
 			)
 
@@ -306,6 +307,7 @@ def process_winners(request):
 			'bid__code', 
 			'bid__product__name',
 			'bid__product__price',
+			'winning_value',
 			'created_at']
 	draw = request.GET['draw']
 	start = int(request.GET['start'])
@@ -335,6 +337,7 @@ def process_winners(request):
 			'bid__code', 
 			'bid__product__name',
 			'bid__product__price',
+			'winning_value',
 			'created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
@@ -361,6 +364,7 @@ def process_winners(request):
 			'bid__code', 
 			'bid__product__name',
 			'bid__product__price',
+			'winning_value',
 			'created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
@@ -385,13 +389,14 @@ class ExportWinnersCsv(View):
 							'bid__code':'Bid Code',
 							'bid__product__name':'Product Won',
 							'bid__product__price':'Product RRP',
+							'winning_value': "Winning Value",
 							'created_at': 'Date Won'
 						   }
 		field_serializer_map = {'created_at': (lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
 
 		qs = Winner.objects.values('user__phone_number', 'user__profile__first_name',
 								'user__profile__middle_name', 'user__profile__last_name', 
-								'bid_code', 'bid__product__name','bid__product__price',
+								'bid_code', 'bid__product__name','bid__product__price','winning_value',
 								'created_at').all()
 		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 

@@ -46,6 +46,7 @@
           <th>Bid Code</th>
           <th>Product</th>
           <th>Product RRP</th>
+          <th>Winning Value</th>
           <th>Date Won</th>
         </tr>
       </thead>
@@ -98,7 +99,7 @@
       "info": true,
       "autoWidth": true,
       "lengthMenu": [[10,5, 25, 50, 100], [10,5, 25, 50, 100]],
-      columnDefs:[{targets:7,"type":"date-euro", render:function(data){
+      columnDefs:[{targets:8,"type":"date-euro", render:function(data){
       return moment(data).format('DD/MM/YYYY HH:mm');
     }}],
     order: [0, 'desc'],

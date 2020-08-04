@@ -14,8 +14,8 @@ class BidEntryAdmin(admin.ModelAdmin):
     fields = ('user','bid')
     
 class UserBidAdmin(admin.ModelAdmin):
-    list_display = ('amount','bid_entry')
-    fields = ('amount','bid_entry')
+    list_display = ('pk','amount','bid_entry')
+    fields = ('pk','amount','bid_entry')
     search_fields = ('bid_entry__user__phone_number',)
 
 class AdvertizerAdmin(admin.ModelAdmin):
