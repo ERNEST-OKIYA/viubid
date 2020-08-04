@@ -5,5 +5,6 @@ from .models import Winner
 class WinnerAdmin(admin.ModelAdmin):
     list_display = ('user','bid','winning_value')
     fields = ('user','bid','winning_value')
+    
 
 admin.site.register(Winner, WinnerAdmin)
