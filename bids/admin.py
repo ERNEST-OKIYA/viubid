@@ -16,6 +16,7 @@ class BidEntryAdmin(admin.ModelAdmin):
 class UserBidAdmin(admin.ModelAdmin):
     list_display = ('amount','bid_entry')
     fields = ('amount','bid_entry')
+    search_fields = ('bid_entry__user__phone_number',)
 
 class AdvertizerAdmin(admin.ModelAdmin):
     list_display = ('name','created_at')
@@ -24,4 +25,5 @@ class AdvertizerAdmin(admin.ModelAdmin):
 admin.site.register(Bid, BidAdmin)
 admin.site.register(BidEntry, BidEntryAdmin)
 admin.site.register(Advertizer, AdvertizerAdmin)
+admin.site.register(UserBid, UserBidAdmin)
 
