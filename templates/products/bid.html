@@ -123,7 +123,55 @@
           <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;"> Auctions</span></h2>
           
             
-           <p class="text-lg-center blacker">Be the first one to go home with amazing products on Auction for only <strong>KES 20!</strong></p>
+          <table id="example1" class="table table-bordered" style="margin-top: 2%;">
+
+               
+            <thead>
+            <tr>
+              <th>Auction</th>
+              <th>Bidder</th>
+              <th>Winning Bid Amount</th>
+              <th>Ended at</th>
+               
+            </tr>
+            </thead>
+            <tbody>
+              {% for winner in winners %}
+            <tr>
+              <td>
+                
+                <img src ="{{winner.bid.product.image.url}}" style="width: 30%; height: auto;">
+                
+                <span class="" style="float: right;margin-right: 45%;padding-top: 50px;">
+                    <p class="">{{winner.bid.product.name}}</p>
+                    <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
+                    <div class="">{{winner.bid.product.description}}</div>
+                  </div>
+
+                </span>
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                {{winner.user.get_shortname}}
+               
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                {{winner.winning_value}}
+                
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                {{winner.bid.closes_at}}
+                
+              </td>
+
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
           
       </section>
 

@@ -83,7 +83,7 @@ class BidEntry(FactoryModel):
     
 class UserBid(FactoryModel):
     bid_entry = models.ForeignKey(BidEntry,on_delete=models.DO_NOTHING,
-                related_name='bid_entries')
+                related_name='user_bids')
     amount = models.DecimalField(max_digits=10,decimal_places=2)
     source = models.CharField(max_length=50, default='DIRECT DEPOSIT')
     non_unique_sms_sent = models.BooleanField(default=False)

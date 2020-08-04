@@ -52,6 +52,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         return self.profile.first_name + ' ' + self.profile.last_name
 
+    def get_shortname(self):
+        if self.profile.last_name:
+            shortname = self.profile.first_name + ' ' + self.profile.last_name[0]
+        elif self.profile.middle_name:
+            shortname = self.profile.first_name + ' ' + self.profile.middle_name[0]
+        
+        else:
+            shortname = self.profile.first_name
+
+        return shortname
+
 
     
 class Profile(FactoryModel):

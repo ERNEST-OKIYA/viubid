@@ -1347,6 +1347,7 @@ class InvalidBids(View):
 	def get(self, request):
     		
 		fields = InvalidBid.objects.filter(resolved=0).values(
+			'id',
 			'user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
@@ -1366,7 +1367,7 @@ class InvalidBids(View):
 
 
 def process_invalid(request):
-	includes = ['user__profile__first_name',
+	includes = ['id','user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
@@ -1395,7 +1396,7 @@ def process_invalid(request):
 		columns = [i for i in includes]
 		objects = []
 
-		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',
+		for i in all_objects.order_by(order_direction + column)[start:start + length].values('id','user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
@@ -1421,7 +1422,7 @@ def process_invalid(request):
 
 		columns = [i for i in includes]
 		objects = []
-		for i in all_objects.order_by('-created_at')[start:start + length].values('user__profile__first_name',
+		for i in all_objects.order_by('-created_at')[start:start + length].values('id','user__profile__first_name',
 			'user__profile__middle_name',
 			'user__profile__last_name',
 			'user__phone_number', 
@@ -1446,6 +1447,7 @@ class ExportInvalidBidsCurrentCsv(View):
 	def get(self, request):
 
 		field_header_map = {
+
 							'user__profile__first_name':'First Name',
 							'user__profile__middle_name':'Middle Name',
 							'user__profile__last_name': 'Last Name',
@@ -1662,7 +1664,7 @@ class BidActions(View):
 		
 		bid.is_open = False
 		bid.save()
-		helpers.create_winner(winner.bid_entry.user,bid)
+		helpers.create_winner(winner.bid_entry.user,bid,winner.amount)
 		if create_similar:
 			bid.pk = None
 			bid.closes_at = timezone.now() + timedelta(days=1)
