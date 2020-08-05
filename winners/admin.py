@@ -3,8 +3,8 @@ from .models import Winner
 
 # Register your models here.
 class WinnerAdmin(admin.ModelAdmin):
-    list_display = ('user','bid','winning_value')
-    fields = ('user','bid','winning_value')
+    list_display = ('user','bid','winning_value','created_at')
+    fields = ('user','bid','winning_value','created_at')
     
 
 admin.site.register(Winner, WinnerAdmin)
