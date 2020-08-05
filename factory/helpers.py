@@ -311,28 +311,9 @@ class Helpers:
                 return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
             
-            
-            # else:
-                
-                # if len(bill_ref_no.split()) == 3:
-                #     code = str(bill_ref_no).split()[0]
-                #     code = code.upper()
-                #     amount = float(str(bill_ref_no).split()[1])
-                #     source = str(bill_ref_no).split()[2]
-                #     amount = int(amount)
-
-                # elif len(bill_ref_no.split()) == 2:
-                #     code = str(bill_ref_no).split()[0]
-                #     code = code.upper()
-                #     amount = float(str(bill_ref_no).split()[1])
-                #     source = 'DIRECT DEPOSIT'
-                #     amount = int(amount)
-
-
-            # else:
-            # try:
+    
             digits = re.findall(r"(\d+(?:\.\d+)?)",bill_ref_no)
-            print("digits",digits)
+            
     
             
             if len(digits)>0:
