@@ -304,7 +304,7 @@ class Helpers:
                 return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
 
-            elif self.isfloat(bill_ref_no):
+            if self.isfloat(bill_ref_no):
                 amount = Decimal(bill_ref_no)
                 logger.info('Amount ---{}'.format(str(amount)))
                 
@@ -354,7 +354,7 @@ class Helpers:
                 if not bid:
                     code = self.get_bid_code(code)
                     if not code:
-                        return None
+                        code = bill_ref_no.replace(digits,'').replace('.','')
         
         
 
