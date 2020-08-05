@@ -129,6 +129,7 @@
             <thead>
             <tr>
               <th>Auction</th>
+              <th></th>
               <th>Winning Bidder</th>
               <th>Product RRP</th>
               <th>Winning Bid Amount</th>
@@ -143,13 +144,16 @@
                 
                 <img src ="{{winner.bid.product.image.url}}" style="width: 30%; height: auto;">
                 
-                <span class="" style="float: right;margin-right: 40%;padding-top: 50px;">
-                    <p class="">{{winner.bid.product.name}}</p>
-                    <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
-                    <div class="">{{winner.bid.product.description}}</div>
-                  </div>
+                
+              </td>
+              <td>
+                <span class="">
+                  <p class="">{{winner.bid.product.name}}</p>
+                  <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
+                  <div class="">{{winner.bid.product.description}}</div>
+                </div>
 
-                </span>
+              </span>
               </td>
               <td style="text-align: center;vertical-align: middle;">
                
