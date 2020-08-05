@@ -140,9 +140,9 @@
             <tbody>
               {% for winner in winners %}
             <tr>
-              <td style="vertical-align: middle;width: 300px;">
+              <td style="vertical-align: middle;">
                 
-                <img src ="{{winner.bid.product.image.url}}" class="img-thumbnail img-responsive" style="width: 100%; height: auto;max-width: 100%;">
+                <img src ="{{winner.bid.product.image.url}}" class="img-thumbnail img-responsive" style="width: 200px; height: auto;max-width: 100%;">
                 
                 
               </td>
@@ -167,7 +167,7 @@
               </td>
               <td style="text-align: center;vertical-align: middle;">
                
-                <span style="color:#28a745">KES {{winner.winning_value|intcomma}}</span>
+                <strong style="color:#28a745">KES {{winner.winning_value|intcomma}}</strong>
                 
               </td>
               <td style="text-align: center;vertical-align: middle;">
