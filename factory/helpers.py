@@ -310,12 +310,7 @@ class Helpers:
                 
                 return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
-            if 'WEB' in bill_ref_no:
-                code = bill_ref_no.split()[0]
-                amount = bill_ref_no.split()[1]
-                source = bill_ref_no.split(2)
-                return {'code':code,'amount':amount,'source':source}
-
+            
             
             # else:
                 
@@ -354,7 +349,15 @@ class Helpers:
                         amount = digits.replace("'","")
                         return sms.incorrect_bid_amount(phone_number,amount)
 
-                code = bill_ref_no.replace(digits,'').replace('.','')
+                if 'WEB' in bill_ref_no:
+                    code = bill_ref_no[:2]
+
+                elif 'USSD' in bill_ref_no:
+                    code = bill_ref_no[:2]
+                
+                else:
+
+                    code = bill_ref_no.replace(digits,'').replace('.','')
 
                 bid = self.get_bid_by_code(code)
                 if not bid:
