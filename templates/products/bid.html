@@ -129,7 +129,7 @@
             <thead>
             <tr>
               <th>Auction</th>
-              <th></th>
+              <th>Description</th>
               <th>Winning Bidder</th>
               <th>Product RRP</th>
               <th>Winning Bid Amount</th>
@@ -142,11 +142,11 @@
             <tr>
               <td>
                 
-                <img src ="{{winner.bid.product.image.url}}" style="width: 30%; height: auto;">
+                <img src ="{{winner.bid.product.image.url}}" style="width: 200px; height: auto;">
                 
                 
               </td>
-              <td>
+              <td style="text-align: center;vertical-align: middle;">
                 <span class="">
                   <p class="">{{winner.bid.product.name}}</p>
                   <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
