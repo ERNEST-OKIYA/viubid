@@ -123,13 +123,14 @@
           <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;"> Auctions</span></h2>
           
             
-          <table id="example1" class="table table-bordered" style="margin-top: 2%;">
+          <table id="example1" class="table table-bordered bg-white" style="margin-top: 2%;">
 
                
             <thead>
             <tr>
               <th>Auction</th>
-              <th>Bidder</th>
+              <th>Winning Bidder</th>
+              <th>Product RRP</th>
               <th>Winning Bid Amount</th>
               <th>Ended at</th>
                
@@ -142,7 +143,7 @@
                 
                 <img src ="{{winner.bid.product.image.url}}" style="width: 30%; height: auto;">
                 
-                <span class="" style="float: right;margin-right: 45%;padding-top: 50px;">
+                <span class="" style="float: right;margin-right: 40%;padding-top: 50px;">
                     <p class="">{{winner.bid.product.name}}</p>
                     <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
                     <div class="">{{winner.bid.product.description}}</div>
@@ -157,7 +158,12 @@
               </td>
               <td style="text-align: center;vertical-align: middle;">
                
-                {{winner.winning_value}}
+                <span>KES {{winner.bid.product.price|intcomma}}</span>
+                
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                <span style="color:#28a745">KES {{winner.winning_value|intcomma}}</span>
                 
               </td>
               <td style="text-align: center;vertical-align: middle;">
@@ -172,8 +178,18 @@
 
             </tbody>
           </table>
+          <div class="text-center" style="margin-top: 3%;">
+        
+            <h2><span style="color: #6c757d!important;;">You can be a winner too.</span></h2>
+          
+          
+            <a href="#current_auction" >
+            <button class="button button-icon button-icon-right" type="button" style="background-color: #F29100;border-color:#F29100;color: white; margin-top: 3%;"><span class="icon novi-icon"></span>Start Bidding Now</button>
+          </a>
+          </div>
           
       </section>
+     
 
       {% endblock %}
 
