@@ -191,13 +191,8 @@ class Helpers:
 
 
     def create_bid_entry(self,user,bid_value,transaction_id,code,source,bill_ref_no,amount):
+        
         bid = self.get_bid_by_code(code)
-        if not bid:
-            bid_code = self.get_bid_code(code)
-            if bid_code:
-                bid = self.get_bid_by_code(bid_code)
-            else:
-                bid = False
         
         amount = Decimal(amount)
         try:
@@ -300,109 +295,76 @@ class Helpers:
 
     def tare_bill_ref_number(self,bill_ref_no,phone_number):
         try:
+            code = None
             user = self.get_user(phone_number)
+            bill_ref_no = bill_ref_no.replace(' ','')
             
             if bill_ref_no.isdigit():
                 amount = int(bill_ref_no)
-                return {'code':None,'amount':amount,'source':'DIRECT DEPOSIT'}
+                return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
 
             elif self.isfloat(bill_ref_no):
                 amount = Decimal(bill_ref_no)
                 logger.info('Amount ---{}'.format(str(amount)))
                 
-                return {'code':None,'amount':amount,'source':'DIRECT DEPOSIT'}
+                return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
             
-            else:
+            # else:
                 
-                if len(bill_ref_no.split()) == 3:
-                    code = str(bill_ref_no).split()[0]
-                    code = code.upper()
-                    amount = float(str(bill_ref_no).split()[1])
-                    source = str(bill_ref_no).split()[2]
-                    amount = int(amount)
+                # if len(bill_ref_no.split()) == 3:
+                #     code = str(bill_ref_no).split()[0]
+                #     code = code.upper()
+                #     amount = float(str(bill_ref_no).split()[1])
+                #     source = str(bill_ref_no).split()[2]
+                #     amount = int(amount)
 
-                elif len(bill_ref_no.split()) == 2:
-                    code = str(bill_ref_no).split()[0]
-                    code = code.upper()
-                    amount = float(str(bill_ref_no).split()[1])
-                    source = 'DIRECT DEPOSIT'
-                    amount = int(amount)
+                # elif len(bill_ref_no.split()) == 2:
+                #     code = str(bill_ref_no).split()[0]
+                #     code = code.upper()
+                #     amount = float(str(bill_ref_no).split()[1])
+                #     source = 'DIRECT DEPOSIT'
+                #     amount = int(amount)
 
 
-                else:
+            # else:
+            # try:
+            digits = re.findall(r"(\d+(?:\.\d+)?)",bill_ref_no)
+            print("digits",digits)
+    
+            
+            if len(digits)>0:
+                digits = digits[0]
+
+                try:
+                    amount = int(digits)
+                except:
                     try:
-                        digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
-                
-                        bill_ref_extract = bill_ref_no
-                        if len(digits)>0:
-                            digits = digits[0]
+                        amount = float(digits)
+                        amount = int(amount)
 
-                            try:
-                                amount = int(digits)
-                            except:
-                                try:
-                                    amount = float(digits)
-                                    amount = int(amount)
-
-                                except ValueError:
-                                    amount = digits.replace("'","")
-                                    return sms.incorrect_bid_amount(phone_number,amount)
-
-                            bill_ref_extract = bill_ref_no.replace(digits,'')
-                        code = self.get_bid_code(bill_ref_extract)
-                    
                     except ValueError:
                         amount = digits.replace("'","")
                         return sms.incorrect_bid_amount(phone_number,amount)
-                        
-                   
-                    
-                    source = bill_ref_extract.strip().replace(code,'').replace(digits,'')
-                    if source=='':
-                        source = 'DIRECT DEPOSIT'
 
-               
-                return {'code':code,'amount':amount,'source':source}
+                code = bill_ref_no.replace(digits,'').replace('.','')
+
+                bid = self.get_bid_by_code(code)
+                if not bid:
+                    code = self.get_bid_code(code)
+                    if not code:
+                        return None
+        
+        
+
+            return {'code':code,'amount':amount,'source':''}
         except Exception as e:
-            try:
-                digits = re.findall(r"[-+]?\d*\.\d+|\d+",bill_ref_no)
-                
-                bill_ref_extract = bill_ref_no
-                if len(digits)>0:
-                    digits = digits[0]
-                    try:
-                        amount = int(digits)
-                    except:
-                        amount = float(digits)
-                        amount = int(amount)
-                    bill_ref_extract = bill_ref_no.replace(digits,'')
-                code = self.get_bid_code(bill_ref_extract)
-                if not code:
-                    notes = "Unresolved Bid format"
-                    InvalidBid.create(user,'',notes,bill_ref_no)
-                    sms.incorrect_fomart(bill_ref_no,phone_number)
-                    DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
-                    return None
-                
-                else:
-                    return {'code':code,'amount':amount,'source':''}
-
-            
-            except ValueError:
-                try:
-                    amount = float(digits)
-                    amount = int(amount)
-                    code = self.get_bid_by_code(bill_ref_extract)
-                    print(code,amount,source)
-                    return {'code':code,'amount':amount,'source':''}
-
-                except:
-                    
-                    amount = digits.replace("'","")
-                    return sms.incorrect_bid_amount(phone_number,amount)
-
+            notes = "Unresolved Bid format"
+            InvalidBid.create(user,'',notes,bill_ref_no)
+            sms.incorrect_fomart(bill_ref_no,phone_number)
+            DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
+            return {'code':'bill_ref_extract','amount':amount,'source':''}
         
 
             
@@ -446,9 +408,10 @@ class Helpers:
             .replace('_','').replace('-','').replace('..','').replace('/','').replace('KSH','')\
             .replace('/=','').replace('cents','').replace('+','')
         
-        for a in self.advertizers():
-            
-            bill_ref_no = bill_ref_no.replace(a.upper(),'')
+        if self.advertizers():
+            for a in self.advertizers():
+                
+                bill_ref_no = bill_ref_no.replace(a.upper(),'')
 
         
 
