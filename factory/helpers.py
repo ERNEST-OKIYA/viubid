@@ -310,6 +310,12 @@ class Helpers:
                 
                 return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
 
+            if 'WEB' in bill_ref_no:
+                code = bill_ref_no.split()[0]
+                amount = bill_ref_no.split()[1]
+                source = bill_ref_no.split(2)
+                return {'code':code,'amount':amount,'source':source}
+
             
             # else:
                 
