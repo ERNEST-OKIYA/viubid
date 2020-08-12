@@ -390,8 +390,8 @@ class Helpers:
         return list(Advertizer.objects.values_list('name', flat=True))
 
     
-    def create_winner(self,user,bid):
-        return Winner.create(user,bid)
+    def create_winner(self,user,bid,amount):
+        return Winner.create(user,bid,amount)
 
     def sanitize_billref_no(self,bill_ref_no):
         bill_ref_no = bill_ref_no.upper().replace(',','').replace('SH','').replace('BIDCODE','')\
