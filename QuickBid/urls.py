@@ -33,6 +33,7 @@ urlpatterns = [
     path('faqs/', vw.Faqs.as_view()),
     path('grappelli/', include('grappelli.urls')),
     path('totals/', totals, name='totals'),
+    path('filters/', Filters.as_view(), name='filters'),
     path('ipn/', include('payments.urls')),
     path('mgr/', include('admin_portal.urls')),
     path('admin/', admin.site.urls),
