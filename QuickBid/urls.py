@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 from admin_portal.views import (
     ExportDialsCsv, ExportPlayersCsv,
     ExportInvalidBidsCurrentCsv,ExportOutBoxCsv,
-    ExportInvalidBidsArchivedCsv
+    ExportInvalidBidsArchivedCsv,Filters
 )
 
 urlpatterns = [

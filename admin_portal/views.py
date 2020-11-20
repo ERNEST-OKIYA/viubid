@@ -1689,3 +1689,34 @@ class BidActions(View):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
+
+class Filters(View):
+
+	def post(self,request):
+		
+		date_range = request.POST.get('date_range')
+		from_date = date_range.split('to')[0].strip()
+		to_date =date_range.split('to')[1].strip()
+		fld = DateField()
+		start_date=fld.to_python(from_date)
+		end_date=fld.to_python(to_date)
+		deposits_filter = PayIn.objects.filter(created_at__range=[start_date,end_date])\
+			.aggregate(Sum('transaction_amount')).get('transaction_amount__sum')
+
+		users_filter = User.objects.filter(date_created__range=[start_date,end_date]).count()
+		bids_filter =BidEntry.objects.filter(created_at__range=[start_date,end_date]).count()
+		data = {
+			'deposits_filter':deposits_filter,
+			'bids_filter':bids_filter,
+			'users_filter':users_filter,
+			
+			
+
+
+		}
+
+		return JsonResponse(data)
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
