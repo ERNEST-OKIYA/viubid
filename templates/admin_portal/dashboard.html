@@ -878,5 +878,31 @@
 	})();
   </script>
 
+<script>
+	$('#filter_stats').click(function(){
+
+	var date_range = $('#date-ranges').html();
+	$.ajax({
+          type: 'POST',
+          url: "/filters/",
+          data: {"date_range":date_range},
+          success: function (response) {
+              
+              {
+				$('#deposits_filter').html(Number(response.deposits_filter).toLocaleString());
+				$('#bids_filter').html(Number(response.bids_filter).toLocaleString());
+				$('#users_filter').html(Number(response.users_filter).toLocaleString());
+              
+              }
+		  }
+              
+      })
+
+		
+	});
+
+
+</script>
+
   
 {% endblock %}
