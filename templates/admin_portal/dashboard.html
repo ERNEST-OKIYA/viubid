@@ -16,6 +16,7 @@
 
 ">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{% static "plugins/daterangepicker/daterangepicker.js" %}">
 <!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
@@ -137,13 +138,46 @@
 <div class="tabs-animation col-md-12">
 	<div class="mb-3 card">
 		<div class="card-header-tab card-header">
-			<div class="card-header-title font-size-lg font-weight-normal">
+			<div class="card-header-title font-size-md font-weight-normal">
 				<i class="header-icon fa fa-clock icon-gradient bg-happy-green"> </i>
 				Filter by date
 			</div>
 			<div class="btn-actions-pane-right text-capitalize">
-				<button id='filter_stats' type="button" class="btn btn-block btn-outline-success btn-xs">Today <i class="fa fa-filter"> Click to Filter</i></button>
+			
+				<button type="button" class="btn btn-block btn-outline-secondary btn-xs" id="reportrange">
+					
+					 <i class="fa fa-calendar pr-1"></i>
+					<span id="date-ranges"></span>
+					<i class="fa pl-1 fa-caret-down"></i>
+				
+				</button>
+				
+				
 			</div>
+			&nbsp;
+			<button type="button" class="btn btn-success btn-xs" id="filter_stats">Filter</button>
+
+		
+			<h5 class="card-title text-success">From</h5>
+			<div class="input-group">
+				<div class="input-group-prepend datepicker-trigger">
+					<div class="input-group-text">
+						<i class="fa fa-calendar-alt"></i>
+					</div>
+				</div>
+				<input type="text" class="form-control" data-toggle="datepicker-icon"/>
+			</div>
+			<h5 class="card-title text-success">To</h5>
+			<div class="input-group">
+				<div class="input-group-prepend datepicker-trigger">
+					<div class="input-group-text">
+						<i class="fa fa-calendar-alt"></i>
+					</div>
+				</div>
+				<input type="text" class="form-control" data-toggle="datepicker-icon"/>
+			</div>
+			<!--End Filter
+
 		</div>
 		<div class="no-gutters row">
 			<div class="col-sm-6 col-md-4 col-xl-4">
@@ -153,7 +187,7 @@
 						<i class="lnr-sort-amount-asc text-dark opacity-8"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">Deposits</div>
-						<div class="widget-numbers" id="today_deposits_filter"></div>
+						<div class="widget-numbers" id="deposits_filter">{{today_deposits}}</div>
 						<!-- <div class="widget-description opacity-8 text-focus">
 							<div class="d-inline text-danger pr-1">
 								<i class="fa fa-angle-down"></i>
@@ -172,7 +206,7 @@
 						<i class="fa fa-gavel text-white"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">Bids</div>
-						<div class="widget-numbers"><span id="today_bids_filter"></span></div>
+						<div class="widget-numbers"><span id="bids_filter">{{today_bids}}</span></div>
 						<!-- <div class="widget-description opacity-8 text-focus">
 							Grow Rate:
 							<span class="text-info pl-1">
@@ -191,7 +225,7 @@
 						<i class="lnr-users text-white"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">New Users</div>
-						<div class="widget-numbers text-success"><span id="today_users_filter"></span></div>
+						<div class="widget-numbers text-success"><span id="users_filter">{{today_users}}</span></div>
 						<!-- <div class="widget-description text-focus">
 							Increased by
 							<span class="text-warning pl-1">
@@ -307,7 +341,9 @@
 <script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
 <script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
 <script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="{% static "plugins/daterangepicker/daterangepicker.js" %}"></script>
 <!-- Resources -->
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
@@ -878,6 +914,37 @@
 	})();
   </script>
 
+<script type="text/javascript">
+$(function() {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('YYYY-M-D') + ' to ' + end.format('YYYY-M-D'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+		locale: {
+        format: 'YYYY-M-D'
+      },
+    }, cb);
+
+    cb(start, end);
+
+});
+</script>
+
 <script>
 	$('#filter_stats').click(function(){
 
@@ -903,6 +970,7 @@
 
 
 </script>
+
 
   
 {% endblock %}
