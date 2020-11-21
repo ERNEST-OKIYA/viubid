@@ -5,6 +5,7 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.css" %}">
 <link rel="stylesheet" href="{% static "plugins/datatables-responsive/css/responsive.bootstrap4.min.css" %}">
+<link rel="stylesheet" href="{% static "plugins/datetimepicker/datetimepicker.min.css" %}">
 
 <!-- jQuery -->
 <script src=""{% static "plugins/jquery/jquery.min.js" %}"></script>
@@ -16,11 +17,15 @@
 
 ">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-<!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
-<script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
-<script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script> -->
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css?0925" rel="stylesheet" type="text/css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.0.0/flatly/bootstrap.min.css"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="{% static "plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" %}">
+
+
+
+
+
 
 <style>
     #chartdiv {
@@ -118,17 +123,6 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="text-center mbg-3">
-		<a href="#graphs">
-		<button class="btn-wide btn-pill btn-shadow fsize-1 btn btn-warning btn-lg">
-				<span class="mr-2 opacity-7">
-					<i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
-				</span>
-			View in graphs
-		</button>
-	</a>
-	</div>
 </div>
 	
 	
@@ -137,13 +131,30 @@
 <div class="tabs-animation col-md-12">
 	<div class="mb-3 card">
 		<div class="card-header-tab card-header">
-			<div class="card-header-title font-size-lg font-weight-normal">
+			<div class="card-header-title font-size-md font-weight-normal">
 				<i class="header-icon fa fa-clock icon-gradient bg-happy-green"> </i>
-				Filter by date
+				Filter by date and time - Showing Results for Today
 			</div>
 			<div class="btn-actions-pane-right text-capitalize">
-				<button id='filter_stats' type="button" class="btn btn-block btn-outline-success btn-xs">Today <i class="fa fa-filter"> Click to Filter</i></button>
+				<button id='filter_btn' type="button" class="btn btn-block btn-outline-success btn-xs"><i class="fa fa-filter"> Click to Filter</i></button>
 			</div>
+		</div>
+		<div class="row" style="margin-top: 2%;padding-left: 20px;display: none;" id="filter_div">
+			<div class='col-sm-6 col-lg-5 col-md-4'>
+				FROM: <input type='text' class="form-control" id='from_date' />
+			</div>
+			<div class='col-sm-6 col-lg-5 col-md-4'>
+				TO: <input type='text' class="form-control" id='to_date' style="padding-right: 20px;" />
+				
+			</div>
+			<div class='col-sm-2 col-lg-2 col-md-2' style="float:right;">
+				<br>
+				<button id='filter_stats' type="button" class="btn btn-success btn-lg">GO</button>
+		
+				</div>
+			
+			
+	
 		</div>
 		<div class="no-gutters row">
 			<div class="col-sm-6 col-md-4 col-xl-4">
@@ -153,14 +164,8 @@
 						<i class="lnr-sort-amount-asc text-dark opacity-8"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">Deposits</div>
-						<div class="widget-numbers" id="today_deposits_filter"></div>
-						<!-- <div class="widget-description opacity-8 text-focus">
-							<div class="d-inline text-danger pr-1">
-								<i class="fa fa-angle-down"></i>
-								<span class="pl-1">54.1%</span>
-							</div>
-							less earnings
-						</div> -->
+						<div class="widget-numbers" id="deposits_filter"></div>
+						
 					</div>
 				</div>
 				<div class="divider m-0 d-md-none d-sm-block"></div>
@@ -172,14 +177,8 @@
 						<i class="fa fa-gavel text-white"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">Bids</div>
-						<div class="widget-numbers"><span id="today_bids_filter"></span></div>
-						<!-- <div class="widget-description opacity-8 text-focus">
-							Grow Rate:
-							<span class="text-info pl-1">
-								<i class="fa fa-angle-down"></i>
-								<span class="pl-1">14.1%</span>
-							</span>
-						</div> -->
+						<div class="widget-numbers"><span id="bids_filter"></span></div>
+						
 					</div>
 				</div>
 				<div class="divider m-0 d-md-none d-sm-block"></div>
@@ -191,28 +190,13 @@
 						<i class="lnr-users text-white"></i></div>
 					<div class="widget-chart-content">
 						<div class="widget-subheading">New Users</div>
-						<div class="widget-numbers text-success"><span id="today_users_filter"></span></div>
-						<!-- <div class="widget-description text-focus">
-							Increased by
-							<span class="text-warning pl-1">
-								<i class="fa fa-angle-up"></i>
-								<span class="pl-1">7.35%</span>
-							</span>
-						</div> -->
+						<div class="widget-numbers text-success"><span id="users_filter"></span></div>
+						
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="text-center d-block p-3 card-footer">
-			<a href="#graphs1">
-			<button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-warning btn-lg">
-				<span class="mr-2 opacity-7">
-					<i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
-				</span>
-				<span class="mr-1">View in graphs</span>
-			</button>
-		</a>
-		</div>
+		
 	</div>
 	</div>
 	
@@ -307,12 +291,17 @@
 <script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
 <script src="{% static "plugins/datatables-responsive/js/dataTables.responsive.min.js" %}"></script>
 <script src="{% static "plugins/datatables-responsive/js/responsive.bootstrap4.min.js" %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script> -->
 <!-- Resources -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js" type="text/javascript"></script>
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script src="{% static "plugins/datetimepicker/bootstrap-datetimepicker.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
 
 
 
@@ -865,9 +854,7 @@
 		  $('#today_deposits').html(Number(data.today_deposits).toLocaleString());
 		  $('#total_bids').html(Number(data.total_bids).toLocaleString());
 		  $('#today_bids').html(Number(data.today_bids).toLocaleString());
-		  $('#today_bids_filter').html(Number(data.today_bids).toLocaleString());
-		  $('#today_deposits_filter').html(Number(data.today_deposits).toLocaleString());
-		  $('#today_users_filter').html(Number(data.today_users).toLocaleString());
+		  
   
 		},
 		complete: function () {
@@ -881,11 +868,13 @@
 <script>
 	$('#filter_stats').click(function(){
 
-	var date_range = $('#date-ranges').html();
+	var from_date = $('#from_date').val();
+	var to_date = $('#to_date').val();
+	console.log(from_date+ ' ' + to_date);
 	$.ajax({
           type: 'POST',
           url: "/filters/",
-          data: {"date_range":date_range},
+          data: {"from_date":from_date,"to_date":to_date},
           success: function (response) {
               
               {
@@ -901,6 +890,44 @@
 		
 	});
 
+
+</script>
+
+<script type="text/javascript">
+	$(function () {
+		$('#from_date').datetimepicker(
+			{
+            format: 'YYYY-MM-DD HH:mm'
+        }
+		);
+		
+	}).on('changeDate', function(ev){
+		{
+            format: 'YYYY-MM-DD HH:mm'
+        }
+
+	});
+</script>  
+<script type="text/javascript">
+	$(function () {
+		$('#to_date').datetimepicker(
+			{
+            format: 'YYYY-MM-DD HH:mm'
+        }
+		);
+		
+	}).on('changeDate', function(ev){
+		{
+            format: 'YYYY-MM-DD HH:mm'
+        }
+
+	});
+</script>  
+
+<script>
+	$('#filter_btn').click(function(){
+		$('#filter_div').toggle();
+	});
 
 </script>
 

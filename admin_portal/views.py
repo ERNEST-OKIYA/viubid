@@ -14,7 +14,7 @@ from django.db.models.functions import TruncDay
 from django.utils.timezone import localtime, now
 from django.db.models import Max, Sum
 from django.utils.formats import get_format
-from django.forms.fields import DateField
+from django.forms.fields import DateField,DateTimeField
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -1694,17 +1694,20 @@ class Filters(View):
 
 	def post(self,request):
 		
-		date_range = request.POST.get('date_range')
-		from_date = date_range.split('to')[0].strip()
-		to_date =date_range.split('to')[1].strip()
-		fld = DateField()
+		from_date = request.POST.get('from_date').strip()
+		to_date = request.POST.get('to_date').strip()
+		fld = DateTimeField()
 		start_date=fld.to_python(from_date)
 		end_date=fld.to_python(to_date)
-		deposits_filter = PayIn.objects.filter(created_at__range=[start_date,end_date])\
+		
+		deposits_filter = PayIn.objects.filter(created_at__gt=start_date,created_at__lt=end_date)\
 			.aggregate(Sum('transaction_amount')).get('transaction_amount__sum')
+		
+		f = PayIn.objects.filter(created_at__gt=start_date,created_at__lt=end_date)
+		
 
-		users_filter = User.objects.filter(date_created__range=[start_date,end_date]).count()
-		bids_filter =BidEntry.objects.filter(created_at__range=[start_date,end_date]).count()
+		users_filter = User.objects.filter(date_created__gt=start_date,date_created__lt=end_date).count()
+		bids_filter =BidEntry.objects.filter(created_at__gt=start_date,created_at__lt=end_date).count()
 		data = {
 			'deposits_filter':deposits_filter,
 			'bids_filter':bids_filter,
@@ -1714,7 +1717,7 @@ class Filters(View):
 
 
 		}
-
+		
 		return JsonResponse(data)
 
 	@method_decorator(csrf_exempt)
