@@ -105,88 +105,65 @@ class Dashboard(View):
 
 	def get(self,request):
 
-		# today = date.today()
+		today = date.today()
 
 
-		# current_year = datetime.now().year
+		current_year = datetime.now().year
 
-		# current_month = datetime.now().month
+		current_month = datetime.now().month
 
-		# # graphs
-		# cursor = connection.cursor()
+		# graphs
+		cursor = connection.cursor()
 
-		# users_per_day_of_a_month = []
-		# cursor = connection.cursor()
-		# game_id =1
-		# #mothly registrations
-		# cursor.execute("""SELECT DATE(date_created) as date, count(id) as value
-		# 		FROM `users_user`
-		# 		WHERE MONTH(date_created) = %s AND year(date_created)=%s
-		# 		GROUP BY DATE(date_created)""", [current_month, current_year])
+		bids_per_day_of_a_month = []
+		monthly_bids_sum ={}
+		cursor = connection.cursor()
+		
+		# mothly bids
+		cursor.execute("""SELECT DATE(created_at) as date, count(id) as value
+				FROM bids_bid
+				WHERE EXTRACT(MONTH from created_at) = %s AND EXTRACT(YEAR from created_at)=%s
+				GROUP BY DATE(created_at)""", [current_month, current_year])
 
-		# users_results = dictfetchall(cursor)
-
-
-		# for result in users_results:
-
-		# 	users_per_day_of_a_month.append(result)
-
-		# 	monthly_registration_count = json.dumps(
-		# 		users_per_day_of_a_month, default=json_serial)
-
-		# 	cursor.close()
-		# #end monthly registration
+		bids_results = dictfetchall(cursor)
 
 
-		# # monthly tikcets
-		# cursor = connection.cursor()
+		for result in bids_results:
 
-		# monthly__tickets_datalist = []
+			bids_per_day_of_a_month.append(result)
 
-		# cursor.execute("""SELECT DATE(created_at) as date, count(id) as value
-		# 		FROM `tickets_ticket`
-		# 		WHERE game_id = %s AND MONTH(created_at) = %s AND year(created_at)=%s
-		# 		GROUP BY DATE(created_at)""", [game_id,current_month, current_year])
+			monthly_bids_sum = json.dumps(
+				bids_per_day_of_a_month, default=json_serial)
 
-		# monthly__tickets_results = dictfetchall(cursor)
+			cursor.close()
+		
 
+		#mothly deposists
 
-		# for result in monthly__tickets_results:
+		cursor = connection.cursor()
 
-		# 	monthly__tickets_datalist.append(result)
+		monthly__deposits_datalist = []
+		monthly_deposits_sum ={}
 
-		# 	monthly_tickets_count = json.dumps(
-		# 		monthly__tickets_datalist, default=json_serial)
+		cursor.execute("""SELECT DATE(created_at) as date,sum(transaction_amount) as value
+				FROM payments_payin
+				WHERE EXTRACT(MONTH from created_at) = %s AND EXTRACT(YEAR from created_at)=%s
+				GROUP BY DATE(created_at)""", [current_month, current_year])
 
-		# 	cursor.close()
+		monthly__deposits_results = dictfetchall(cursor)
 
-		# #end monthly tickets
+		for result in monthly__deposits_results:
 
-		# #mothly deposists
+			monthly__deposits_datalist.append(result)
 
-		# cursor = connection.cursor()
+			monthly_deposits_sum = json.dumps(
+				monthly__deposits_datalist, default=json_serial)
 
-		# monthly__deposits_datalist = []
+			cursor.close()
 
-		# cursor.execute("""SELECT DATE(created_at) as date, SUM(transaction_amount) as value
-		# 		FROM `payments_payin`
-		# 		WHERE MONTH(created_at) = %s AND year(created_at)=%s
-		# 		GROUP BY DATE(created_at)""", [current_month, current_year])
+		#end monthly deposits
 
-		# monthly__deposits_results = dictfetchall(cursor)
-
-		# for result in monthly__deposits_results:
-
-		# 	monthly__deposits_datalist.append(result)
-
-		# 	monthly_deposits_count = json.dumps(
-		# 		monthly__deposits_datalist, default=json_serial)
-
-		# 	cursor.close()
-
-		# #end monthly deposits
-
-		# #tickets sold per hour
+		
 
 		# hours_count={}
 		# hours_tickets_list=[]
@@ -208,18 +185,17 @@ class Dashboard(View):
 
 		# cursor.close()
 
-		# #end hourly tickets
+		#end hourly tickets
 
 
-		# data={
-		# 		'monthly_registration_data': monthly_registration_count,
-		# 		'monthly_tickets_data': monthly_tickets_count,
-		# 		'monthly_deposits_data': monthly_deposits_count,
-		# 		'hourly_tickets_data': hourly_tickets_data,
+		data={
+				'monthly_deposits_data': monthly_deposits_sum,
+				'monthly_bids_data':monthly_bids_sum
+				
 
-		# 	}
+			}
 
-		return render(request,'admin_portal/dashboard.html')
+		return render(request,'admin_portal/dashboard.html',data)
 
 	@method_decorator(login_required)
 	def dispatch(self, request, *args, **kwargs):
