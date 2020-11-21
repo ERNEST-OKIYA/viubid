@@ -462,40 +462,40 @@
 		var hoverState = bullet.states.create("hover");
 		hoverState.properties.scale = 1.7;
 		
-		function createTrendLine(data) {
-		  var trend = chart2.series.push(new am4charts.LineSeries());
-		  trend.dataFields.valueY = "value";
-		  trend.dataFields.dateX = "date";
-		  trend.strokeWidth = 2
-		  trend.stroke = trend.fill = am4core.color("#c00");
-		  trend.data = data;
+		// function createTrendLine(data) {
+		//   var trend = chart2.series.push(new am4charts.LineSeries());
+		//   trend.dataFields.valueY = "value";
+		//   trend.dataFields.dateX = "date";
+		//   trend.strokeWidth = 2
+		//   trend.stroke = trend.fill = am4core.color("#c00");
+		//   trend.data = data;
 		
-		  var bullet = trend.bullets.push(new am4charts.CircleBullet());
-		  bullet.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
-		  bullet.strokeWidth = 2;
-		  bullet.stroke = am4core.color("#fff")
-		  bullet.circle.fill = trend.stroke;
+		//   var bullet = trend.bullets.push(new am4charts.CircleBullet());
+		//   bullet.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+		//   bullet.strokeWidth = 2;
+		//   bullet.stroke = am4core.color("#fff")
+		//   bullet.circle.fill = trend.stroke;
 		
-		  var hoverState = bullet.states.create("hover");
-		  hoverState.properties.scale = 1.7;
+		//   var hoverState = bullet.states.create("hover");
+		//   hoverState.properties.scale = 1.7;
 		
-		  return trend;
-		};
+		//   return trend;
+		// };
 		
-		createTrendLine([
-		  { "date": "2012-01-02", "value": 10 },
-		  { "date": "2012-01-11", "value": 19 }
-		]);
+		// createTrendLine([
+		//   { "date": "2012-01-02", "value": 10 },
+		//   { "date": "2012-01-11", "value": 19 }
+		// ]);
 		
-		var lastTrend = createTrendLine([
-		  { "date": "2012-01-17", "value": 16 },
-		  { "date": "2012-01-22", "value": 10 }
-		]);
+		// var lastTrend = createTrendLine([
+		//   { "date": "2012-01-17", "value": 16 },
+		//   { "date": "2012-01-22", "value": 10 }
+		// ]);
 		
-		// Initial zoom once chart is ready
-		lastTrend.events.once("datavalidated", function(){
-		  series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-		});
+		// // Initial zoom once chart is ready
+		// lastTrend.events.once("datavalidated", function(){
+		//   series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
+		// });
 		
 		}); // end am4core.ready()
 		</script>
