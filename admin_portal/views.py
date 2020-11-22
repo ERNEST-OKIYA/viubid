@@ -121,7 +121,7 @@ class Dashboard(View):
 		
 		# mothly bids
 		cursor.execute("""SELECT DATE(created_at) as date, count(id) as value
-				FROM bids_bid
+				FROM bids_bidentry
 				WHERE EXTRACT(MONTH from created_at) = %s AND EXTRACT(YEAR from created_at)=%s
 				GROUP BY DATE(created_at)""", [current_month, current_year])
 
@@ -144,6 +144,8 @@ class Dashboard(View):
 
 		monthly__deposits_datalist = []
 		monthly_deposits_sum ={}
+
+
 
 		cursor.execute("""SELECT DATE(created_at) as date,sum(transaction_amount) as value
 				FROM payments_payin
