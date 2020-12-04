@@ -408,31 +408,6 @@ class Helpers:
         return bill_ref_no
 
 
-    # def get_bid_code(self,value):
-        
-    #     f_lookups = self.get_lookups()
-        
-
-    #     print('LOOKUPS -->',f_lookups)
-            
-    #     if f_lookups:
-    #         match = difflib.get_close_matches(value.upper(),f_lookups,n=1)
-    #         print(match)
-    #         if len(match)!=0:
-    #             try:
-
-    #                 bid = Bid.objects.filter(lookups__contains=match).last()
-                
-    #                 return bid.code
-    #             except:
-    #                 return False
-
-    #         else:
-    #             return False
-
-    #     else:
-    #         return False
-
     def get_bid_code(self,value):
         
         bids = Bid.objects.filter(is_open=True).all()
@@ -450,6 +425,14 @@ class Helpers:
                 continue
 
         return False
+
+    def get_bid_by_id(self,id):
+        try:
+            return Bid.objects.get(pk=id)
+        
+        except ObjectDoesNotExist as e:
+            DEBUG and logger.debug('BID  Error ---{}'.format(str(e)))
+            return False
             
     
 
