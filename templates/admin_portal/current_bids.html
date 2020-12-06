@@ -30,7 +30,7 @@
 {% block content %}
 <!-- Large modal -->
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -147,7 +147,7 @@
                                 <div class="widget-content-left center-elem mr-2">
                                     <i class="fas fa-ellipsis-v text-info"></i></div>
                                 <div class="widget-content-left">
-                                    <div class="widget-heading"><input type="checkbox" id="unique-view-toggle" data-toggle="toggle" data-on="<i class='fa fa-play'></i>" data-off="<i class='fa fa-pause'></i>"></div>
+                                    <div class="widget-heading"><input type="checkbox" checked id="unique-view-toggle" data-toggle="toggle" data-on="<i class='fa fa-play'></i>" data-off="<i class='fa fa-pause'></i>"></div>
                                 </div>
                                 
                             </div>
@@ -305,9 +305,9 @@
   <script>
     $('#unique-view-toggle').click(function () {
         if ($(this).attr('checked')) {
-            $('.bd-example-modal-lg').show();
+            $('#bd-example-modal-lg').show();
         } else {
-            $('.bd-example-modal-lg').show();
+            $('#bd-example-modal-lg').show();
         }
      });
 </script>
