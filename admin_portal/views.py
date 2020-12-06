@@ -1746,7 +1746,7 @@ class UniqueBids(View):
 					has_previous_win = has_previous_win
 					)
 			datalist.append(data)
-		return HttpResponse(request,'admin_portal/unique-bids.html',{'data':data})
+		return render(request,'admin_portal/unique-bids.html',{'data':data})
 	def post(self,request):
 		pass
 
