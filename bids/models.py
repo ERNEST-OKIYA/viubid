@@ -54,7 +54,12 @@ class Bid(FactoryModel):
         return cls.objects.filter(is_open=True).order_by('-priority')
 
     def cm_passed(self):
-        return True if (self.entries.count()*20) > self.product.price else False
+        return True if (self.entries.count()*20) >= self.critical_mass else False
+
+    def save(self, *args, **kwargs):
+        if self.critical_mass == 20.00:
+            self.critical_mass = self.product.price
+        super().save(*args, **kwargs)
 
     
     
