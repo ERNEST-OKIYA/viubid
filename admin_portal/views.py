@@ -1736,7 +1736,7 @@ class UniqueBids(View):
 		for ub in unique_bids:
 			data = {}
 			amount = ub.get('amount')
-			entry = UserBid.objects.filter(bid_entry__bid__id=bid_id).get(amount=amount)
+			entry = UserBid.objects.filter(bid_entry__bid__id=bid_id).get(amount=amount).order_by('amount')
 			has_previous_win = helpers.has_previous_win(entry.bid_entry.user.id)
 			data =dict(first_name=entry.bid_entry.user.profile.first_name,
 					last_name=entry.bid_entry.user.profile.last_name,
