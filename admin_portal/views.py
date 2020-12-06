@@ -1730,9 +1730,8 @@ class Filters(View):
 
 class UniqueBids(View):
 
-	def get(self,request):
+	def get(self,request,bid_id):
 		datalist = []
-		bid_id = request.GET.get('bid_id')
 		unique_bids = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount').annotate(amount_count=Count('amount')).filter(amount_count__lt=2).order_by('amount')
 		for ub in unique_bids:
 			data = {}
