@@ -26,11 +26,6 @@ def run():
         for msg in messages:
             message = msg.text
             msisdn = msg.phone_number
-
-            if msisdn == '254704287525' and message.startswith('Pole'):
-                continue
-
-
             try:
                 payload = dict(sender='QUICKBID',message=message,msisdns=[msisdn])
                 url = 'https://app.sasasms.co.ke/api/v1/sms/send/'
