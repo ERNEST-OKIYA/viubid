@@ -16,7 +16,7 @@ def run():
     RESPONSE_ACCEPTED='ACCEPTED'
     RESPONSE_FAILED='FAILED'
 
-
+    EEXCLUDES = ['254716180762','254704287525']
 
 
     while True:
@@ -27,7 +27,7 @@ def run():
             message = msg.text
             msisdn = msg.phone_number
 
-            if msisdn == '254704287525' and message.startswith('Pole'):
+            if msisdn in EEXCLUDES and message.startswith('Pole'):
                 continue
 
 
