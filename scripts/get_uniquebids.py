@@ -9,7 +9,7 @@ def get_uniques(bid_id):
     for ub in unique_bids:
         amount = ub.get('amount')
         entry = UserBid.objects.filter(bid_entry__bid__id=bid_id).get(amount=amount)
-        print(entry.bid_entry.bid.user.profile.first_name,entry.bid_entry.bid.user.profile.last_name,entry.bid_entry.bid.code,entry.bid_entry.bid.product.name,entry.amount)
+        print(entry.bid_entry.user.profile.first_name,entry.bid_entry.user.profile.last_name,entry.bid_entry.bid.code,entry.bid_entry.bid.product.name,entry.amount)
 
 
 
