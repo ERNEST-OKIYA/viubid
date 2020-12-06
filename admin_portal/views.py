@@ -1731,10 +1731,8 @@ class Filters(View):
 class UniqueBids(View):
 
 	def get(self,request):
-		pass
-	def post(self,request):
 		datalist = []
-		bid_id = request.POST.get('bid_id')
+		bid_id = request.GET.get('bid_id')
 		unique_bids = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount').annotate(amount_count=Count('amount')).filter(amount_count__lt=2).order_by('amount')
 		for ub in unique_bids:
 			data = {}
@@ -1749,8 +1747,11 @@ class UniqueBids(View):
 					has_previous_win = has_previous_win
 					)
 			datalist.append(data)
+		return HttpResponse(request,'admin_portal/unique-bids.html',{'data':data})
+	def post(self,request):
+		pass
 
-		return JsonResponse(data)
+		
 		
 
 	@method_decorator(csrf_exempt)
