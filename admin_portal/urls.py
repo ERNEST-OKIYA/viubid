@@ -19,6 +19,7 @@ urlpatterns=[
             url('^bidders/$', Players.as_view(), name='bidders'),
             url('^payins/$', IncomingPayments.as_view(), name='payins'),
             url('^invalid-bids/$', InvalidBids.as_view(), name='invalid-bids'),
+            
 
 
             ]

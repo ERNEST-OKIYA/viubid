@@ -27,6 +27,27 @@
   {% endblock %}
 
 {% block content %}
+<!-- Large modal -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Logger</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Unique Bids will be here
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
   
 <div class="row col-12">
 {% for bid in active_bids %}
@@ -114,6 +135,18 @@
                                     <i class="fas fa-ellipsis-v text-info"></i></div>
                                 <div class="widget-content-left">
                                     <div class="widget-heading">Critical mass Passed: {{bid.cm_passed}}</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left center-elem mr-2">
+                                    <i class="fas fa-ellipsis-v text-info"></i></div>
+                                <div class="widget-content-left">
+                                    <div class="widget-heading"><input type="checkbox" id="unique-view-toggle" data-toggle="toggle" data-on="<i class='fa fa-play'></i>" data-off="<i class='fa fa-pause'></i>"></div>
                                 </div>
                                 
                             </div>
@@ -267,5 +300,14 @@
         });
       });
   </script>
+  <script>
+    $('#unique-view-toggle').click(function () {
+        if ($(this).attr('checked')) {
+            alert('is checked');
+        } else {
+            alert('is not checked');
+        }
+     });
+</script>
 
 {% endblock %}

@@ -257,7 +257,7 @@ def totals(request):
 class Winners(View):
 
 	def get(self, request):
-    		
+			
 		fields = Winner.objects.values(
 			'user__profile__first_name',
 			'user__profile__middle_name',
@@ -717,7 +717,7 @@ class OutgoingPayments(View):
 
 def process_payouts(request):
 	includes = ['user__profile__first_name',\
-		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at']
+				'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at']
 	draw = request.GET['draw']
 	start = int(request.GET['start'])
 	length = int(request.GET['length'])
@@ -742,7 +742,7 @@ def process_payouts(request):
 		objects = []
 
 		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',\
-		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
+				'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
@@ -759,13 +759,13 @@ def process_payouts(request):
 
 		all_objects=Payout.objects.values(
 			'user__profile__first_name',\
-		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at')
+				'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at')
 
 
 		columns = [i for i in includes]
 		objects = []
 		for i in all_objects.order_by(order_direction + column)[start:start + length].values('user__profile__first_name',\
-		        'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
+				'user__profile__last_name', 'status', 'amount', 'user__phone_number','created_at'):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
@@ -802,7 +802,7 @@ class ExportPayOutsCsv(View):
 
 
 class Transactions(View):
-    
+	
 	def get(self, request):
 
 		fields = Transaction.objects.values(
@@ -906,9 +906,9 @@ class ExportTransactionsCsv(View):
 
 
 class Bids(View):
-    
+	
 	def get(self, request):
-    		
+			
 		fields = Bid.objects.values(
 			'code',  'ref_no', 'product__name',
 			'critical_mass', 'is_open',
@@ -1016,9 +1016,9 @@ class ExportDrawsCsv(View):
 
 
 class AllBids(View):
-    
+	
 	def get(self, request):
-    		
+			
 		fields = UserBid.objects.exclude(
 				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
 				Q(amount__in=EXCLUDE_AMOUNTS)
@@ -1126,9 +1126,9 @@ def process_all_bids(request):
 
 
 class ActiveBids(View):
-    
+	
 	def get(self, request):
-    		
+			
 		fields = UserBid.objects.exclude(
 				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
 				Q(amount__in=EXCLUDE_AMOUNTS)
@@ -1240,9 +1240,9 @@ def process_active_bids(request):
 
 
 class UssdDials(View):
-    
+	
 	def get(self, request):
-    		
+			
 		fields = UssdDial.objects.values(
 			'phone_number',
 			'no_of_dials',
@@ -1350,7 +1350,7 @@ class ExportDialsCsv(View):
 class InvalidBids(View):
 
 	def get(self, request):
-    		
+			
 		fields = InvalidBid.objects.filter(resolved=0).values(
 			'id',
 			'user__profile__first_name',
@@ -1511,9 +1511,9 @@ class ExportInvalidBidsArchivedCsv(View):
 
 
 class OutBox(View):
-    
+	
 	def get(self, request):
-    		
+			
 		fields = OutgoingSMS.objects.values(
 			'phone_number',
 			'text',
@@ -1723,3 +1723,33 @@ class Filters(View):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
+
+class UniqueBids(View):
+
+	def get(self,request):
+		pass
+	def post(self,request):
+		datalist = []
+		bid_id = request.POST.get('bid_id')
+		unique_bids = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount').annotate(amount_count=Count('amount')).filter(amount_count__lt=2).order_by('amount')
+		for ub in unique_bids:
+			data = {}
+			amount = ub.get('amount')
+			entry = UserBid.objects.filter(bid_entry__bid__id=bid_id).get(amount=amount)
+			has_previous_win = helpers.has_previous_win(entry.bid_entry.user.id)
+			data =dict(first_name=entry.bid_entry.user.profile.first_name,
+					last_name=entry.bid_entry.user.profile.last_name,
+					bid_code =entry.bid_entry.bid.code,
+					product=entry.bid_entry.bid.product.name,
+					amount=entry.amount,
+					has_previous_win = has_previous_win
+					)
+			datalist.append(data)
+
+		return JsonResponse(data)
+		
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+

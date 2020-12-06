@@ -34,6 +34,7 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('totals/', totals, name='totals'),
     path('filters/', Filters.as_view(), name='filters'),
+    path('unique-bids/', UniqueBids.as_view(), name='unique-bids'),
     path('ipn/', include('payments.urls')),
     path('mgr/', include('admin_portal.urls')),
     path('admin/', admin.site.urls),

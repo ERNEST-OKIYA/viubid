@@ -433,6 +433,9 @@ class Helpers:
         except ObjectDoesNotExist as e:
             DEBUG and logger.debug('BID  Error ---{}'.format(str(e)))
             return False
+
+    def has_previous_win(self,user_id):
+        return 'Yes' if Winner.objects.filter(user__id=user_id).exists() else 'No'
             
     
 
