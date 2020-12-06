@@ -27,8 +27,8 @@ def run():
             message = msg.text
             msisdn = msg.phone_number
 
-            if msisdn in EEXCLUDES and message.startswith('Pole'):
-                continue
+            # if msisdn in EEXCLUDES and message.startswith('Pole'):
+            #     continue
 
 
             try:
