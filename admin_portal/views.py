@@ -41,8 +41,8 @@ helpers = Helpers()
 import random
 import string
 
-EXCLUDE_PHONES = ('254705795452','254725839110',)
-EXCLUDE_AMOUNTS = ('354','374','392','393','394','395','404','407','410','424','425','426','427','429','415','417',)
+EXCLUDE_PHONES = ('',)
+EXCLUDE_AMOUNTS = ('',)
 
 
 
