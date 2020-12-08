@@ -7,15 +7,6 @@ from .utils import ArgumentVector
 
 class UssdMiddleware(object):
 
-	default_request_data = dict(
-		service_code=None,
-		phone_number=None,
-		session_id=None,
-		initial_code=None,
-		request_input=None,
-		request_inputs=None
-	)
-
 	def __init__(self, get_response):
 		self.get_response = get_response
 
@@ -23,80 +14,74 @@ class UssdMiddleware(object):
 	def backend(self):
 		return ussd_session_backend
 
-	def is_ussd_request(self, request):
-		for endpoint in ussd_settings.URLS:
-			if re.search(endpoint['path'], request.path) is not None:
-				self.validate_request(request, endpoint)
-				request.ussd_conf = endpoint
-				return True
-		return False
-
-	def validate_request(self, request, conf):
-		if request.method not in conf['methods']:
+	def validate_request(self, request, url):
+		if request.method not in url['methods']:
 			raise ValueError(
 				'Http Method %s not allowed for USSD endpoint %s.'\
 				% (request.method, request.path)
 			)
+		for k in ('service_code', 'ussd_string', 'msisdn', 'session_id'):
+			if k not in request.GET:
+				raise ValueError('Query param %s required in USSD requests.' % k)
 
-	def validate_request_data(self, data, request):
-		for k in ('service_code', ('request_input', 'request_inputs'), 'phone_number', 'session_id'):
-			if isinstance(k, (tuple, list)):
-				ok = any((True for x in k if data.get(x) is not None))
-			else:
-				ok = data.get(k) is not None
-			if not ok:
-				raise ValueError('Query param %s required in USSD requests.' % (k,))
+	def is_ussd_request(self, request):
+		for url in ussd_settings.URLS:
+			if re.search(url['path'], request.path) is not None:
+				self.validate_request(request, url)
+				# print(request.path, 'is a ussd request. Matched:', url['path'])
+				return True
 
-	# def extract_request_data(self, req):
-	# 	raise NotImplementedError
-
-	def prepare_request_data(self, req):
-		req.ussd_data = dict(self.default_request_data)
-		req.ussd_data.update(self.extract_request_data(req))
-		self.validate_request_data(req.ussd_data, req)
+		# print(request.path, 'is not a ussd request. URLs:', ussd_settings.URLS)
+		return False
 
 	def open_session(self, req):
 		session = self.backend.open_session(req)
 		req.ussd_session = session
+		# print('USSD session: %s' % (session.key,))
+		# print('  - Created  :', session.created_at.isoformat())
+		# print('  - Accessed :', session.accessed_at and session.accessed_at.isoformat())
+		# print('  - Is New   :', session.is_new)
+		# print('  - Started  :', getattr(session, '_is_started', False))
 
 	def close_session(self, req, response):
 		if hasattr(req, 'ussd_session'):
 			self.backend.close_session(req.ussd_session, req, response)
+			# session = req.ussd_session
+			# print(' Closing USSD session: %s' % (session.key,))
 
 	def prepare_request(self, request):
-		service_code = request.ussd_data['service_code']
-		base_code = request.ussd_data.get('initial_code')
-		argstr = request.ussd_data['request_input']
-		args = request.ussd_data['request_inputs']
+		service_code = request.GET['service_code']
+		base_code = request.GET.get('initial_code')
+		argstr = request.GET['ussd_string']
 
+		argv = ArgumentVector(service_code, argstr, base_code)
 		request.service_code = service_code
 
-		if args is None:
+		session = request.ussd_session
+		xargv = session.argv
 
-			argv = ArgumentVector(service_code, argstr, base_code)
+		request.args = argv - xargv if xargv else []
 
-			session = request.ussd_session
-			xargv = session.argv
-			request.args = argv - xargv if xargv else []
+		#TODO:- argv might not be needed in the request object. DONE.
+		session.argv = argv
 
-			#TODO:- argv might not be needed in the request object. DONE.
-			session.argv = argv
-		else:
-			request.args = ArgumentVector(args)
+		# print(' Ussd argv  	: %r' % (argv,))
+		# print(' Ussd xargv 	: %r' % (xargv,))
+		# print(' Ussd inputs :', request.args)
 
-	def setup_request(self, request):
-		self.prepare_request_data(request)
-		self.open_session(request)
-		self.prepare_request(request)
-
-	def teardown_request(self, request, response):
-		self.close_session(request, response)
-
-	def __call__(self, req, *args, **kwargs):
+	def __call__(self, req):
+		
 		is_ussd_request = self.is_ussd_request(req)
+		if is_ussd_request:
+			self.open_session(req)
+			self.prepare_request(req)
 
-		res = is_ussd_request and self.setup_request(req) or self.get_response(req, *args, **kwargs)
-		res = is_ussd_request and self.teardown_request(req, res) or res
-		return res
+		response = self.get_response(req)
+
+		if is_ussd_request:
+			self.close_session(req, response)
+
+
+		return response
 
 

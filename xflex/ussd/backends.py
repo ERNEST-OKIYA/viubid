@@ -30,13 +30,13 @@ class CacheBackend(object):
 	# 	return ussd_settings.SCREEN_STATE_TIMEOUT
 
 	def get_request_sid(self, request):
-		rv = request.GET.get('session_id')
+		rv = request.ussd_data.get('session_id')
 		if not rv:
 			rv = int((time.time() - _epoch) * 1000000)
 		return rv
 
 	def get_request_uid(self, request):
-		return request.GET.get('msisdn', '0')
+		return request.ussd_data.get('phone_number', '0')
 
 	def get_session_key(self, request):
 		cls = self.get_session_key_class(request)

@@ -84,10 +84,15 @@ class UssdView(View):
 
 		if action in (CON, END):
 			screen.teardown_state()
-			return HttpResponse('%s %s' % (action, screen.payload))
+			res = HttpResponse('%s %s' % (action, screen.payload))
+			# res = HttpResponse(screen.payload)
+			# res.type = action
+			return res
 		elif isinstance(action, str):
 			screen.teardown_state()
-			return HttpResponse(action)
+			res = HttpResponse(action)
+			# res.type = action
+			return res
 
 		raise RuntimeError('Screen must return next action or ScreenRef.')
 

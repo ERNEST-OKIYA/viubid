@@ -20,8 +20,7 @@ class UssdConfig(AppConfig):
 	def check_data_dir(self):
 		if not os.path.exists(settings.LOCAL_DATA_DIR):
 			os.mkdir(settings.LOCAL_DATA_DIR)
-			svn_content = """*
-			!.gitignore"""
+			svn_content = """*\n!.gitignore"""
 			with open(os.path.join(settings.LOCAL_DATA_DIR, '.gitignore'), 'w+') as f:
 				f.write(svn_content)
 
