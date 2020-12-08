@@ -1019,10 +1019,7 @@ class AllBids(View):
 	
 	def get(self, request):
 			
-		fields = UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).values(
+		fields = UserBid.objects.values(
 			'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
 			'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
 			'bid_entry__bid__code', 'amount',
@@ -1058,10 +1055,7 @@ def process_all_bids(request):
 
 		print(global_search, 'search value')
 
-		all_objects = UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).filter(
+		all_objects = UserBid.objects.filter(
 				   Q(bid_entry__user__phone_number__icontains=global_search) |
 				   Q(bid_entry__user__profile__first_name=global_search) |
 				   Q(source__icontains = global_search) |
@@ -1091,10 +1085,7 @@ def process_all_bids(request):
 
 	else:
 
-		all_objects=UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).values(
+		all_objects=UserBid.objects.values(
 				'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
 				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
 				'bid_entry__bid__code', 'amount',
@@ -1129,10 +1120,7 @@ class ActiveBids(View):
 	
 	def get(self, request):
 			
-		fields = UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).filter(bid_entry__bid__is_open=True).values(
+		fields = UserBid.objects.filter(bid_entry__bid__is_open=True).values(
 			'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
 			'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
 			'bid_entry__bid__code', 'amount',
@@ -1168,10 +1156,7 @@ def process_active_bids(request):
 
 		print(global_search, 'search value')
 
-		all_objects = UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).filter(bid_entry__bid__is_open=True).\
+		all_objects = UserBid.objects.filter(bid_entry__bid__is_open=True).\
 			filter(Q(bid_entry__user__phone_number__icontains=global_search) |
 				   Q(bid_entry__user__profile__first_name=global_search) |
 				   Q(source__icontains = global_search) |
@@ -1190,10 +1175,7 @@ def process_active_bids(request):
 			ret = [i[j] for j in columns]
 			objects.append(ret)
 		filtered_count = all_objects.count()
-		total_count = UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).filter(bid_entry__bid__is_open=True).count()
+		total_count = UserBid.objects.filter(bid_entry__bid__is_open=True).count()
 		return JsonResponse({
 					"sEcho": draw,
 					"iTotalRecords": total_count,
@@ -1204,10 +1186,7 @@ def process_active_bids(request):
 
 	else:
 
-		all_objects=UserBid.objects.exclude(
-				Q(bid_entry__user__phone_number__in=EXCLUDE_PHONES) &
-				Q(amount__in=EXCLUDE_AMOUNTS)
-				).filter(bid_entry__bid__is_open=True).values(
+		all_objects=UserBid.objects.filter(bid_entry__bid__is_open=True).values(
 				'bid_entry__user__phone_number','bid_entry__user__profile__first_name',
 				'bid_entry__user__profile__last_name', 'bid_entry__bid__product__name',
 				'bid_entry__bid__code', 'amount',
