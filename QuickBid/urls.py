@@ -28,6 +28,7 @@ from admin_portal.views import (
 
 urlpatterns = [
     path('', vw.ProductsList.as_view()),
+    path('probox/', vw.SpecialBid.as_view()),
     path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faqs/', vw.Faqs.as_view()),

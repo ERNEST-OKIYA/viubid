@@ -36,3 +36,17 @@ class Faqs(View):
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+class SpecialBid(View):
+    
+    def get(self,request): 
+        bids = Bid.objects.get(id=3)
+        winners = Winner.objects.all()
+        return render(request,'products/special-bid.html',{'bids':bids,'winners':winners})
+    
+    def post(self,request):
+        pass
+    
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+

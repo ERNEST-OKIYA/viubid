@@ -1,0 +1,322 @@
+{% extends "products/products_base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+   {% block content %}
+       
+       <!-- Current Auctions-->
+       <section class="section section-lg bg-gray-100" id="current_auction">
+        <div class="container">
+          <h2 class="text-center" style="color: #002698;font-weight: bold;">proBOXMAX<span style="color:#F29100;font-weight: bolder;"> RUSH!!</span></h2>
+        
+          <div class="row">
+            
+            {% for bid in bids %}
+        
+            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6" >
+             
+              <!-- Post Modern-->
+              <div class="bg-white" style="width: 100%;border-bottom: 5px solid #d2d6dc">
+              <div class="" style="padding: 30px 20px 30px 20px;">
+              <div class="" style="margin-bottom: 3%;">
+                <h4 class="">{{bid.product.name}}</h4>
+                <strong class="post-modern-link text-bolder orange">RRP: KES {{bid.product.price|intcomma}}</strong>
+                <div class="">{{bid.product.description}}</div>
+              </div>
+              <div class="">
+                
+                <figure class="">
+                  
+                  <img src="{{bid.product.image.url}}" alt="" width="300" height="auto"/>
+                </figure>
+
+
+                
+                  <!-- Countdown-->
+
+                  <div style="border-top: 1px solid #d2d6dc; margin-top:4%;padding:3px;">
+                  
+                 <p style="color: #161e2e;">Ends In:   <strong><span id="{{bid.code}}" class="counter_t" data-closes_at="{{bid.closes_at}}" style="color: red;" onload="get_timer()"></span>
+                 </strong>
+                 </p>
+                  
+                  </div>
+
+                  <!--End countdown-->
+                  <!--Play via mpesa-->
+
+
+                  
+                  <div style="border-top: 1px solid #d2d6dc; border-bottom: 1px solid #d2d6dc;margin-top:4%;padding:3px;">
+                    <h5>Bid via Mpesa</h5>
+                    <p  style="color: #161e2e;">
+                      
+                      Send just KES <strong>20</strong> to PB <strong>4032353</strong> with <strong>{{bid.code}}</strong> and your bid amount as the account name.
+                     
+                    </p>
+                    <p class="" style=""> Example: <strong>{{bid.code}} 120</strong> to bid KES 120</p>
+                  
+
+                 
+
+                  <!--Play via mpesa-->
+                  
+                  <p style="color: #161e2e;">Or you can <strong class="text-black">Play Online</strong></p>
+                  
+                  <p class="" style="color: #161e2e;">Input your phone number and Bid amount below and check your Phone to complete.</p><br>
+
+                 
+                 <form method="post" name="bid_form" action="/ipn/checkout/">
+                  <input type="text" class="form-group form-control" placeholder="Your phone Number" id="{{bid.code}}_phone_number">
+                  <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_phone_error"></p>
+                  <input type="number" class="form-group form-control" placeholder="Bid Amount e.g 43" id="{{bid.code}}_bid_value">
+                  <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_bid_value_error"></p>
+                  <button  id="{{bid.code}}" data-code={{bid.code}} class="bid-btn button button-icon button-icon-right form-group form-control" style="background-color: #002698;border-color:#002698;color: white;"><span class="icon novi-icon"></span>Place your Bid</button>
+                  </div>
+                </form>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+          
+            {% endfor %}
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- Finished Auctions-->
+     <!--Finished Auctions -->
+
+     
+
+      <!-- Finished Auctions-->
+      <section class="section section-lg bg-gray-100 section-top-shadow" style="padding-top: 20px;min-height: 400px;">
+        <div class="container">
+          <h2 class="text-center" style="color: #002698;font-weight: bold;">Finished<span style="color:#F29100;font-weight: bolder;"> Auctions</span></h2>
+          
+            
+          <table id="example1" class="table table-responsive bg-white table-striped" style="margin-top: 2%;">
+
+               
+            <thead>
+            <tr>
+              <th>Item on Auction</th>
+              <th>Description</th>
+              <th>Winning Bidder</th>
+              <th>Product RRP</th>
+              <th>Winning Bid Amount</th>
+              <th>Ended at</th>
+               
+            </tr>
+            </thead>
+            <tbody>
+              {% for winner in winners %}
+            <tr>
+              <td style="vertical-align: middle;">
+                
+                <img src ="{{winner.bid.product.image.url}}" class="img-thumbnail img-responsive" style="width: 200px; height: auto;max-width: 100%;">
+                
+                
+              </td>
+              <td style="vertical-align: middle;">
+                <span class="">
+                  <p class="text-black">{{winner.bid.product.name}}</p>
+                  
+                  <div class="">{{winner.bid.product.description}}</div>
+                </div>
+
+              </span>
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                {{winner.user.get_shortname}}
+               
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                <strong class="post-modern-link text-bolder orange">RRP: KES {{winner.bid.product.price|intcomma}}</strong>
+                
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                <strong style="color:#28a745">KES {{winner.winning_value|intcomma}}</strong>
+                
+              </td>
+              <td style="text-align: center;vertical-align: middle;">
+               
+                {{winner.created_at}}
+                
+              </td>
+
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+          <div class="text-center" style="margin-top: 3%;">
+        
+            <h2><span style="color: #6c757d!important;;">You can be a winner too.</span></h2>
+          
+          
+            <a href="#current_auction" >
+            <button class="button button-icon button-icon-right" type="button" style="background-color: #F29100;border-color:#F29100;color: white; margin-top: 3%;"><span class="icon novi-icon"></span>Start Bidding Now</button>
+          </a>
+          </div>
+          
+      </section>
+     
+
+      {% endblock %}
+
+    </div>
+{% block page_scripts %}
+<script>
+    $('.bid-btn').click(function(e) {
+      e.preventDefault();
+      var code = $(this).data().code;
+      var phone_number = $("#"+code+"_phone_number").val();
+      var bid_value = $("#"+code+"_bid_value").val();
+        if (!$.isNumeric(phone_number))
+        {
+          $("#"+code+"_bid_value_error").hide();
+          $("#"+code+"_phone_error").html("* Please enter a valid phone number");
+          $("#"+code+"_phone_error").show();
+        }
+        else if(bid_value != Math.floor(bid_value)){
+          $("#"+code+"_phone_error").hide();
+          $("#"+code+"_bid_value_error").html("* Please Enter bid value without cents.Did you mean "+Math.floor(bid_value)+" ?");
+          $("#"+code+"_bid_value_error").show();
+
+        }
+
+      else {
+        $("#"+code+"_phone_error").hide();
+        $("#"+code+"_bid_value_error").hide();
+
+          // make POST ajax call
+            $.ajax({
+                type: 'POST',
+                url: "/ipn/checkout/",
+                data: {"phone_number":phone_number,"bid_value":bid_value,"bid_code":code},
+                success: function (data) {
+                          if (data.success==false)
+                          {
+                            var icon = 'error'
+                            var html =`
+                            <p>You can bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
+                            `
+                          }
+                          else{
+                            var icon = 'success'
+                            var html = `
+                            <p>If no prompt appears on your phone, please make sure you have atleast KES 20 in your MPESA.</p>
+                            <p>You can also bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
+                            `
+                          }
+
+                          Swal.fire({
+                          icon:icon,
+                          confirmButtonColor: '#095BDA',
+                          title: data.message,
+                          padding: '3em',
+                          width:400,
+                          html:html,
+                          confirmButtonText: 'Close',
+                        
+                    
+            })
+            }
+          })
+      }
+  })
+
+      
+</script>
+<script>
+window.onload=function get_timer()
+
+  {
+    var debug = false;
+    var counters = document.querySelectorAll('[class^=counter_t]');
+    
+    for(var i in counters){
+      var code = counters[i].id;
+      try{
+      
+      var closes_at = counters[i].dataset.closes_at.slice(0,-4);
+      }
+      catch{
+        console.log = function(){};
+
+      }
+      
+      countdown(code,closes_at);
+    }
+  
+          
+  },1000;
+  </script>
+  <script>
+  function countdown(code,closes_at)
+    {
+      var debug = false;
+      // Set the date we're counting down to
+      
+      
+      var countDownDate = new Date(closes_at).getTime();
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+         
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      try{
+        
+        
+
+      // Display the result in the element with id="demo"
+      document.getElementById(code).innerHTML = days + " days " + hours + " hrs "
+      + minutes + " mins " + seconds + " secs ";
+      }
+    
+      catch{
+        console.log = function(){};
+      }
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        try{
+
+          document.getElementById(code).innerHTML = "Anytime from now";
+      }
+      catch{
+        console.log = function(){};
+      }
+    }
+    
+      });
+
+
+      }
+    
+  
+  
+  
+  </script>
+  
+{% endblock %}
