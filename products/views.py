@@ -40,7 +40,7 @@ class Faqs(View):
 class SpecialBid(View):
     
     def get(self,request): 
-        bids = Bid.objects.get(id=3)
+        bids = Bid.objects.filter(id=3).all()
         winners = Winner.objects.all()
         return render(request,'products/special-bid.html',{'bids':bids,'winners':winners})
     
