@@ -1635,9 +1635,6 @@ class BidActions(View):
 		code = request.POST.get('code')
 		create_similar = request.POST.get('create_similar')
 		bid = helpers.get_bid_by_code(code)
-		if bid.id ==3:
-			data = {}
-			return JsonResponse(data)
 		winner = helpers.get_min_unique_bid(bid)
 		if not winner:
 			winner = UserBid.objects.filter(bid_entry__bid=bid,bid_entry__bid__is_open=True).order_by('amount').first()
@@ -1709,7 +1706,7 @@ class UniqueBids(View):
 
 	def get(self,request,bid_id):
 		datalist = []
-		unique_bids = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount').annotate(amount_count=Count('amount')).filter(amount_count__lt=2).order_by('amount')
+		unique_bids = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount').annotate(amount_count=Count('amount')).filter(amount_count__lt=2).order_by('amount')[:20]
 		for ub in unique_bids:
 			data = {}
 			amount = ub.get('amount')
