@@ -41,7 +41,7 @@ class SpecialBid(View):
     
     def get(self,request): 
         bids = Bid.objects.filter(id=3).all()
-        winners = Winner.objects.all()
+        winners = Winner.objects.all().order_by('-id')
         return render(request,'products/special-bid.html',{'bids':bids,'winners':winners})
     
     def post(self,request):
