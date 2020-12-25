@@ -12,7 +12,7 @@ class ProductsList(View):
         
         bids = Bid.objects.filter(is_open=True).all().order_by('-priority')
         next_bids = Bid.objects.filter(product__offered=True).order_by('-id')[1:5]
-        winners = Winner.objects.all()
+        winners = Winner.objects.all().order_by('-id')
         return render(request,'products/bid.html',{'bids':bids,'winners':winners})
     
     def post(self,request):
