@@ -1635,9 +1635,7 @@ class BidActions(View):
 		code = request.POST.get('code')
 		create_similar = request.POST.get('create_similar')
 		bid = helpers.get_bid_by_code(code)
-		if bid.id==3:
-			data = {}
-			return JsonResponse(data)
+		
 		winner = helpers.get_min_unique_bid(bid)
 		if not winner:
 			winner = UserBid.objects.filter(bid_entry__bid=bid,bid_entry__bid__is_open=True).order_by('amount').first()
