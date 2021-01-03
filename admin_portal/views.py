@@ -37,6 +37,7 @@ from bids.models import Bid,BidEntry,UserBid,UssdDial
 from messaging.models import OutgoingSMS
 from django.views.decorators.csrf import csrf_exempt
 from factory.helpers import Helpers
+from messaging.tasks import send_unqiue_bidders_sms
 helpers = Helpers()
 import random
 import string
@@ -1659,6 +1660,7 @@ class BidActions(View):
 			bid.ref_no = self.generate_ref_no()
 			bid.save()
 
+		send_unqiue_bidders_sms.delay(winner.amount,winner.bid_entry.user.profile.first_name)
 		return JsonResponse(data)
 
 	def get(self,request):

@@ -27,14 +27,13 @@ class Message:
 	def code_not_found(self,user,code):
 		text = "The product code {} you entered ".format(code)+\
 			   "did not match any product on bid. "+\
-			   "Please check and try again.Your money "+\
-			   "has been added to your wallet.visit www.quickbid.co.ke to view available deals."
+			   "Please check and try again. "+\
+			   "visit www.quickbid.co.ke to view available deals."
 			   
 		return self.send(user.phone_number,text)
 	
 	def less_amount(self,user,code,to_add,w_balance):
-		text = f"The minimum amount required to bid is KES 20.Your wallet balance is KES {w_balance} "+\
-			f" Please deposit KES {to_add} to Paybill 4032353 or visit quickbid.co.ke to Bid."
+		text = f"The minimum amount required to bid is KES 20.Deposit a minimum of KES 20 to enter your unique bid."
 		
 		return self.send(user.phone_number,text)
 			
@@ -44,7 +43,7 @@ class Message:
 			"is {} ".format(ticket_price)+\
 			".{} Has been added to your wallet.".format(to_wallet)+\
 			"You can use it on your next bid."     
-		return self.send(user.phone_number,text)
+		# return self.send(user.phone_number,text)
 	
 	def user_bid(self,user,amount,bid_entry,unique):
 		product_name = bid_entry.bid.product.name
@@ -66,14 +65,13 @@ class Message:
 	
 	def code_not_open(self,user,code):
 		text = f"No item with bid code {code} was found." +\
-			   " Your money has been added to your wallet.Try again & Bid more products on quickbid.co.ke. "
+			   " Try again & Bid more products on quickbid.co.ke. "
 			   
 		return self.send(user.phone_number,text)
 
 	def incorrect_bid_amount(self,phone_number,amount):
 		text = f"Sorry, Your Bid amount {amount} is incorrect. Please Enter a value greater than 1 and without decimal points. " +\
-			   " Your money has been added to your wallet." +\
-			   f" Try again & Bid on more products on www.quickbid.co.ke."
+			   f"Try again & Bid on more products on www.quickbid.co.ke."
 			   
 		return self.send(phone_number,text)
 
@@ -103,6 +101,19 @@ class Message:
 				"EG if a TV is on auction and your bid amount is 43, Enter TV 43. Bid on more products on www.quickbid.co.ke."
 
 		return self.send(phone_number,text)
+
+	def unique_not_lowest(self,datalist,winning_value,winner_name):
+		for item in datalist:
+			first_name = item.get('first_name','')
+			product = item.get('product')
+			amount = item.get('amount')
+			phone_number = item.get('msisdn')
+			text = f"{first_name}, Bidding on {product} has just been closed.Your bid of KES {amount} was Unique but unfortunately it was not the lowest."+\
+					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
+					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
+
+			return self.send(phone_number,text)
+
 
 			   
 	
