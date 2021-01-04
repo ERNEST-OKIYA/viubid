@@ -1767,7 +1767,7 @@ class BidReport(View):
 			'bid_entry__user__phone_number',
 			'bid_entry__user__profile__first_name',
 			'bid_entry__user__profile__last_name').order_by('amount')
-		return djqscsv.render_to_csv_response(qs, filename=f'BIDS ON {product_name} - Bid ID {bid.id}',field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+		return djqscsv.render_to_csv_response(qs, filename=f'BIDS ON {product_name}(Bid ID - {bid.id})',field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
