@@ -12,7 +12,7 @@ def run():
         print("WINNER",winner.bid_entry.user.phone_number)
         print("AMOUNT",winner.amount)
         print(f"{winner.bid_entry.user.profile.first_name} - {winner.bid_entry.user.profile.last_name}")
-        send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
+        return send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
     
     except Exception as e:
         print(str(e))
