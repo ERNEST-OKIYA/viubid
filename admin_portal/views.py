@@ -1746,10 +1746,10 @@ class BidReport(View):
 							'amount': 'BID VALUE',
 							'bid_entry__bid__id':'BID ID',
 							'bid_entry__bid__is_open':'OPEN',
-							'bid_entry__bid__user__id':'USER ID',
-							'bid_entry__bid__user__phone_number':'PHONE NUMBER',
-							'bid_entry__bid__user__profile__first_name':'FIRST NAME',
-							'bid_entry__bid__user__profile__last_name':'LAST NAME',
+							'bid_entry__user__id':'USER ID',
+							'bid_entry__user__phone_number':'PHONE NUMBER',
+							'bid_entry__user__profile__first_name':'FIRST NAME',
+							'bid_entry__user__profile__last_name':'LAST NAME',
 							'bid_entry__bid__closes_at':'END TIME'
 									}
 		field_serializer_map = {'bid_entry__bid__closes_at': (
@@ -1759,10 +1759,10 @@ class BidReport(View):
 			'bid_entry__bid__id',
 			'bid_entry__bid__is_open',
 			'bid_entry__bid__closes_at',
-			'bid_entry__bid__user__id',
-			'bid_entry__bid__user__phone_number',
-			'bid_entry__bid__user__profile__first_name',
-			'bid_entry__bid__user__profile__last_name').order_by('amount')
+			'bid_entry__user__id',
+			'bid_entry__user__phone_number',
+			'bid_entry__user__profile__first_name',
+			'bid_entry__user__profile__last_name').order_by('amount')
 		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 
 	def dispatch(self, *args, **kwargs):
