@@ -1741,10 +1741,13 @@ class UniqueBids(View):
 class BidReport(View):
 	
 	def get(self, request,bid_id):
+		bid = Bid.objects.get(pk=bid_id)
+		product_name = bid.product.name
 
 		field_header_map = {
 							'amount': 'BID VALUE',
 							'bid_entry__bid__id':'BID ID',
+							'bid_entry__bid__product__name':'PRODUCT',
 							'bid_entry__bid__is_open':'OPEN',
 							'bid_entry__user__id':'USER ID',
 							'bid_entry__user__phone_number':'PHONE NUMBER',
@@ -1757,13 +1760,14 @@ class BidReport(View):
 
 		qs = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount',
 			'bid_entry__bid__id',
+			'bid_entry__bid__product__name',
 			'bid_entry__bid__is_open',
 			'bid_entry__bid__closes_at',
 			'bid_entry__user__id',
 			'bid_entry__user__phone_number',
 			'bid_entry__user__profile__first_name',
 			'bid_entry__user__profile__last_name').order_by('amount')
-		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+		return djqscsv.render_to_csv_response(qs, filename=f'{product_name} Bids',field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
