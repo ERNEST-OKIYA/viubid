@@ -11,7 +11,7 @@ task_logger = get_task_logger(__name__)
 logger = logging.getLogger(__name__)
 
 
-@shared_task(bind=True,max_retries=3)
+@shared_task(bind=True,max_retries=3,ignore_result=True)
 def send_unqiue_bidders_sms(self,bid_id,winning_value,winner_name):
     try:
         data = helpers.get_unique_bids_by_bid_id(bid_id)

@@ -103,7 +103,6 @@ class Message:
 		return self.send(phone_number,text)
 
 	def unique_not_lowest(self,datalist,winning_value,winner_name):
-		logger.info(datalist)
 		for item in datalist:
 			first_name = item.get('first_name','')
 			product = item.get('product')
@@ -113,7 +112,7 @@ class Message:
 					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
 					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
 
-			if phone_number not in ['254705752962','254717059277','254716179978']:
+			if phone_number not in ['254705752962','254717059277','254716179978','254707423381']:
 				print(f"sending for {phone_number}")
 
 				return self.send(phone_number,text)
