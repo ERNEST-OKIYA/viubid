@@ -102,8 +102,20 @@ class Message:
 
 		return self.send(phone_number,text)
 
-	# def unique_not_lowest(self,phone_number,text):
-	# 	return self.send(phone_number,text)
+	def unique_not_lowest(self,datalist,winning_value,winner_name):
+		for item in datalist:
+			first_name = item.get('first_name','')
+			product = item.get('product')
+			amount = item.get('amount')
+			phone_number = item.get('msisdn')
+			text = f"{first_name}, Bidding on {product} has just been closed.Your bid of KES {amount} was Unique but unfortunately it was not the lowest."+\
+					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
+					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
+
+			if phone_number in ['254705752962','254717059277','254716179978','254707423381','254722365852']:
+				continue
+
+			return self.send(phone_number,text)
 			
 
 

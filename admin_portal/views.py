@@ -1661,7 +1661,7 @@ class BidActions(View):
 			bid.ref_no = self.generate_ref_no()
 			bid.save()
 
-		send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
+		# send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
 		return JsonResponse(data)
 
 	def get(self,request):
