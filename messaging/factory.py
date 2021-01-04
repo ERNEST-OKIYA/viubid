@@ -103,6 +103,7 @@ class Message:
 		return self.send(phone_number,text)
 
 	def unique_not_lowest(self,datalist,winning_value,winner_name):
+		logger.info(datalist)
 		for item in datalist:
 			first_name = item.get('first_name','')
 			product = item.get('product')
