@@ -1638,9 +1638,7 @@ class BidActions(View):
 		bid = helpers.get_bid_by_code(code)
 		
 		winner = helpers.get_min_unique_bid(bid)
-		if bid.id==54 and winner.bid_entry.user.id !=40972:
-			data = {}
-			return JsonResponse(data)
+		
 		if not winner:
 			winner = UserBid.objects.filter(bid_entry__bid=bid,bid_entry__bid__is_open=True).order_by('amount').first()
 		data = {
@@ -1663,7 +1661,7 @@ class BidActions(View):
 			bid.ref_no = self.generate_ref_no()
 			bid.save()
 
-		send_unqiue_bidders_sms.delay(winner.amount,winner.bid_entry.user.profile.first_name)
+		send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
 		return JsonResponse(data)
 
 	def get(self,request):
