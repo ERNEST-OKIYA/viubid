@@ -56,7 +56,7 @@ urlpatterns = [
     path('export-invalid-bids-current/',ExportInvalidBidsCurrentCsv.as_view() , name='export-invalid'),
     path('export-invalid-bids-archived/',ExportInvalidBidsArchivedCsv.as_view() , name='export-invalid-archived'),
     path('export-sms-outbox/',ExportOutBoxCsv.as_view() , name='export-sms-outbox'),
-    path('export-bid-report/',BidReport.as_view() , name='export-bid-report'),
+    path('export-bid-report/<int:bid_id>/',BidReport.as_view() , name='export-bid-report'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'),name='login'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

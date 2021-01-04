@@ -1740,7 +1740,7 @@ class UniqueBids(View):
 
 class BidReport(View):
 	
-	def get(self, request):
+	def get(self, request,bid_id):
 
 		field_header_map = {
 							'amount': 'BID VALUE',
@@ -1755,7 +1755,7 @@ class BidReport(View):
 		field_serializer_map = {'bid_entry__bid__closes_at': (
 			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
 
-		qs = UserBid.objects.values('amount',
+		qs = UserBid.objects.filter(bid_entry__bid__id=bid_id).values('amount',
 			'bid_entry__bid__id',
 			'bid_entry__bid__is_open',
 			'bid_entry__bid__closes_at',
