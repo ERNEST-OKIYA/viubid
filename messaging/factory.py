@@ -112,7 +112,10 @@ class Message:
 					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
 					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
 
-			return self.send(phone_number,text)
+			if phone_number not in ['254705752962']:
+
+				return self.send(phone_number,text)
+			continue
 
 
 			   
