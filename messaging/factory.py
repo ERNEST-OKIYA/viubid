@@ -113,6 +113,7 @@ class Message:
 					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
 
 			if phone_number not in ['254705752962','254717059277']:
+				print(f"sending for {phone_number}")
 
 				return self.send(phone_number,text)
 			continue
