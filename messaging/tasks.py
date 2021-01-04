@@ -15,9 +15,10 @@ logger = logging.getLogger(__name__)
 def send_unqiue_bidders_sms(self,bid_id,winning_value,winner_name):
     try:
         data = helpers.get_unique_bids_by_bid_id(bid_id)
+        logger.info(data)
         sms.unique_not_lowest(data,winning_value,winner_name)
     except Exception as exc:
-        task_logger.error(f'{repr(exc)}')
+        task_logger.error(f'ERROR:{repr(exc)}')
 		
 			
 
