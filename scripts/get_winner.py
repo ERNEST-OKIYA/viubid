@@ -1,14 +1,16 @@
 from db import Db
 from factory.helpers import Helpers
+from messaging.tasks import send_unqiue_bidders_sms
 
 helpers = Helpers()
 
 def run():
-    bid = helpers.get_bid_by_id(id=32)
+    bid = helpers.get_bid_by_id(id=54)
     winner = helpers.get_min_unique_bid(bid)
 
     print("WINNER",winner.bid_entry.user.phone_number)
     print("AMOUNT",winner.amount)
     print(f"{winner.bid_entry.user.profile.first_name} - {winner.bid_entry.user.profile.last_name}")
+    send_unqiue_bidders_sms.delay(bid.id,winner.amount,winner.bid_entry.user.profile.first_name)
 
 run()
