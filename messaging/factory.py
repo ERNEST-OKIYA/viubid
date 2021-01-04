@@ -112,7 +112,7 @@ class Message:
 					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
 					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
 
-			if phone_number not in ['254705752962','254717059277']:
+			if phone_number not in ['254705752962','254717059277','254716179978']:
 				print(f"sending for {phone_number}")
 
 				return self.send(phone_number,text)
