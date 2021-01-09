@@ -51,7 +51,7 @@
         <div class="auctions">
             <div class="container">
                 <div class="title">
-                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="/">View All &gt;</a>
+                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="/finished-auctions">View All &gt;</a>
                 </div>
                 <ul class="list">
                     {% for winner in winners %}
@@ -100,6 +100,16 @@
                 <li> <img src="{% static "images/image7.c5d56f2e.jpeg" %}"></li>
             </ul>
         </div>
+
+        <div class="footer_lb">
+            <div class="container">
+                <div class="row">
+                    <h3>You can be a winner too.<span>Win Big!</span></h3><a class="primary_btn" href="#current_auction">Start
+                    Bidding</a>
+                </div>
+            </div>
+        </div>
+    
     {% endblock %}
     {% block extra_script %}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.all.min.js"></script>

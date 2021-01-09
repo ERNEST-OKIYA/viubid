@@ -32,6 +32,7 @@ urlpatterns = [
     path('ussd/', include('ussd.urls')),
     path('terms/', vw.Terms.as_view()),
     path('faqs/', vw.Faqs.as_view()),
+    path('finished-auctions/', vw.FinishedActions.as_view()),
     path('grappelli/', include('grappelli.urls')),
     path('totals/', totals, name='totals'),
     path('filters/', Filters.as_view(), name='filters'),

@@ -1,37 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/base.5a7230a9.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,400;1,700&amp;display=swap"
-        rel="stylesheet">
-    <title>Completed Auctions | QuickBid</title>
-</head>
-
-<body>
-    <div id="mobile-menu"></div>
-    <div>
-        <header>
-            <div class="container">
-                <nav>
-                    <div class="nav-wrapper"><a class="brand-logo" href="/index.html"><img class="logo"
-                                src="/images/quickbid-logo-white.5273c563.svg"></a><a class="menu_icon"
-                            href="#mobile-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                        <ul class="hide-on-med-and-down right" id="nav-mobile">
-                            <li><a href="/index.html">Home</a></li>
-                            <li><a href="/faqs.html">FAQs</a></li>
-                            <li><a href="/terms.html">Terms &amp; Conditions</a></li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </header>
+{% extends "products/base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+  {%block content %}
+    
         <div class="header">
             <div class="container">
                 <h1>Completed <span>Auctions</span></h1>
@@ -39,134 +10,46 @@
         </div>
         <div class="auctions container content">
             <ul class="list">
-                <li class="row">
-                    <div class="thumbnail"> <img src="/images/burner.13a1c8b9.jpg" alt="" srcset=""></div>
-                    <div class="description">
-                        <div class="title">
-                            <h3>Cooker + Burner</h3><span class="description">4 Cooker Burner + 13 Kg Gas
-                                Cylinder</span>
+                {% for winner in winners %}
+                    <li class="row">
+                        <div class="thumbnail"> <img src="{{winner.bid.product.image.url}}" alt="" srcset=""></div>
+                        <div class="description">
+                            <div class="title">
+                                <h3>{{winner.bid.product.name}}</h3><span class="description">{{winner.bid.product.description}}</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Bidder</td>
+                                    <td>{{winner.user.get_shortname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>RRP</td>
+                                    <td class="orange">KES {{winner.bid.product.price|intcomma}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Winning Bid</td>
+                                    <td class="orange">KES {{winner.winning_value|intcomma}}</td>
+                                </tr>
+                                <tr>
+                                    <td>End Time</td>
+                                    <td class="orange">{{winner.created_at|date:'N j, Y, G:i'}}</td>
+                                </tr>
+                            </table>
                         </div>
-                        <table>
-                            <tr>
-                                <td>Bidder</td>
-                                <td>JACQUELINE M</td>
-                            </tr>
-                            <tr>
-                                <td>RRP</td>
-                                <td class="orange">KES 23,000.00</td>
-                            </tr>
-                            <tr>
-                                <td>Winning Bid</td>
-                                <td class="orange">KES 40.00</td>
-                            </tr>
-                            <tr>
-                                <td>End Time</td>
-                                <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </li>
-                <li class="row">
-                    <div class="thumbnail"> <img src="/images/fridge_3QezGb8.3562fda6.jpg" alt="" srcset=""></div>
-                    <div class="description">
-                        <div class="title">
-                            <h3>Samsung Fridge</h3><span class="description">Brand New Samsung Fridge</span>
-                        </div>
-                        <table>
-                            <tr>
-                                <td>Bidder</td>
-                                <td>JACQUELINE M</td>
-                            </tr>
-                            <tr>
-                                <td>RRP</td>
-                                <td class="orange">KES 60,000.00</td>
-                            </tr>
-                            <tr>
-                                <td>Winning Bid</td>
-                                <td class="orange">KES 40.00</td>
-                            </tr>
-                            <tr>
-                                <td>End Time</td>
-                                <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </li>
-                <li class="row">
-                    <div class="thumbnail"> <img src="/images/OPPO_A93.5a75e036.png" alt="" srcset=""></div>
-                    <div class="description">
-                        <div class="title">
-                            <h3>OPPO A93</h3><span class="description">OPPO A93</span>
-                        </div>
-                        <table>
-                            <tr>
-                                <td>Bidder</td>
-                                <td>JACQUELINE M</td>
-                            </tr>
-                            <tr>
-                                <td>RRP</td>
-                                <td class="orange">KES 39,000.00</td>
-                            </tr>
-                            <tr>
-                                <td>Winning Bid</td>
-                                <td class="orange">KES 40.00</td>
-                            </tr>
-                            <tr>
-                                <td>End Time</td>
-                                <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </li>
-                <li class="row">
-                    <div class="thumbnail"> <img src="/images/burner.13a1c8b9.jpg" alt="" srcset=""></div>
-                    <div class="description">
-                        <div class="title">
-                            <h3>Cooker + Burner</h3><span class="description">4 Cooker Burner + 13 Kg Gas
-                                Cylinder</span>
-                        </div>
-                        <table>
-                            <tr>
-                                <td>Bidder</td>
-                                <td>JACQUELINE M</td>
-                            </tr>
-                            <tr>
-                                <td>RRP</td>
-                                <td class="orange">KES 23,000.00</td>
-                            </tr>
-                            <tr>
-                                <td>Winning Bid</td>
-                                <td class="orange">KES 40.00</td>
-                            </tr>
-                            <tr>
-                                <td>End Time</td>
-                                <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </li>
+                    </li>
+                    {% endfor %}
+                    
+                
             </ul>
         </div>
+    
         <div class="footer_lb">
             <div class="container">
                 <div class="row">
-                    <h3>You can be a winner too.<span>Win Big!</span></h3><a class="primary_btn" href="#">Start
-                        Bidding</a>
+                    <h3>You can be a winner too.<span>Win Big!</span></h3><a class="primary_btn" href="/">Start
+                    Bidding</a>
                 </div>
             </div>
         </div>
-        <footer>
-            <div class="container">
-                <p>QUICKBID IS A PRODUCT OF RHEMAT AUCTIONEERS - LICENSE NUMBER 005951.</p>
-                <p>&copy;2021 Quick Bid Auctions. All rights Reserved. <br>Call us on +254753146246<br> Find us on
-                    social media</p>
-                <ul class="social">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                </ul>
-            </div>
-        </footer>
-    </div>
-</body>
-<script src="/js/base.aed608e9.js"></script>
-
-</html>
+ {% endblock %}
+ 

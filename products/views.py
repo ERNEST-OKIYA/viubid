@@ -50,3 +50,15 @@ class SpecialBid(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+class FinishedActions(View):
+    def get(self,request): 
+        winners = Winner.objects.all().order_by('-id')
+        return render(request,'products/completed-auctions.html',{'winners':winners})
+    
+    def post(self,request):
+        pass
+    
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
