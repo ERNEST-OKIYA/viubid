@@ -11,7 +11,7 @@ class ProductsList(View):
     def get(self,request):
         
         bids = Bid.objects.filter(is_open=True).all().order_by('-priority')
-        winners = Winner.objects.all().order_by('-id')[4]
+        winners = Winner.objects.all().order_by('-id')[:4]
         return render(request,'products/index.html',{'bids':bids,'winners':winners})
         
     
