@@ -1,0 +1,173 @@
+{% extends "products/base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+    {%block content %}
+        <div class="banner"><img src="{% static "images/background_pattern.28be9773.svg" %}" alt="QuickBid">
+            <div class="container">
+                <h1>Bid Low,<span>Win Big!</span></h1>
+                <h2>Choose an Item you want to bid on.</h2>
+                <h2>Deposit KES 20 via MPESA number 4032353 and specify your low unique bid on the product on offer. EG if a TV is on offer and your bid amount is 43, Enter TV 43.</h2>
+                <h3>Once the Auction closes and you have the lowest unique bid, You buy the TV at 43 Shillings.</h3>
+            </div>
+        </div>
+        <div class="bids">
+            <div class="container">
+                <h3 class="section_title">Current<span> Auctions</span></h3>
+                <ul class="bid_list">
+                    {% for bid in bids %}
+                    <li class="row">
+                        
+                        <div class="title">
+                            <h3>{{bid.product.name}}</h3><span class="price">RRP KSHS {{bid.product.price|intcomma}}</span><span class="description">{{bid.product.description}}</span>
+                        </div>
+                        <div class="thumbnail"> <img src="{{bid.product.image.url}}" alt="" srcset=""><span class="auction_message"><strong>Ends In: </strong>0 days 19 hrs 51 mins 53 secs</span>
+                        </div>
+                        <div class="instructions">
+                            <h4>BID VIA MPESA</h4>
+                            <p>Send just Ksh 20 to PB <strong>4032353 </strong>with {{bid.code}} and your bid amount as the account name</p>
+                            <p class="example">Example: {{bid.code}} 120 to bid KES 120</p>
+                            <p>Or you can <strong>Play Online</strong></p>Input your phone number and Bid amount below and check your Phone to complete.
+                        </div>
+                        <form action="">
+                            <div class="input-field"><input class="validate" name="phone" type="text" placeholder="Your Phone Number"></div>
+                            <div class="input-field"><input class="validate" name="amount" type="number" placeholder="Bid Amount e.g 43"></div><button type="submit"><span>Place your
+                                    Bid</span></button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="auctions">
+            <div class="container">
+                <div class="title">
+                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="completed-auctions.html">View All &gt;</a>
+                </div>
+                <ul class="list">
+                    {% for  winner in winners %}
+                    <li class="row">
+                        <div class="thumbnail"> <img src="{{winner.bid.product.image.url}}" alt="" srcset=""></div>
+                        <div class="description">
+                            <div class="title">
+                                <h3>{{winner.bid.product.name}}</h3><span class="description">{{winner.bid.product.description}}</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Bidder</td>
+                                    <td>{{winner.user.get_shortname}}</td>
+                                </tr>
+                                <tr>
+                                    <td>RRP</td>
+                                    <td class="orange">KES {{winner.bid.product.price|intcomma}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Winning Bid</td>
+                                    <td class="orange">KES {{winner.winning_value|intcomma}}</td>
+                                </tr>
+                                <tr>
+                                    <td>End Time</td>
+                                    <td class="orange">{{winner.created_at|date:'N j, Y, G:i'}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <li class="row">
+                        <div class="thumbnail"> <img src="{% static "images/fridge_3QezGb8.3562fda6.jpg" %}" alt="" srcset=""></div>
+                        <div class="description">
+                            <div class="title">
+                                <h3>Samsung Fridge</h3><span class="description">Brand New Samsung Fridge</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Bidder</td>
+                                    <td>JACQUELINE M</td>
+                                </tr>
+                                <tr>
+                                    <td>RRP</td>
+                                    <td class="orange">KES 60,000.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Winning Bid</td>
+                                    <td class="orange">KES 40.00</td>
+                                </tr>
+                                <tr>
+                                    <td>End Time</td>
+                                    <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="thumbnail"> <img src="{% static "images/OPPO_A93.5a75e036.png" %}" alt="" srcset=""></div>
+                        <div class="description">
+                            <div class="title">
+                                <h3>OPPO A93</h3><span class="description">OPPO A93</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Bidder</td>
+                                    <td>JACQUELINE M</td>
+                                </tr>
+                                <tr>
+                                    <td>RRP</td>
+                                    <td class="orange">KES 39,000.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Winning Bid</td>
+                                    <td class="orange">KES 40.00</td>
+                                </tr>
+                                <tr>
+                                    <td>End Time</td>
+                                    <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="thumbnail"> <img src="{% static "images/burner.13a1c8b9.jpg" %}" alt="" srcset=""></div>
+                        <div class="description">
+                            <div class="title">
+                                <h3>Cooker + Burner</h3><span class="description">4 Cooker Burner + 13 Kg Gas
+                                    Cylinder</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Bidder</td>
+                                    <td>JACQUELINE M</td>
+                                </tr>
+                                <tr>
+                                    <td>RRP</td>
+                                    <td class="orange">KES 23,000.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Winning Bid</td>
+                                    <td class="orange">KES 40.00</td>
+                                </tr>
+                                <tr>
+                                    <td>End Time</td>
+                                    <td class="orange">KES Jan. 5, 2021, 7 a.m.</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="gallery">
+            <div class="container">
+                <h3 class="section_title">Winners Gallery</h3>
+            </div>
+            <ul class="gallery_listing">
+                <li> <img src="{% static "images/image1.0b4b3597.jpeg" %}"></li>
+                <li> <img src="{% static "images/image2.130380d0.jpeg" %}"></li>
+                <li> <img src="{% static "images/image3.a9d7d693.jpeg" %}"></li>
+                <li> <img src="{% static "images/image4.0b4b3597.jpeg" %}"></li>
+                <li> <img src="{% static "images/image5.0b4b3597.jpeg" %}"></li>
+                <li> <img src="{% static "images/image6.4516493e.jpeg" %}"></li>
+                <li> <img src="{% static "images/image7.c5d56f2e.jpeg" %}"></li>
+            </ul>
+        </div>
+    {% endblock %}

@@ -24,7 +24,7 @@ LOCAL_DATA_DIR = os.path.join(BASE_DIR, '.local-data')
 SECRET_KEY = '&))e+k%o7ipics%i4lty8-in2r1*uj+182y_0cj-2%8mn718ua'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
