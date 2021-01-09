@@ -32,7 +32,7 @@ class Terms(View):
 class Faqs(View):
 
     def get(self,request):
-        return render(request,'products/faq.html')
+        return render(request,'products/faqs.html')
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
