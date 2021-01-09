@@ -2,6 +2,12 @@
 {% load staticfiles %}
 {% load humanize %}
 
+{% block extra_style %}
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.min.css">
+
+{% endblock %}
+
     {%block content %}
         <div class="banner"><img src="{% static "images/background_pattern.28be9773.svg" %}" alt="QuickBid">
             <div class="container">
@@ -11,7 +17,7 @@
                 <h3>Once the Auction closes and you have the lowest unique bid, You buy the TV at 43 Shillings.</h3>
             </div>
         </div>
-        <div class="bids">
+        <div class="bids" id="current_auction">
             <div class="container">
                 <h3 class="section_title">Current<span> Auctions</span></h3>
                 <ul class="bid_list">
@@ -21,7 +27,7 @@
                         <div class="title">
                             <h3>{{bid.product.name}}</h3><span class="price">RRP KSHS {{bid.product.price|intcomma}}</span><span class="description">{{bid.product.description}}</span>
                         </div>
-                        <div class="thumbnail"> <img src="{{bid.product.image.url}}" alt="" srcset=""><span class="auction_message"><strong>Ends In: </strong>0 days 19 hrs 51 mins 53 secs</span>
+                        <div class="thumbnail"> <img src="{{bid.product.image.url}}" alt="" srcset=""><span class="auction_message"><span id="{{bid.code}}" class="counter_t" data-closes_at="{{bid.closes_at|date:'N j, Y, G:i'}}" onload="get_timer()"></span></span>
                         </div>
                         <div class="instructions">
                             <h4>BID VIA MPESA</h4>
@@ -29,10 +35,12 @@
                             <p class="example">Example: {{bid.code}} 120 to bid KES 120</p>
                             <p>Or you can <strong>Play Online</strong></p>Input your phone number and Bid amount below and check your Phone to complete.
                         </div>
-                        <form action="">
-                            <div class="input-field"><input class="validate" name="phone" type="text" placeholder="Your Phone Number"></div>
-                            <div class="input-field"><input class="validate" name="amount" type="number" placeholder="Bid Amount e.g 43"></div><button type="submit"><span>Place your
-                                    Bid</span></button>
+                        <form method="post" name="bid_form" action="/ipn/checkout/">
+                            <div class="input-field"><input class="validate" name="phone" type="text" placeholder="Your Phone Number" id="{{bid.code}}_phone_number"></div>
+                            <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_phone_error"></p>
+                            <div class="input-field"><input class="validate" name="amount" type="number" placeholder="Bid Amount e.g 43" id="{{bid.code}}_bid_value"></div>
+                            <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_bid_value_error"></p>
+                            <button id="{{bid.code}}" data-code="{{bid.code}}" class="bid-btn"><span>Place your Bid</span></button>
                         </form>
                     </li>
                     {% endfor %}
@@ -43,7 +51,7 @@
         <div class="auctions">
             <div class="container">
                 <div class="title">
-                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="completed-auctions.html">View All &gt;</a>
+                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="/">View All &gt;</a>
                 </div>
                 <ul class="list">
                     {% for winner in winners %}
@@ -92,4 +100,147 @@
                 <li> <img src="{% static "images/image7.c5d56f2e.jpeg" %}"></li>
             </ul>
         </div>
+    {% endblock %}
+    {% block extra_script %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.all.min.js"></script>
+    {% endblock %}
+
+    {% block page_scripts %}
+    <script>
+
+        window.onload=function get_timer()
+        
+          {
+            var counters = document.querySelectorAll('[class^=counter_t]');
+            
+            for(var i in counters){
+              var code = counters[i].id;
+            
+              console.log(counters);
+              var closes_at = counters[i].dataset.closes_at;
+              
+              
+              
+              
+              countdown(code,closes_at);
+            }
+          
+                  
+          },1000;
+          </script>
+          <script>
+          function countdown(code,closes_at)
+    
+            {
+            
+              
+              // Set the date we're counting down to
+              
+              
+              var countDownDate = new Date(closes_at).getTime();
+              
+              // Update the count down every 1 second
+              var x = setInterval(function() {
+                 
+              // Get today's date and time
+              var now = new Date().getTime();
+             
+        
+              // Find the distance between now and the count down date
+              var distance = countDownDate - now;
+             
+        
+              // Time calculations for days, hours, minutes and seconds
+              var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+             
+              // Display the result in the element with id="counter"
+              document.getElementById(code).innerHTML ="ENDS IN: " + days + " DAYS " + hours + " HRS "
+              + minutes + " MINS " + seconds + " SECS ";
+              
+              
+              // If the count down is finished, write some text
+              if (distance < 0) {
+                clearInterval(x);
+               
+        
+                  document.getElementById(code).innerHTML = "AUCTION ENDS ANY MINUTE FROM NOW!";
+              
+              
+            }
+            
+              });
+        
+        
+              }
+          </script>
+
+<script>
+    $('.bid-btn').click(function(e) {
+      e.preventDefault();
+      var code = $(this).data().code;
+      var phone_number = $("#"+code+"_phone_number").val();
+      var bid_value = $("#"+code+"_bid_value").val();
+        if (!$.isNumeric(phone_number))
+        {
+          $("#"+code+"_bid_value_error").hide();
+          $("#"+code+"_phone_error").html("* Please enter a valid phone number");
+          $("#"+code+"_phone_error").show();
+        }
+        else if(bid_value != Math.floor(bid_value)){
+          $("#"+code+"_phone_error").hide();
+          $("#"+code+"_bid_value_error").html("* Please Enter bid value without cents.Did you mean "+Math.floor(bid_value)+" ?");
+          $("#"+code+"_bid_value_error").show();
+
+        }
+
+      else {
+        $("#"+code+"_phone_error").hide();
+        $("#"+code+"_bid_value_error").hide();
+
+          // make POST ajax call
+            $.ajax({
+                type: 'POST',
+                url: "/ipn/checkout/",
+                data: {"phone_number":phone_number,"bid_value":bid_value,"bid_code":code},
+                success: function (data) {
+                          if (data.success==false)
+                          {
+                            var icon = 'error'
+                            var html =`
+                            <p>You can bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
+                            `
+                          }
+                          else{
+                            var icon = 'success'
+                            var html = `
+                            <p>If no prompt appears on your phone, please make sure you have atleast KES 20 in your MPESA.</p>
+                            <p>You can also bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            with Account No as ${data.bid_code} ${data.bid_value}.</p>
+                            `
+                          }
+
+                          Swal.fire({
+                          icon:icon,
+                          confirmButtonColor: '#095BDA',
+                          title: data.message,
+                          padding: '3em',
+                          width:400,
+                          html:html,
+                          confirmButtonText: 'Close',
+                        
+                    
+            })
+            }
+          })
+      }
+  })
+
+      
+</script>
+    
     {% endblock %}

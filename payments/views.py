@@ -131,7 +131,7 @@ class Checkouts(View):
 			bid_value =  request.POST.get('bid_value')
 			bid_code = request.POST.get('bid_code')
 			access_token = generate_token()
-			active_bid = helpers.get_bid_by_code(bid_code)
+			# active_bid = helpers.get_bid_by_code(bid_code)
 			source = 'WEB'
 			bid = helpers.get_bid_by_code(bid_code)
 			product = bid.product.name
@@ -148,17 +148,15 @@ class Checkouts(View):
 					"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 					"PhoneNumber": phone_number,
 					"CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
-					"AccountReference": bid_code + ' ' + bid_value + ' ' + source,
+					"AccountReference": bid_code + ' ' + bid_value,
 					"TransactionDesc": 'QuickBid'
 			}
 
 			
 			try:
-
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
 				
 				rv = response.json()
-				print(rv)
 				if rv.get('ResponseCode')=='0':
 				
 					message = "Check your phone and Enter your MPESA PIN to complete."
