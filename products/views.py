@@ -24,7 +24,7 @@ class ProductsList(View):
 class Terms(View):
 
     def get(self,request):
-        return render(request,'products/terms.html')
+        return render(request,'products/newterms.html')
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
