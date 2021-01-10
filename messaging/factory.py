@@ -52,9 +52,9 @@ class Message:
 			amount = '{0:.2f}'.format(amount)
 		if unique:
 		
-			text = "Hongera {},Your Bid of KES {} on ".format(user.profile.first_name,amount)+\
+			text = "Close your Fingers {}! Your Bid of KES {} on ".format(user.profile.first_name,amount)+\
 			"{} is CURRENTLY UNIQUE, We shall notify ".format(product_name)+\
-			"you once the auction ends. Bid More on quickbid.co.ke"+\
+			"you once the auction ends if your unique bid will be the lowest."+\
 			"Bid ID {}".format(bid_entry.bid.ref_no)
 		else:
 			text = "Pole {}, Your bid of KES {} on".format(user.profile.first_name,amount)+\
