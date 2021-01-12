@@ -40,7 +40,7 @@
                             <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_phone_error"></p>
                             <div class="input-field"><input class="validate" name="amount" type="number" placeholder="Bid Amount e.g 43" id="{{bid.code}}_bid_value"></div>
                             <p style="color: red; display: none; font-size: 14px; text-decoration: wavy;" id="{{bid.code}}_bid_value_error"></p>
-                            <button id="{{bid.code}}" data-code="{{bid.code}}" class="bid-btn"><span>Place your Bid</span></button>
+                            <button id="{{bid.code}}" data-code="{{bid.code}}" data-amount="{{bid.ticket_price}}" class="bid-btn"><span>Place your Bid</span></button>
                         </form>
                     </li>
                     {% endfor %}
@@ -192,6 +192,7 @@
     $('.bid-btn').click(function(e) {
       e.preventDefault();
       var code = $(this).data().code;
+      var ticket_price = $(this).data().amount;
       var phone_number = $("#"+code+"_phone_number").val();
       var bid_value = $("#"+code+"_bid_value").val();
         if (!$.isNumeric(phone_number))
@@ -221,15 +222,15 @@
                           {
                             var icon = 'error'
                             var html =`
-                            <p>You can bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            <p>You can bid KES ${data.bid_value} on this product by sending KES ${ticket_price} to paybill 4032353
                             with Account No as ${data.bid_code} ${data.bid_value}.</p>
                             `
                           }
                           else{
                             var icon = 'success'
                             var html = `
-                            <p>If no prompt appears on your phone, please make sure you have atleast KES 20 in your MPESA.</p>
-                            <p>You can also bid KES ${data.bid_value} on this product by sending KES 20 to paybill 4032353
+                            <p>If no prompt appears on your phone, please make sure you have atleast KES  in your MPESA.</p>
+                            <p>You can also bid KES ${data.bid_value} on this product by sending KES ${ticket_price} to paybill 4032353
                             with Account No as ${data.bid_code} ${data.bid_value}.</p>
                             `
                           }
