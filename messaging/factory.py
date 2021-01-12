@@ -33,7 +33,7 @@ class Message:
 		return self.send(user.phone_number,text)
 	
 	def less_amount(self,user,code,to_add,w_balance,ticket_price):
-		text = f"The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
+		text = f"{user.profile.first_name}, The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
 		
 		return self.send(user.phone_number,text)
 			
