@@ -143,7 +143,7 @@ class Checkouts(View):
 					"Password": settings.VARIABLES.get('PASSWORD'),
 					"Timestamp": settings.VARIABLES.get('Timestamp'),
 					"TransactionType": "CustomerPayBillOnline",
-					"Amount": bid.ticket_price,
+					"Amount": int(bid.ticket_price),
 					"PartyA": phone_number,
 					"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 					"PhoneNumber": phone_number,
