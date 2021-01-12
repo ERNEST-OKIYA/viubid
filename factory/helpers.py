@@ -172,7 +172,7 @@ class Helpers:
 		
 	#     bid = self.get_bid_by_code(code)
 	#     amount = Decimal(amount)
-	#     if amount < settings.BID_TICKET_COST:
+	#     if amount < bid.ticket_price:
 	#         notes = 'Amount less than ticket cost'
 	#         InvalidBid.create(user,amount,notes)
 	#         return sms.less_amount(user)
@@ -200,6 +200,7 @@ class Helpers:
 		try:
 			if bid_value <1:
 				return sms.incorrect_bid_amount(user.phone_number,bid_value)
+			
 
 		except Exception as e:
 			return sms.incorrect_fomart(bill_ref_no,user.phone_number)
@@ -207,13 +208,13 @@ class Helpers:
 			
 		w_balance = self.get_wallet_balance(user)
 		if bid:
-			if amount < settings.BID_TICKET_COST:
-				amount_to_add = settings.BID_TICKET_COST - amount 
+			if amount < bid.ticket_price:
+				amount_to_add = bid.ticket_price - amount 
 				if w_balance < amount_to_add:
 					self.deposit(user,amount,transaction_id)
 					w_balance = self.get_wallet_balance(user)
-					amount_to_add = settings.BID_TICKET_COST - w_balance
-					sms.less_amount(user,code,amount_to_add,w_balance)
+					amount_to_add = bid.ticket_price - w_balance
+					sms.less_amount(user,code,amount_to_add,w_balance,bid.ticket_price)
 					notes = 'Amount less than ticket cost'
 					return InvalidBid.create(user,amount,notes,bill_ref_no)
 				else:
@@ -226,7 +227,7 @@ class Helpers:
 					
 				
 				
-			elif  amount > settings.BID_TICKET_COST:
+			elif  amount > bid.ticket_price:
 				over = amount - bid.ticket_price
 				self.deposit(user,over,transaction_id,subject='over')
 				# sms.more_amount(user,code,bid.ticket_price,over)

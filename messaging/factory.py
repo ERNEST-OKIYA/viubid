@@ -32,8 +32,8 @@ class Message:
 			   
 		return self.send(user.phone_number,text)
 	
-	def less_amount(self,user,code,to_add,w_balance):
-		text = f"The minimum amount required to bid is KES 20.Deposit a minimum of KES 20 to enter your unique bid."
+	def less_amount(self,user,code,to_add,w_balance,ticket_price):
+		text = f"The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
 		
 		return self.send(user.phone_number,text)
 			
@@ -52,7 +52,7 @@ class Message:
 			amount = '{0:.2f}'.format(amount)
 		if unique:
 		
-			text = "Close your Fingers {}! Your Bid of KES {} on ".format(user.profile.first_name,amount)+\
+			text = "Cross your Fingers {}! Your Bid of KES {} on ".format(user.profile.first_name,amount)+\
 			"{} is CURRENTLY UNIQUE, We shall notify ".format(product_name)+\
 			"you once the auction ends if your unique bid will be the lowest."+\
 			"Bid ID {}".format(bid_entry.bid.ref_no)

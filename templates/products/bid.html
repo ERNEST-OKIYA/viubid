@@ -22,7 +22,7 @@
           <div style="margin-top: 2%;">
             <h5 class="text-center text-white">Choose an Item you want to bid on.</h5>
             <p class="text-center text-white" style="margin-top: 2%;">
-              Deposit KES 20 via MPESA number 4032353 and specify your low
+              Deposit a minimum of KES 20 via MPESA number 4032353 and specify your low
               unique bid on the product on offer. EG if a TV is on offer and<br>
               your bid amount is 43, Enter TV 43.
             </p>
@@ -86,10 +86,11 @@
 
                   
                   <div style="border-top: 1px solid #d2d6dc; border-bottom: 1px solid #d2d6dc;margin-top:4%;padding:3px;">
+                    
                     <h5>Bid via Mpesa</h5>
                     <p  style="color: #161e2e;">
                       
-                      Send just KES <strong>20</strong> to PB <strong>4032353</strong> with <strong>{{bid.code}}</strong> and your bid amount as the account name.
+                      Send just KES <strong>{{bid.ticket_price}}</strong> to PB <strong>4032353</strong> with <strong>{{bid.code}}</strong> and your bid amount as the account name.
                      
                     </p>
                     <p class="" style=""> Example: <strong>{{bid.code}} 120</strong> to bid KES 120</p>
@@ -101,7 +102,7 @@
                   
                   <p style="color: #161e2e;">Or you can <strong class="text-black">Play Online</strong></p>
                   
-                  <p class="" style="color: #161e2e;">Input your phone number and Bid amount below and check your Phone to complete.</p><br>
+                  <p class="" style="color: #161e2e;">Grab your phone and get ready to pay KES {{bid.ticket_price}}.</p><br>
 
                  
                  <form method="post" name="bid_form" action="/ipn/checkout/">

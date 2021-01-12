@@ -143,7 +143,7 @@ class Checkouts(View):
 					"Password": settings.VARIABLES.get('PASSWORD'),
 					"Timestamp": settings.VARIABLES.get('Timestamp'),
 					"TransactionType": "CustomerPayBillOnline",
-					"Amount": 20,
+					"Amount": bid.ticket_price,
 					"PartyA": phone_number,
 					"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 					"PhoneNumber": phone_number,
@@ -152,7 +152,6 @@ class Checkouts(View):
 					"TransactionDesc": 'QuickBid'
 			}
 
-			
 			try:
 				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
 				
