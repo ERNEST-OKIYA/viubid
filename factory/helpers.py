@@ -166,6 +166,8 @@ class Helpers:
 
 	def get_active_bids(self):
 		return Bid.active()
+	def get_default_bid(self):
+		return Bid.objects.filter(is_open=True).order_by('-priority').first()
 
 
 	# def create_bid_entry(self,user,amount,transaction_id,code,source):
@@ -304,14 +306,16 @@ class Helpers:
 			
 			if bill_ref_no.isdigit():
 				amount = int(bill_ref_no)
-				return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
+				bid = self.get_default_bid()
+				return {'code':bid.code,'amount':amount,'source':'DIRECT DEPOSIT'}
 
 
 			if self.isfloat(bill_ref_no):
 				amount = Decimal(bill_ref_no)
+				bid = self.get_default_bid()
 				logger.info('Amount ---{}'.format(str(amount)))
 				
-				return {'code':'PN','amount':amount,'source':'DIRECT DEPOSIT'}
+				return {'code':bid.code,'amount':amount,'source':'DIRECT DEPOSIT'}
 
 			
 	
@@ -357,7 +361,7 @@ class Helpers:
 			InvalidBid.create(user,'',notes,bill_ref_no)
 			sms.incorrect_fomart(bill_ref_no,phone_number)
 			DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
-			return {'code':'bill_ref_extract','amount':amount,'source':''}
+			return {'code':'bill_ref_extract','source':''}
 		
 
 			

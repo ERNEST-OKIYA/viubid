@@ -25,16 +25,21 @@ class Message:
 	
 	
 	def code_not_found(self,user,code):
-		text = "The product code {} you entered ".format(code)+\
+		text = "{}, The product code {} you entered ".format(user.profile.first_name,code)+\
 			   "did not match any product on bid. "+\
 			   "Please check and try again. "+\
-			   "visit dial *297*92# to view available deals."
+			   "Dial *297*92# to view available deals."
 			   
 		return self.send(user.phone_number,text)
 
 	
 	def less_amount(self,user,code,to_add,w_balance,ticket_price):
 		text = f"Hallo {user.profile.first_name}, The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
+		
+		return self.send(user.phone_number,text)
+
+	def invalid_amount(self,user,bid,ticket_price):
+		text = f"Hallo {user.profile.first_name}, The bid amount required for {bid.product.name} is KES {ticket_price}.Deposit KES {ticket_price} to enter your unique bid."
 		
 		return self.send(user.phone_number,text)
 			
@@ -48,7 +53,6 @@ class Message:
 	
 	def user_bid(self,user,amount,bid_entry,unique):
 		product_name = bid_entry.bid.product.name
-		product_code = bid_entry.bid.product.code
 		if self.isfloat(amount):
 			amount = '{0:.2f}'.format(amount)
 		if unique:

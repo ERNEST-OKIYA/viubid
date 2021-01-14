@@ -61,13 +61,13 @@ class RejectedPayIn(FactoryModel):
     def create(cls,transaction_id,transaction_time,\
         transaction_amount,bill_reference_number,\
             org_account_balance,msisdn,first_name,middle_name,last_name):
-        return cls.objects.create(transaction_id=transaction_id,\
-            transaction_time=transaction_time,\
+        return cls.objects.get_or_create(transaction_id=transaction_id,\
+            defaults = dict(transaction_time=transaction_time,\
                 transaction_amount=transaction_amount,\
                     bill_reference_number=bill_reference_number,\
                         org_account_balance=org_account_balance,msisdn=msisdn,\
                             first_name=first_name,middle_name=middle_name,
-                            last_name=last_name)
+                            last_name=last_name))
 
 
 

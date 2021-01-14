@@ -206,7 +206,7 @@ class ValidatePayins(View):
 		data = json.loads(request.body.decode('utf-8'))
 		transaction_id = data.get('TransID')
 		transaction_time = data.get('TransTime')
-		transaction_amount = data.get('TransAmount')
+		transaction_amount = float(data.get('TransAmount'))
 		bill_reference_number = data.get('BillRefNumber')
 		org_account_balance = data.get('OrgAccountBalance')
 		msisdn = data.get('MSISDN')
@@ -232,15 +232,22 @@ class ValidatePayins(View):
 		items = helpers.tare_bill_ref_number(bill_reference_number,msisdn)
 		if isinstance(items,dict):
 			code = items.get('code')
-			if code:
-				bid = helpers.get_bid_by_code(code)
+			bid = helpers.get_bid_by_code(code)
+			if bid:
+			
 				ticket_price = bid.ticket_price
+				print("ticketprice",ticket_price)
+				print("amount",transaction_amount)
 				if transaction_amount == ticket_price:
 					return JsonResponse({'accepted':True})
-				logger.debug('Invalid bid amount {}'.format(bill_reference_number))
-				return JsonResponse({'accepted':False,'reason':400})
-			logger.debug('Bid not Found {}'.format(bill_reference_number))
-			return JsonResponse({'accepted':False,'reason':404})
+				else:
+					sms.invalid_amount(user,bid,ticket_price)
+					logger.debug('Invalid bid amount {}'.format(transaction_amount))
+					return JsonResponse({'accepted':False,'reason':400})
+			else:
+				sms.code_not_found(user,code)
+				logger.debug('Bid not Found {}'.format(bill_reference_number))
+				return JsonResponse({'accepted':False,'reason':404})
 			
 		else:
 			return JsonResponse({'status':False,'reason':500})
