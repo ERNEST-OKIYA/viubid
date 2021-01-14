@@ -361,7 +361,7 @@ class Helpers:
 			InvalidBid.create(user,'',notes,bill_ref_no)
 			sms.incorrect_fomart(bill_ref_no,phone_number)
 			DEBUG and logger.debug('TARE Error ---{}'.format(str(e)))
-			return {'code':'bill_ref_extract','source':''}
+			return {'code':bill_ref_no,'source':''}
 		
 
 			
