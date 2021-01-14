@@ -236,8 +236,6 @@ class ValidatePayins(View):
 			if bid:
 			
 				ticket_price = bid.ticket_price
-				print("ticketprice",ticket_price)
-				print("amount",transaction_amount)
 				if transaction_amount == ticket_price:
 					return JsonResponse({'accepted':True})
 				else:
