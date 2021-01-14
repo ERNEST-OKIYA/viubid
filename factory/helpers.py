@@ -334,10 +334,10 @@ class Helpers:
 						return sms.incorrect_bid_amount(phone_number,amount)
 
 				if 'WEB' in bill_ref_no:
-					code = bill_ref_no[:2]
+					code = bill_ref_no.replace('WEB','').strip()
 
 				elif 'USSD' in bill_ref_no:
-					code = bill_ref_no[:2]
+					code = bill_ref_no.replace('USSD','').strip()
 				
 				else:
 

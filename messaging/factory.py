@@ -28,12 +28,13 @@ class Message:
 		text = "The product code {} you entered ".format(code)+\
 			   "did not match any product on bid. "+\
 			   "Please check and try again. "+\
-			   "visit www.quickbid.co.ke to view available deals."
+			   "visit dial *297*92# to view available deals."
 			   
 		return self.send(user.phone_number,text)
+
 	
 	def less_amount(self,user,code,to_add,w_balance,ticket_price):
-		text = f"{user.profile.first_name}, The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
+		text = f"Hallo {user.profile.first_name}, The minimum amount required for this bid is KES {ticket_price}.Deposit a minimum of KES {ticket_price} to enter your unique bid."
 		
 		return self.send(user.phone_number,text)
 			
@@ -65,13 +66,15 @@ class Message:
 	
 	def code_not_open(self,user,code):
 		text = f"No item with bid code {code} was found." +\
-			   " Try again & Bid more products on quickbid.co.ke. "
+			   " Dial *297*92# to place your bid Automatically."
 			   
 		return self.send(user.phone_number,text)
 
+	
+
 	def incorrect_bid_amount(self,phone_number,amount):
 		text = f"Sorry, Your Bid amount {amount} is incorrect. Please Enter a value greater than 1 and without decimal points. " +\
-			   f"Try again & Bid on more products on www.quickbid.co.ke."
+			   f"Try again & Bid on more products by Dialing *297*92#."
 			   
 		return self.send(phone_number,text)
 
@@ -98,7 +101,7 @@ class Message:
 	def incorrect_fomart(self,bill_ref_no,phone_number):
 		text = f"The Account number format {bill_ref_no} you entered is incorrect. "+\
 				"Please Enter account number in the format BIDCODE followed by your bid value "+\
-				"EG if a TV is on auction and your bid amount is 43, Enter TV 43. Bid on more products on www.quickbid.co.ke."
+				"EG if a TV is on auction and your bid amount is 43, Enter TV 43. Or Dial *297*92# to place your bids automatically."
 
 		return self.send(phone_number,text)
 
@@ -112,9 +115,7 @@ class Message:
 					f" The lowest unique bidder was {winner_name} with a bid of KES {winning_value}."+\
 					f" visit www.quickbid.co.ke to bid on more products and you may be the next lowest bidder."
 
-			if phone_number in ['254705752962','254717059277','254716179978','254707423381','254722365852']:
-				continue
-
+			
 			return self.send(phone_number,text)
 			
 

@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
-from .models import PayIn,CheckoutResponse
+from .models import PayIn,CheckoutResponse,RejectedPayIn
 from django.conf import settings
 import json
 from users.models import Profile
@@ -195,6 +195,64 @@ class Checkouts(View):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
+
+
+
+class ValidatePayins(View):
+
+	def post(self,request):
+	   
+	 
+		data = json.loads(request.body.decode('utf-8'))
+		transaction_id = data.get('TransID')
+		transaction_time = data.get('TransTime')
+		transaction_amount = data.get('TransAmount')
+		bill_reference_number = data.get('BillRefNumber')
+		org_account_balance = data.get('OrgAccountBalance')
+		msisdn = data.get('MSISDN')
+		first_name = data.get('FirstName')
+		middle_name = data.get('MiddleName')
+		last_name = data.get('LastName')
+		RejectedPayIn.create(transaction_id,transaction_time,\
+			transaction_amount,bill_reference_number,\
+				org_account_balance,msisdn,first_name,\
+					middle_name,last_name)
+			
+		if not helpers.user_exists(msisdn):
+			user = helpers.create_user(msisdn)
+			helpers.create_profile(user,first_name,middle_name,last_name)
+				
+		else:
+			user = helpers.get_user(msisdn)
+			if not Profile.objects.filter(user=user).exists():
+				helpers.create_profile(user,first_name,middle_name,last_name)
+			elif not helpers.wallet_exists(user):
+				helpers.create_wallet(user)
+		bill_reference_number = helpers.sanitize_billref_no(bill_reference_number)	
+		items = helpers.tare_bill_ref_number(bill_reference_number,msisdn)
+		if isinstance(items,dict):
+			code = items.get('code')
+			if code:
+				bid = helpers.get_bid_by_code(code)
+				ticket_price = bid.ticket_price
+				if transaction_amount == ticket_price:
+					return JsonResponse({'accepted':True})
+				logger.debug('Invalid bid amount {}'.format(bill_reference_number))
+				return JsonResponse({'accepted':False,'reason':400})
+			logger.debug('Bid not Found {}'.format(bill_reference_number))
+			return JsonResponse({'accepted':False,'reason':404})
+			
+		else:
+			return JsonResponse({'status':False,'reason':500})
+
+
+	def get(self,request):
+		return JsonResponse({'HTTP_STATUS':403})
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
 
 
 
