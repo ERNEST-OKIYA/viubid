@@ -39,7 +39,7 @@ urlpatterns = [
     path('ub/<int:bid_id>/', UniqueBids.as_view(), name='unique-bids'),
     path('ipn/', include('payments.urls')),
     path('mgr-tools/', include('admin_portal.urls')),
-    path('admin/', admin.site.urls),
+    path('cpanel/', admin.site.urls),
     path('process_payins/', process_payins, name='process_payins'),
     path('process-outbox/', process_outbox, name='process_outbox'),
     path('process_bids/', process_bids, name='process_bids'),
