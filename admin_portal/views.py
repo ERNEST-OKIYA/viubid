@@ -1632,7 +1632,7 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 	raise_exception=True
 
 	def test_func(self):
-		return self.request.user.user.groups.filter(name=settings.BIDADMINS).exists()
+		return self.request.user.groups.filter(name=settings.BIDADMINS).exists()
 
 	def generate_ref_no(self,sl=5):
 		letters = string.ascii_uppercase
@@ -1712,7 +1712,11 @@ class Filters(View):
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
 
-class UniqueBids(View):
+class UniqueBids(UserPassesTestMixin,AccessMixin,View):
+	raise_exception=True
+
+	def test_func(self):
+		return self.request.user.groups.filter(name=settings.BIDADMINS).exists()
 
 	def get(self,request,bid_id):
 		datalist = []
@@ -1744,7 +1748,11 @@ class UniqueBids(View):
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
 
-class BidReport(View):
+class BidReport(UserPassesTestMixin,AccessMixin,View):
+	raise_exception=True
+
+	def test_func(self):
+		return self.request.user.groups.filter(name=settings.BIDADMINS).exists()
 	
 	def get(self, request,bid_id):
 		bid = Bid.objects.get(pk=bid_id)
