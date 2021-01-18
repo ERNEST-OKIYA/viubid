@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block page-nav %}
-  <li class="breadcrumb-item"><a href="/mgr/dashboard/">home</a></li>
+  <li class="breadcrumb-item"><a href="/mgr-tools/dashboard/">home</a></li>
   <li class="breadcrumb-item active">current bids</li>
   {% endblock %}
 
@@ -197,7 +197,7 @@
             preConfirm:function() {
                 $.ajax({
                 type: "POST",
-                url: '/mgr/bid-actions/',
+                url: '/mgr-tools/bid-actions/',
                 data: {"code":code,"create_similar":true},
                 success: function(data) {
                     Swal.fire({
