@@ -36,7 +36,7 @@ urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('totals/', totals, name='totals'),
     path('filters/', Filters.as_view(), name='filters'),
-    path('unique-bids/<int:bid_id>/', UniqueBids.as_view(), name='unique-bids'),
+    path('ub/<int:bid_id>/', UniqueBids.as_view(), name='unique-bids'),
     path('ipn/', include('payments.urls')),
     path('mgr/', include('admin_portal.urls')),
     path('admin/', admin.site.urls),
@@ -57,7 +57,7 @@ urlpatterns = [
     path('export-invalid-bids-current/',ExportInvalidBidsCurrentCsv.as_view() , name='export-invalid'),
     path('export-invalid-bids-archived/',ExportInvalidBidsArchivedCsv.as_view() , name='export-invalid-archived'),
     path('export-sms-outbox/',ExportOutBoxCsv.as_view() , name='export-sms-outbox'),
-    path('export-bid-report/<int:bid_id>/',BidReport.as_view() , name='export-bid-report'),
+    path('exr/<int:bid_id>/',BidReport.as_view() , name='export-bid-report'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'),name='login'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
