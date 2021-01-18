@@ -213,7 +213,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 LOGOUT_REDIRECT_URL='/login/'
-LOGIN_REDIRECT_URL = '/mgr/dashboard'
+LOGIN_REDIRECT_URL = '/mgr-tools/dashboard'
 LOGIN_URL='/login/'
 
 USSDADVIDE = 'Dial *229*99# to resolve your Bid'
