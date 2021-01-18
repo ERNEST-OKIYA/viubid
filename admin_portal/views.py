@@ -41,6 +41,7 @@ from messaging.tasks import send_unqiue_bidders_sms
 helpers = Helpers()
 import random
 import string
+from django.contrib.auth.mixins import UserPassesTestMixin,AccessMixin
 
 EXCLUDE_PHONES = ('',)
 EXCLUDE_AMOUNTS = ('',)
@@ -1626,7 +1627,13 @@ class ExportOutBoxCsv(View):
 		return super(ExportOutBoxCsv, self).dispatch(*args, **kwargs)
 
 
-class BidActions(View):
+class BidActions(AccessMixin,UserPassesTestMixin,View):
+	 raise_exception=True
+
+	def test_func(self):
+		return self.request.user.phone_number in ('254722912908','254722146246','254706180150')
+
+	
 
 	def generate_ref_no(self,sl=5):
 		letters = string.ascii_uppercase
