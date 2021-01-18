@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load auth_extras %}
 
 <html>
   <head>
@@ -189,7 +190,7 @@
               </p>
             </a>
           </li>
-
+          {% if request.user|has_group:"BIDADMINS" %} 
           <li class="nav-item">
             <a href="/mgr-tools/bid-actions/" class="nav-link">
               <i class="nav-icon fas fa-cog text-warning"></i>
@@ -199,6 +200,7 @@
               </p>
             </a>
           </li>
+          {% endif %}
         </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -264,7 +266,7 @@
          Version 1.0
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2020 <a href="/mgr/dashboard/">QuickBid Auctions</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; 2021 <a href="/mgr-tools/dashboard/">QuickBid Auctions</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->

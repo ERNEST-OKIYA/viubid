@@ -42,6 +42,7 @@ helpers = Helpers()
 import random
 import string
 from django.contrib.auth.mixins import UserPassesTestMixin,AccessMixin
+from django.conf import settings
 
 EXCLUDE_PHONES = ('',)
 EXCLUDE_AMOUNTS = ('',)
@@ -1631,9 +1632,7 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 	raise_exception=True
 
 	def test_func(self):
-		return self.request.user.phone_number in ('254722912909','254722146246','254706180150')
-
-	
+		return self.request.user.user.groups.filter(name=settings.BIDADMINS).exists()
 
 	def generate_ref_no(self,sl=5):
 		letters = string.ascii_uppercase

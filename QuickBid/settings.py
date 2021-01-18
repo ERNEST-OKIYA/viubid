@@ -230,6 +230,7 @@ USSD = dict(
 	INITIAL_SCREEN = 'sm.initial',
 	MAX_PAGE_LENGTH=150
 )
+BID_ADMINS = 'BIDADMINS'
 try:
     from .local_settings import *
 except:
