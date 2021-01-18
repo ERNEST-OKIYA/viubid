@@ -1627,7 +1627,7 @@ class ExportOutBoxCsv(View):
 		return super(ExportOutBoxCsv, self).dispatch(*args, **kwargs)
 
 
-class BidActions(AccessMixin,UserPassesTestMixin,View):
+class BidActions(UserPassesTestMixin,AccessMixin,View):
 	raise_exception=True
 
 	def test_func(self):
