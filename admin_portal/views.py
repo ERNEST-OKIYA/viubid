@@ -1631,7 +1631,7 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 	raise_exception=True
 
 	def test_func(self):
-		return self.request.user.phone_number in ('254722912908','254722146246','254706180150')
+		return self.request.user.phone_number in ('254722912909','254722146246','254706180150')
 
 	
 
