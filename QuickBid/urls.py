@@ -38,7 +38,7 @@ urlpatterns = [
     path('filters/', Filters.as_view(), name='filters'),
     path('ub/<int:bid_id>/', UniqueBids.as_view(), name='unique-bids'),
     path('ipn/', include('payments.urls')),
-    path('mgr/', include('admin_portal.urls')),
+    path('mgr-tools/', include('admin_portal.urls')),
     path('admin/', admin.site.urls),
     path('process_payins/', process_payins, name='process_payins'),
     path('process-outbox/', process_outbox, name='process_outbox'),
