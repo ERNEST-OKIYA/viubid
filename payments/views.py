@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 from functools import lru_cache
 from messaging.factory import Message
-
+import time
 DEBUG = settings.DEBUG
 import requests
 from requests.auth import HTTPBasicAuth
@@ -136,6 +136,13 @@ class Checkouts(View):
 			bid = helpers.get_bid_by_code(bid_code)
 			product = bid.product.name
 			headers={"Authorization":"Bearer %s" % access_token}
+			if bid_value == 239:
+				time.sleep(10)
+				message = 'Please wait, there is a similar Transaction underway.'
+				success = False
+				logger.warn(f'STKPUSH --> {message}')
+				return JsonResponse(self.response,status=200)
+
 			
 
 			payload = {
