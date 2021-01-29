@@ -124,7 +124,7 @@ class BidScreen(UssdScreen, ScreenMixin):
 				"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 				"PhoneNumber": self.session.phone_number,
 				"CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
-				"AccountReference": code + ' ' + str(amount) + ' ' + source,
+				"AccountReference": code + ' ' + str(amount),
 				"TransactionDesc": 'QuickBidUSSD'
 		}
 
