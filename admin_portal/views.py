@@ -1927,8 +1927,8 @@ class AddToBlackList(UserPassesTestMixin,AccessMixin,View):
 				return JsonResponse(self.data)
 			bid = helpers.get_bid_by_id(bid_id)
 			msisdn = standardize_msisdn(msisdn)
-			added_by = request.user.get_full_name()
-			obj,created = helpers.blacklist_user(msisdn,bid,notes,added_by)
+			actor = request.user.get_full_name()
+			obj,created = helpers.blacklist_user(msisdn,bid,notes,actor)
 			if created:
 				self.data['icon']='success'
 				self.data['title']='Added'

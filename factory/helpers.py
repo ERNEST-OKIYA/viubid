@@ -463,8 +463,8 @@ class Helpers:
 	def record_survey(self,phone_number,rate,text=None):
 		return Survey.create(phone_number,rate,text)
 
-	def blacklist_user(self,phone_number,bid,notes,added_by):
-		return BlackList.create(phone_number=phone_number,bid=bid,notes=notes,added_by=added_by)
+	def blacklist_user(self,phone_number,bid,notes,actor):
+		return BlackList.create(phone_number=phone_number,bid=bid,notes=notes,actor=actor)
 
 	def get_bid_code_from_bill_ref_no(self,bill_ref_no):
 		code = None

@@ -158,12 +158,12 @@ class BlackList(FactoryModel):
     phone_number = models.CharField(max_length=13, db_index=True)
     bid = models.ForeignKey(Bid,on_delete=models.DO_NOTHING)
     notes = models.TextField()
-    added_by = models.CharField(max_length=100)
+    actor = models.CharField(max_length=100)
 
     @classmethod
-    def create(cls,phone_number,bid,notes,added_by):
+    def create(cls,phone_number,bid,notes,actor):
         obj,created = cls.objects.get_or_create(phone_number=phone_number,bid=bid,
-        defaults=dict(phone_number=phone_number,notes=notes,bid=bid,added_by=added_by))
+        defaults=dict(phone_number=phone_number,notes=notes,bid=bid,actor=actor))
         return obj,created
     
 
