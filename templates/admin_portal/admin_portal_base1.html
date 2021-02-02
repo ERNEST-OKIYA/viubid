@@ -201,6 +201,18 @@
             </a>
           </li>
           {% endif %}
+
+          {% if request.user|has_group:"BIDADMINS" %} 
+          <li class="nav-item">
+            <a href="/mgr-tools/ussd-survey/" class="nav-link">
+              <i class="nav-icon fas fa-cog text-warning"></i>
+              <p>
+                Survey
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          {% endif %}
         </ul>
         </nav>
         <!-- /.sidebar-menu -->

@@ -51,7 +51,7 @@ class HomeScreen(UssdScreen, ScreenMixin):
 		if code in ['sm.how_it_works','sm.view','sm.customer_care']:
 			return render_screen(code)
 			
-		return render_screen('sm.bid',code=code)
+		return render_screen('sm.bid_detail',code=code)
 
 	def render_menu(self):
 		self.get_menu()

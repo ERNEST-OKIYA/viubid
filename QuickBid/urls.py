@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 from admin_portal.views import (
     ExportDialsCsv, ExportPlayersCsv,
     ExportInvalidBidsCurrentCsv,ExportOutBoxCsv,
-    ExportInvalidBidsArchivedCsv,Filters,BidReport
+    ExportInvalidBidsArchivedCsv,Filters,BidReport,ExportUssdSurveyCsv
 )
 
 urlpatterns = [
@@ -46,6 +46,7 @@ urlpatterns = [
     path('ussd-dials/', process_dials, name='process_dials'),
     path('process-active-bids/', process_active_bids, name='process-active-bids'),
     path('process-all-bids/', process_all_bids, name='process-all-bids'),
+    path('process-survey/', process_ussd_survey, name='process_survey'),
     path('process_winners/', process_winners, name='process_winners'),
     path('process_players/', process_players, name='process_players'),
     path('process_products/', process_products, name='process_products'),
@@ -54,6 +55,7 @@ urlpatterns = [
     path('export-bidders/',ExportPlayersCsv.as_view() , name='export-bidders'),
     path('export-winners/',ExportWinnersCsv.as_view() , name='export-winners'),
     path('export-dials/',ExportDialsCsv.as_view() , name='export-dials'),
+    path('export-survey/',ExportUssdSurveyCsv.as_view() , name='export-survey'),
     path('export-invalid-bids-current/',ExportInvalidBidsCurrentCsv.as_view() , name='export-invalid'),
     path('export-invalid-bids-archived/',ExportInvalidBidsArchivedCsv.as_view() , name='export-invalid-archived'),
     path('export-sms-outbox/',ExportOutBoxCsv.as_view() , name='export-sms-outbox'),

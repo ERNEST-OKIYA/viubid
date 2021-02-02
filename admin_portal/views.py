@@ -33,7 +33,7 @@ from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 from bids.models import BidEntry,InvalidBid
 from winners.models import Winner
-from bids.models import Bid,BidEntry,UserBid,UssdDial
+from bids.models import Bid,BidEntry,UserBid,UssdDial,Survey
 from messaging.models import OutgoingSMS
 from django.views.decorators.csrf import csrf_exempt
 from factory.helpers import Helpers
@@ -47,6 +47,15 @@ from django.conf import settings
 EXCLUDE_PHONES = ('',)
 EXCLUDE_AMOUNTS = ('',)
 
+
+def standardize_msisdn(msisdn):
+	if msisdn.startswith('0'):
+		return '254' + msisdn.lstrip('0').replace(' ','').strip()
+	elif msisdn.startswith('+254'):
+		return msisdn.lstrip('+').replace(' ','').strip()
+
+	else:
+		return msisdn.replace(' ','').strip()
 
 
 def change_password(request):
@@ -1644,9 +1653,6 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 		bid = helpers.get_bid_by_code(code)
 		
 		winner = helpers.get_min_unique_bid(bid)
-		if winner.bid_entry.user.id !=53390:
-			data ={}
-			return JsonResponse(data)
 		
 		if not winner:
 			winner = UserBid.objects.filter(bid_entry__bid=bid,bid_entry__bid__is_open=True).order_by('amount').first()
@@ -1788,3 +1794,166 @@ class BidReport(UserPassesTestMixin,AccessMixin,View):
 
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
+
+
+class UssdSurvey(View):
+	
+	def get(self, request):
+			
+		fields = Survey.objects.values(
+			'phone_number',
+			'rate',
+			'text',
+			'created_at')
+
+		return render(request, 'admin_portal/ussd-survey.html', {'data': fields})
+
+	@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
+
+def process_ussd_survey(request):
+	includes = [
+			'phone_number',
+			'rate',
+			'text',
+			'created_at']
+	draw = request.GET['draw']
+	start = int(request.GET['start'])
+	length = int(request.GET['length'])
+	order_column = int(request.GET['order[0][column]'])
+	order_direction = '' if request.GET['order[0][dir]'] == 'desc' else '-'
+	column = [i.name for n, i in enumerate(
+		Survey._meta.get_fields()) if n == order_column][0]
+	global_search = request.GET['search[value]']
+
+	if global_search !='':
+
+		print(global_search, 'search value')
+
+		all_objects = Survey.objects.filter(
+				phone_number__icontains=global_search)
+				   
+		
+				   
+
+		columns = [i for i in includes]
+		objects = []
+
+		for i in all_objects.order_by(order_direction + column)[start:start + length].\
+				values('phone_number',
+					'rate',
+					'text',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Survey.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+	else:
+
+		all_objects=Survey.objects.values(
+				'phone_number',
+				'rate',
+				'text',
+				'created_at')
+
+		columns = [i for i in includes]
+		objects = []
+		for i in all_objects.order_by('-created_at')[start:start + length].\
+			values('phone_number',
+					'rate',
+					'text',
+					'created_at'):
+			ret = [i[j] for j in columns]
+			objects.append(ret)
+		filtered_count = all_objects.count()
+		total_count = Survey.objects.count()
+		return JsonResponse({
+					"sEcho": draw,
+					"iTotalRecords": total_count,
+					"iTotalDisplayRecords": filtered_count,
+					"aaData": objects,
+
+		})
+
+
+class ExportUssdSurveyCsv(View):
+
+	def get(self, request):
+
+		field_header_map = {
+							'phone_number': 'Phone Number',
+							'rate': 'Rating (Out of 10)',
+							'text':"Feedback",
+							'created_at':'Recorded at'
+									}
+		field_serializer_map = {'created_at': (
+			lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))}
+
+		qs = Survey.objects.values('phone_number','rate',
+			'text',
+			'created_at').all()
+		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
+
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
+
+class AddToBlackList(UserPassesTestMixin,AccessMixin,View):
+	raise_exception=True
+	data = {}
+
+	def test_func(self):
+		return self.request.user.groups.filter(name=settings.BIDADMINS).exists()
+
+	
+	def post(self,request):
+		try:
+			msisdn = request.POST.get('msisdn')
+			notes = request.POST.get('notes')
+			bid_id = request.POST.get('bid_id')
+			if len(msisdn) < 10:
+				self.data['icon']='error'
+				self.data['title']='Error'
+				self.data['status'] ='Invalid Phone Number'
+				return JsonResponse(self.data)
+			bid = helpers.get_bid_by_id(bid_id)
+			msisdn = standardize_msisdn(msisdn)
+			added_by = request.user.get_full_name()
+			obj,created = helpers.blacklist_user(msisdn,bid,notes,added_by)
+			if created:
+				self.data['icon']='success'
+				self.data['title']='Added'
+				self.data['status'] = f'{msisdn} was blacklisted from submitting bids for {bid.product.name} - Bid ID: {bid.id}'
+			elif not created:
+				self.data['icon']='success'
+				self.data['title']='Already added'
+				self.data['status'] = f'{msisdn} was already Added to blacklist for {bid.product.name} - Bid ID: {bid.id}'
+
+			else:
+				self.data['icon']='error'
+				self.data['title']='Error'
+				self.data['status'] =  'Unknown error Occured.Please try again Later.'
+
+			return JsonResponse(self.data)
+		except:
+			self.data['icon']='error'
+			self.data['title']='Error'
+
+			self.data['status'] =  'Unknown error Occured.Please try again Later.'
+
+			return JsonResponse(self.data)
+
+	
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+

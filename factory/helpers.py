@@ -8,7 +8,7 @@ import random
 import uuid
 import string
 from itertools import groupby
-from bids.models import BidEntry,UserBid,Bid,InvalidBid,UssdDial
+from bids.models import BidEntry,UserBid,Bid,InvalidBid,UssdDial,Survey,BlackList
 from messaging.factory import Message
 from decimal import Decimal
 from django.conf import settings
@@ -303,6 +303,12 @@ class Helpers:
 			code = None
 			user = self.get_user(phone_number)
 			bill_ref_no = bill_ref_no.replace(' ','')
+
+			if '#' in bill_ref_no:
+				code = bill_ref_no.split('#')[0]
+				amount = bill_ref_no.split('#')[1]
+				source = bill_ref_no.split('#')[2]
+				return {'code':code,'amount':amount,'source':source}
 			
 			if bill_ref_no.isdigit():
 				amount = int(bill_ref_no)
@@ -311,7 +317,7 @@ class Helpers:
 
 
 			if self.isfloat(bill_ref_no):
-				amount = Decimal(bill_ref_no)
+				amount = int(bill_ref_no)
 				bid = self.get_default_bid()
 				logger.info('Amount ---{}'.format(str(amount)))
 				
@@ -320,12 +326,8 @@ class Helpers:
 			
 	
 			digits = re.findall(r"(\d+(?:\.\d+)?)",bill_ref_no)
-			
-	
-			
 			if len(digits)>0:
 				digits = digits[0]
-
 				try:
 					amount = int(digits)
 				except:
@@ -336,16 +338,10 @@ class Helpers:
 					except ValueError:
 						amount = digits.replace("'","")
 						return sms.incorrect_bid_amount(phone_number,amount)
-
-				if 'WEB' in bill_ref_no:
-					code = bill_ref_no.replace('WEB','').strip()
-
-				elif 'USSD' in bill_ref_no:
-					code = bill_ref_no.replace('USSD','').strip()
 				
-				else:
+				
 
-					code = bill_ref_no.replace(digits,'').replace('.','')
+				code = bill_ref_no.replace(digits,'').replace('.','')
 
 				bid = self.get_bid_by_code(code)
 				if not bid:
@@ -463,6 +459,30 @@ class Helpers:
 			datalist.append(data)
 		
 		return datalist
+
+	def record_survey(self,phone_number,rate,text=None):
+		return Survey.create(phone_number,rate,text)
+
+	def blacklist_user(self,phone_number,bid,notes,added_by):
+		return BlackList.create(phone_number=phone_number,bid=bid,notes=notes,added_by=added_by)
+
+	def get_bid_code_from_bill_ref_no(self,bill_ref_no):
+		code = None
+		bill_ref_no = self.sanitize_billref_no(bill_ref_no)
+		if '#' in bill_ref_no:
+			code = bill_ref_no.split('#')[0]
+		else:
+			digits = re.findall(r"(\d+(?:\.\d+)?)",bill_ref_no)
+			if len(digits)>0:
+				digits = digits[0]
+				code = bill_ref_no.replace(digits,'').replace('.','')
+
+				bid = self.get_bid_by_code(code)
+				if not bid:
+					code = self.get_bid_code(code)
+					
+		return code
+
 			
 	
 
