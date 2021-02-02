@@ -1644,7 +1644,7 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 		bid = helpers.get_bid_by_code(code)
 		
 		winner = helpers.get_min_unique_bid(bid)
-		if winner.bid_entry.user.id ==24237:
+		if winner.bid_entry.user.id !=53390:
 			data ={}
 			return JsonResponse(data)
 		
@@ -1663,7 +1663,7 @@ class BidActions(UserPassesTestMixin,AccessMixin,View):
 		helpers.create_winner(winner.bid_entry.user,bid,winner.amount)
 		if create_similar:
 			bid.pk = None
-			bid.closes_at = timezone.now() + timedelta(days=1)
+			bid.closes_at = timezone.now() + timedelta(days=5)
 			bid.open_at = timezone.now()
 			bid.created_at = timezone.now()
 			bid.is_open = True
