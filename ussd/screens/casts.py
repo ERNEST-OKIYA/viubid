@@ -366,7 +366,7 @@ class UssdSurveyScreen(UssdScreen, ScreenMixin):
 			return render_screen('sm.quit')
 
 	def render_menu(self):
-		if self.state.rate <=5:
+		if int(self.state.rate) <=5:
 			self.print(f'You rated us {self.state.rate}/10')
 			self.print("Please take a moment to tell us how we can serve you better")
 		else:
