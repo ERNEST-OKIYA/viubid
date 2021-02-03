@@ -31,7 +31,7 @@ from products.models import Product
 from users.models import User
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
-from bids.models import BidEntry,InvalidBid
+from bids.models import BidEntry, BlackList,InvalidBid
 from winners.models import Winner
 from bids.models import Bid,BidEntry,UserBid,UssdDial,Survey
 from messaging.models import OutgoingSMS
@@ -1756,6 +1756,29 @@ class UniqueBids(UserPassesTestMixin,AccessMixin,View):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		return super().dispatch(request, *args, **kwargs)
+
+class ViewBlacklist(UserPassesTestMixin,AccessMixin,View):
+	raise_exception=True
+
+	def test_func(self):
+		return self.request.user.groups.filter(name=settings.BIDADMINS).exists()
+
+	def get(self,request,bid_id):
+		items = BlackList.objects.filter(bid__id=bid_id).all()
+		bid = Bid.objects.get(id=bid_id)
+		product = bid.product.name
+
+		return render(request,'admin_portal/blacklist.html',{'items':items,'product':product,'bid_id':bid_id})
+	def post(self,request):
+		pass
+
+		
+		
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, request, *args, **kwargs):
+		return super().dispatch(request, *args, **kwargs)
+
 
 class BidReport(UserPassesTestMixin,AccessMixin,View):
 	raise_exception=True

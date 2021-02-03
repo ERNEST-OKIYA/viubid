@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 from admin_portal.views import (
     ExportDialsCsv, ExportPlayersCsv,
     ExportInvalidBidsCurrentCsv,ExportOutBoxCsv,
-    ExportInvalidBidsArchivedCsv,Filters,BidReport,ExportUssdSurveyCsv
+    ExportInvalidBidsArchivedCsv,Filters,BidReport,ExportUssdSurveyCsv,ViewBlacklist
 )
 
 urlpatterns = [
@@ -37,6 +37,7 @@ urlpatterns = [
     path('totals/', totals, name='totals'),
     path('filters/', Filters.as_view(), name='filters'),
     path('ub/<int:bid_id>/', UniqueBids.as_view(), name='unique-bids'),
+    path('view-blacklist/<int:bid_id>/', ViewBlacklist.as_view(), name='view-blacklist'),
     path('ipn/', include('payments.urls')),
     path('mgr-tools/', include('admin_portal.urls')),
     path('cpanel/', admin.site.urls),
