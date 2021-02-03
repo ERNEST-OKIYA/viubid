@@ -312,7 +312,7 @@ class CareScreen(UssdScreen, ScreenMixin):
 		pass
 	def render_menu(self):
 
-		self.print("You have a Question or need Help? Contact us on 0753146246.")
+		self.print("You have a Question or need Help? Contact us on 0724024602.")
 		
 		return self.CON
 
