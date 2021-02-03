@@ -150,8 +150,8 @@ class Survey(FactoryModel):
     
 
     @classmethod
-    def create(cls,phone_number,text=None):
-        return cls.objects.create(phone_number=phone_number,text=text)
+    def create(cls,phone_number,rate,text=None):
+        return cls.objects.create(phone_number=phone_number,rate=rate,text=text)
 
 class BlackList(FactoryModel):
 
