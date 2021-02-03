@@ -1925,6 +1925,11 @@ class AddToBlackList(UserPassesTestMixin,AccessMixin,View):
 				self.data['title']='Error'
 				self.data['status'] ='Invalid Phone Number'
 				return JsonResponse(self.data)
+			if not notes:
+				self.data['icon']='error'
+				self.data['title']='Error'
+				self.data['status'] ='Reson cannot be empty'
+				return JsonResponse(self.data)
 			bid = helpers.get_bid_by_id(bid_id)
 			msisdn = standardize_msisdn(msisdn)
 			actor = request.user.get_full_name()

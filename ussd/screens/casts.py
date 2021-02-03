@@ -400,7 +400,7 @@ class ServiceRateScreen(UssdScreen, ScreenMixin):
 			return render_screen('sm.survey',rate=opt)
 
 	def render_menu(self):
-
+		
 		self.print("In a Scale of 1 to 10, How do you rate our services?")
 		
 		return self.CON
