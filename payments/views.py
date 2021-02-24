@@ -218,10 +218,7 @@ class ValidatePayins(View):
 		first_name = data.get('FirstName')
 		middle_name = data.get('MiddleName')
 		last_name = data.get('LastName')
-		RejectedPayIn.create(transaction_id,transaction_time,\
-			transaction_amount,bill_reference_number,\
-				org_account_balance,msisdn,first_name,\
-					middle_name,last_name)
+		
 
 		details = helpers.get_bid_code_from_bill_ref_no(bill_reference_number)
 		code = details.get('code')
@@ -229,6 +226,10 @@ class ValidatePayins(View):
 		if code:
 			bid = helpers.get_bid_by_code(code)
 			if BlackList.objects.filter(phone_number=msisdn,bid=bid).exists():
+				RejectedPayIn.create(transaction_id,transaction_time,\
+					transaction_amount,bill_reference_number,\
+					org_account_balance,msisdn,first_name,\
+					middle_name,last_name)
 
 				response = {'accepted':False,'reason':'Bidder In blacklist for this bid'}
 			
@@ -237,6 +238,10 @@ class ValidatePayins(View):
 					response = {'accepted':True,'reason':200}
 
 				else:
+					RejectedPayIn.create(transaction_id,transaction_time,\
+						transaction_amount,bill_reference_number,\
+						org_account_balance,msisdn,first_name,\
+						middle_name,last_name)
 					response = {'accepted':False,'reason':'Fair Policy violated'}
 
 			else:
