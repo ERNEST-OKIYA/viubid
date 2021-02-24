@@ -1,4 +1,4 @@
-from bids.models import BlackList
+from bids.models import BlackList,Reserve
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -223,11 +223,16 @@ class ValidatePayins(View):
 				org_account_balance,msisdn,first_name,\
 					middle_name,last_name)
 
-		code = helpers.get_bid_code_from_bill_ref_no(bill_reference_number)
+		details = helpers.get_bid_code_from_bill_ref_no(bill_reference_number)
+		code = details.get('code')
+		amount = details.get('amount')
 		if code:
 			bid = helpers.get_bid_by_code(code)
 			if BlackList.objects.filter(phone_number=msisdn,bid=bid).exists():
 				response = {'accepted':False,'reason':'Bidder In blacklist for this bid'}
+			
+			elif Reserve.objects.filter(bid=bid,value=amount).exists():
+				response = {'accepted':False,'reason':'Fair Policy violated'}
 			else:
 				response = {'accepted':True,'reason':200}
 

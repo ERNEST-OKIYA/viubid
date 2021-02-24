@@ -468,20 +468,23 @@ class Helpers:
 
 	def get_bid_code_from_bill_ref_no(self,bill_ref_no):
 		code = None
+		amount = None
 		bill_ref_no = self.sanitize_billref_no(bill_ref_no)
 		if '#' in bill_ref_no:
 			code = bill_ref_no.split('#')[0]
+			amount = int(bill_ref_no.split('#')[1])
 		else:
 			digits = re.findall(r"(\d+(?:\.\d+)?)",bill_ref_no)
 			if len(digits)>0:
 				digits = digits[0]
+				amount = int(digits)
 				code = bill_ref_no.replace(digits,'').replace('.','')
 
 				bid = self.get_bid_by_code(code)
 				if not bid:
 					code = self.get_bid_code(code)
 					
-		return code
+		return {'code':code,'amount':amount}
 
 			
 	

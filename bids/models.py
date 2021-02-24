@@ -167,3 +167,9 @@ class BlackList(FactoryModel):
         return obj,created
     
 
+class Reserve(FactoryModel):
+    bid = models.ForeignKey(Bid,on_delete=models.CASCADE)
+    value = models.DecimalField(max_digits=6,decimal_places=2)
+
+    def create(cls,bid,value):
+        return cls.objects.get_or_create(bid=bid,value=value,defaults=dict(bid=bid,value=value))
