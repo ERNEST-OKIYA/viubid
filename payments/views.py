@@ -233,11 +233,11 @@ class ValidatePayins(View):
 				response = {'accepted':False,'reason':'Bidder In blacklist for this bid'}
 			
 			elif Reserve.objects.filter(bid=bid,value=amount).exists():
-				if not ReservePass.objects.filter(msisdn=msisdn).exists():
-
-					response = {'accepted':False,'reason':'Fair Policy violated'}
-				else:
+				if ReservePass.objects.filter(msisdn=msisdn).exists():
 					response = {'accepted':True,'reason':200}
+
+				else:
+					response = {'accepted':False,'reason':'Fair Policy violated'}
 
 			else:
 				response = {'accepted':True,'reason':200}
