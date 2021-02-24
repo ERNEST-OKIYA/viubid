@@ -6,7 +6,7 @@ helpers = Helpers()
 
 def run():
     try:
-        bid = helpers.get_bid_by_id(id=54)
+        bid = helpers.get_bid_by_id(id=100)
         winner = helpers.get_min_unique_bid(bid)
 
         print("WINNER",winner.bid_entry.user.phone_number)
