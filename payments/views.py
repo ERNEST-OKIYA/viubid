@@ -177,7 +177,7 @@ class Checkouts(View):
 					text = "Oops! Something is not right. "+\
 					f"Send KES 20 to MPESA paybill 4032353 with account number as {bid_code} {bid_value}"+\
 					f" to place a bid of KES {bid_value} on {product}."
-					sms.stkpush_down(phone_number,text)
+					# sms.stkpush_down(phone_number,text)
 					logger.warn(f'STKPUSH --> {response.text}')
 				
 				self.response['phone_number']= phone_number
