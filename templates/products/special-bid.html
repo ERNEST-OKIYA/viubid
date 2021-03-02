@@ -20,7 +20,8 @@
             </div>
         </div>
         <div class="bids" id="current_auction" >
-            <div class="container" style="margin-left: 40%;">
+            <div class="container">
+              <div class="col col-lg-offset-5">
                 <h3 class="section_title">{{name}}<span> Count Down!</span></h3>
                 <ul class="bid_list">
                     {% for bid in bids %}
@@ -50,6 +51,7 @@
                     {% endfor %}
                     
                 </ul>
+                </div>
             </div>
         </div>
         <div class="auctions">
