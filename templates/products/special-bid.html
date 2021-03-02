@@ -6,6 +6,7 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.2/dist/sweetalert2.min.css">
 <style>
+  
 
 </style>
 
@@ -19,14 +20,15 @@
                 <h3>Once the Auction closes and you have the lowest unique bid, You buy this {{name}} at 43 Shillings.</h3>
             </div>
         </div>
-        <div class="bids" id="current_auction" >
-            <div class="container">
-              <div class="col col-lg-offset-5">
+        <div class="bids" id="current_auction">
+            <div class="container" style="margin-left: 37%; margin-right: auto;">
+              
+              
                 <h3 class="section_title">{{name}}<span> Count Down!</span></h3>
                 <ul class="bid_list">
                     {% for bid in bids %}
-                    <li class="row">
-                      
+                    <li class="row" >
+      
                         
                         <div class="title">
                             <h3>{{bid.product.name}}</h3><span class="price">RRP KSHS {{bid.product.price|intcomma}}</span><span class="description">{{bid.product.description}}</span>
@@ -47,11 +49,12 @@
                             <button id="{{bid.code}}" data-code="{{bid.code}}" data-amount="{{bid.ticket_price}}" class="bid-btn"><span>Place your Bid</span></button>
                         </form>
                       
+                      </div>
                     </li>
                     {% endfor %}
                     
                 </ul>
-                </div>
+               
             </div>
         </div>
         <div class="auctions">
