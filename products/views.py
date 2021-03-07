@@ -41,11 +41,11 @@ class SpecialBid(View):
     
     def get(self,request,code): 
         bids = Bid.objects.filter(code__icontains=code,is_open=True).all()
-        # bid = Bid.objects.get().last()
-        # name = bid.product.name
-        # code = bid.code
+        bid = Bid.objects.filter(code__icontains=code,is_open=True).last()
+        name = bid.product.name
+        code = bid.code
         winners = Winner.objects.all().order_by('-id')[:4]
-        return render(request,'products/special-bid.html',{'bids':bids,'winners':winners})
+        return render(request,'products/special-bid.html',{'bids':bids,'winners':winners,'name':name,'code':code})
     
     def post(self,request):
         pass
