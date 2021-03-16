@@ -387,7 +387,7 @@ class ExportWinnersCsv(View):
 
 		qs = Winner.objects.values('user__phone_number', 'user__profile__first_name',
 								'user__profile__middle_name', 'user__profile__last_name', 
-								'bid_code', 'bid__product__name','bid__product__price','winning_value',
+								'bid__code', 'bid__product__name','bid__product__price','winning_value',
 								'created_at').all()
 		return djqscsv.render_to_csv_response(qs, field_header_map=field_header_map, field_serializer_map=field_serializer_map, append_datestamp=True)
 
