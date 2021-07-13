@@ -158,7 +158,8 @@ class Checkouts(View):
 			}
 
 			try:
-				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False)
+				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False,timeout=30)
+				print('Response',response.text)
 				
 				rv = response.json()
 				if rv.get('ResponseCode')=='0':
