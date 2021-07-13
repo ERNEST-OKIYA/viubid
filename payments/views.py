@@ -41,6 +41,7 @@ def generate_token():
 	
 
 	r = requests.get(settings.VARIABLES.get('TOKEN_URL'), auth=HTTPBasicAuth(consumer_key, consumer_secret))
+	print(r.text, "RES")
 	
 	token=r.json()
 	access_token = token.get('access_token')
@@ -133,9 +134,9 @@ class Checkouts(View):
 			phone_number = standardize_msisdn(request.POST.get('phone_number'))
 			bid_value =  request.POST.get('bid_value')
 			bid_code = request.POST.get('bid_code')
-			access_token = cache.get('access_token')
-			if not access_token:
-				access_token = generate_token()
+			# access_token = cache.get('access_token')
+			# if not access_token:
+			access_token = generate_token()
 			# active_bid = helpers.get_bid_by_code(bid_code)
 			source = 'WEB'
 			bid = helpers.get_bid_by_code(bid_code)
