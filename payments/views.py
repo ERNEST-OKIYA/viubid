@@ -45,8 +45,8 @@ def generate_token():
 	
 	token=r.json()
 	access_token = token.get('access_token')
-	# cache.set('access_token',access_token,1700)
-	return access_token
+	cache.set('access_token',access_token,1700)
+	return token.get('access_token')
 
 class Payins(View):
 
@@ -134,9 +134,9 @@ class Checkouts(View):
 			phone_number = standardize_msisdn(request.POST.get('phone_number'))
 			bid_value =  request.POST.get('bid_value')
 			bid_code = request.POST.get('bid_code')
-			# access_token = cache.get('access_token')
-			# if not access_token:
-			access_token = generate_token()
+			access_token = cache.get('access_token')
+			if not access_token:
+				access_token = generate_token()
 			# active_bid = helpers.get_bid_by_code(bid_code)
 			source = 'WEB'
 			bid = helpers.get_bid_by_code(bid_code)
