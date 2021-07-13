@@ -45,8 +45,8 @@ def generate_token():
 	
 	token=r.json()
 	access_token = token.get('access_token')
-	cache.set('access_token',access_token,1700)
-	return token.get('access_token')
+	# cache.set('access_token',access_token,1700)
+	return access_token
 
 class Payins(View):
 
