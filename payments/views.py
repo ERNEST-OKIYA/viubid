@@ -299,7 +299,7 @@ def mediapal_push(request,msisdn:str,bid_value:int,bid_code:str):
 
 			try:
 				resp=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False,timeout=30)
-				print('Response',response.text)
+				print('Response',resp.text)
 				
 				rv = resp.json()
 				if rv.get('ResponseCode')=='0':
