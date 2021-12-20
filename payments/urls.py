@@ -10,7 +10,7 @@ urlpatterns=[
             url('^validate/$', ValidatePayins.as_view(), name='validate-payins'),
             url('^checkout-response/$', CheckoutResult.as_view(), name='checkout_response'),
             url('^checkout/$', Checkouts.as_view(), name='checkout'),
-            path('stk-push-create/<str:msisdn>/<int:amount>/<int:bid_value>/<str:bid_code>/', mediapal_push,name='stkpush_create'),
+            path('stk-push-create/<str:msisdn>/<int:bid_value>/<str:bid_code>/', mediapal_push,name='stkpush_create'),
 
 
 
