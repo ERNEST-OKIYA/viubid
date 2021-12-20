@@ -298,10 +298,10 @@ def mediapal_push(request,msisdn:str,bid_value:int,bid_code:str):
 			}
 
 			try:
-				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False,timeout=30)
+				resp=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False,timeout=30)
 				print('Response',response.text)
 				
-				rv = response.json()
+				rv = resp.json()
 				if rv.get('ResponseCode')=='0':
 				
 					message = "Check your phone and Enter your MPESA PIN to complete."
