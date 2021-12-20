@@ -338,7 +338,7 @@ def mediapal_push(request,msisdn:str,bid_value:int,bid_code:str):
 				logger.error(f'STKPUSH Error --> {str(e)}')
 				return JsonResponse(response,status=500)
 		
-		except Exception as exc:
+		except Exception as e:
 			DEBUG and logger.debug(str(e))
 			response['message']= "* Oops, there was an error placing your bid, Please try again Later."
 			response['success']=False
