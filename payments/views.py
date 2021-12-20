@@ -265,4 +265,89 @@ class ValidatePayins(View):
 
 
 
+@csrf_exempt
+def mediapal_push(request,msisdn:str,bid_value:int,bid_code:str):
+	response = {}
+	if request.method =='GET':
+		
+		try:
+		
+			phone_number = standardize_msisdn(msisdn)
+			access_token = cache.get('access_token')
+			if not access_token:
+				access_token = generate_token()
+			# active_bid = helpers.get_bid_by_code(bid_code)
+			source = 'MEDIAPAL'
+			bid = helpers.get_bid_by_code(bid_code)
+			product = bid.product.name
+			headers={"Authorization":"Bearer %s" % access_token}
+			
 
+			payload = {
+					"BusinessShortCode": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
+					"Password": settings.VARIABLES.get('PASSWORD'),
+					"Timestamp": settings.VARIABLES.get('Timestamp'),
+					"TransactionType": "CustomerPayBillOnline",
+					"Amount": int(bid.ticket_price),
+					"PartyA": phone_number,
+					"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
+					"PhoneNumber": phone_number,
+					"CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
+					"AccountReference": bid_code + '#' + bid_value + '#' + source,
+					"TransactionDesc": 'QuickBid'
+			}
+
+			try:
+				response=requests.post(settings.VARIABLES.get('PAY_URL'),json=payload,headers=headers,verify=False,timeout=30)
+				print('Response',response.text)
+				
+				rv = response.json()
+				if rv.get('ResponseCode')=='0':
+				
+					message = "Check your phone and Enter your MPESA PIN to complete."
+					success = True
+
+				elif rv.get('errorCode')=='500.001.1001':
+					message = 'Please wait, there is a similar Transaction underway.'
+					success = False
+					logger.warn(f'STKPUSH --> {message}')
+
+				else:
+					success = False
+					message = 'Oops! Something is not right'
+					text = "Oops! Something is not right. "+\
+					f"Send KES 20 to MPESA paybill 4032353 with account number as {bid_code} {bid_value}"+\
+					f" to place a bid of KES {bid_value} on {product}."
+					# sms.stkpush_down(phone_number,text)
+					logger.warn(f'STKPUSH --> {response.text}')
+				
+				response['phone_number']= phone_number
+				response['product']= product
+				response['bid_value']= bid_value
+				response['message'] = message
+				response['success'] = success
+				response['bid_code'] = bid_code
+
+
+				return JsonResponse(response,status=200)
+
+			except Exception as e:
+				DEBUG and logger.debug(str(e))
+				response['message']= "* Oops, there was an error placing your bid, Please try again Later."
+				response['success']=False
+				logger.error(f'STKPUSH Error --> {str(e)}')
+				return JsonResponse(response,status=500)
+		
+		except Exception as exc:
+			DEBUG and logger.debug(str(e))
+			response['message']= "* Oops, there was an error placing your bid, Please try again Later."
+			response['success']=False
+			logger.error(f'STKPUSH Error --> {str(e)}')
+			return JsonResponse(response,status=500)
+
+			
+
+
+	
+	else:
+		return HttpResponse('Not Found')
