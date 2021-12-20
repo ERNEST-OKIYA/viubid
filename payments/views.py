@@ -293,7 +293,7 @@ def mediapal_push(request,msisdn:str,bid_value:int,bid_code:str):
 					"PartyB": settings.VARIABLES.get('BUSINESS_SHORTCODE'),
 					"PhoneNumber": phone_number,
 					"CallBackURL": settings.VARIABLES.get('DEFAULTCALLBACKURL'),
-					"AccountReference": bid_code + '#' + bid_value + '#' + source,
+					"AccountReference": bid_code + '#' + str(bid_value) + '#' + source,
 					"TransactionDesc": 'QuickBid'
 			}
 
