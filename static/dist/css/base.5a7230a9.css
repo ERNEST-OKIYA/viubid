@@ -640,11 +640,11 @@
 }
 
 .blue {
-    background-color: #2196f3!important
+    background-color: #E5252B!important
 }
 
 .blue-text {
-    color: #2196f3!important
+    color: #E5252B!important
 }
 
 .blue.lighten-5 {
@@ -10400,7 +10400,7 @@ body {
 
 h3.section_title {
     margin: 0;
-    color: #f29100;
+    color: #1D1D1B;
     letter-spacing: -2px;
     font-size: 35px;
     font-weight: 700;
@@ -10408,16 +10408,16 @@ h3.section_title {
 }
 
 h3.section_title span {
-    color: #002698
+    color: #E5252B
 }
 
 td.orange {
     background-color: transparent!important;
-    color: #f29100!important
+    color: #1D1D1B!important
 }
 
 form button {
-    background: #f29100;
+    background: #1D1D1B;
     border-radius: 5px;
     width: 100%;
     padding: 30px 20px;
@@ -10444,11 +10444,11 @@ form button:before {
     height: 100%;
     left: 0;
     border-radius: 5px;
-    background: #002698
+    background: #E5252B
 }
 
 form button:after {
-    background: #f29100
+    background: #1D1D1B
 }
 
 form button:hover:before {
@@ -10491,17 +10491,17 @@ form button:hover:before {
 .footer_lb .row h3 {
     flex-grow: 1;
     font-weight: 700;
-    color: #002698;
+    color: #E5252B;
     letter-spacing: -1px
 }
 
 .footer_lb .row h3 span {
-    color: #f29100;
+    color: #1D1D1B;
     display: block
 }
 
 a.primary_btn {
-    background: #f29100;
+    background: #1D1D1B;
     border-radius: 5px;
     padding: 20px;
     font-size: 18px;
@@ -10524,11 +10524,11 @@ a.primary_btn:before {
     left: 0;
     z-index: -1;
     border-radius: 5px;
-    background: #002698
+    background: #E5252B
 }
 
 a.primary_btn:after {
-    background: #f29100
+    background: #1D1D1B
 }
 
 a.primary_btn:hover:before {
@@ -10547,7 +10547,7 @@ a.primary_btn:hover:before {
 
 .container.content h3 {
     font-weight: 700;
-    color: #002698;
+    color: #E5252B;
     font-size: 25px
 }
 
@@ -10608,7 +10608,7 @@ body.theme_black nav a.menu_icon {
 }
 
 .mm-panel {
-    background: #002698
+    background: #E5252B
 }
 
 .mm-panel .mm-navbar_sticky {
@@ -10687,7 +10687,7 @@ header nav a.sidenav-trigger i {
 }
 
 .banner {
-    background: #002698;
+    background: #E5252B;
     position: relative
 }
 
@@ -10698,7 +10698,7 @@ header nav a.sidenav-trigger i {
     left: 0;
     width: 100%;
     height: 500px;
-    background: url("../../images/curve-blue.4f3cf4c6.svg") bottom no-repeat;
+    /* background: url("../../images/curve-blue.4f3cf4c6.svg") bottom no-repeat; */
     background-size: cover
 }
 
@@ -10708,7 +10708,7 @@ header nav a.sidenav-trigger i {
 }
 
 .banner h1 span {
-    color: #f29100;
+    color: #1D1D1B;
     margin-left: 10px
 }
 
@@ -10721,7 +10721,7 @@ header nav a.sidenav-trigger i {
 
 .banner h3 {
     font-weight: 700;
-    color: #f29100
+    color: #1D1D1B
 }
 
 .banner .container {
@@ -10745,7 +10745,7 @@ header nav a.sidenav-trigger i {
 }
 
 .header {
-    background: #002698;
+    background: #E5252B;
     text-align: center;
     color: #fff;
     position: relative
@@ -10758,7 +10758,7 @@ header nav a.sidenav-trigger i {
 }
 
 .header h1 span {
-    color: #f29100
+    color: #1D1D1B
 }
 
 .header .container {
@@ -10893,7 +10893,7 @@ header nav a.sidenav-trigger i {
     margin: 0;
     font-weight: 700;
     font-size: 25px;
-    color: #002698;
+    color: #E5252B;
     letter-spacing: -1px
 }
 
@@ -10902,7 +10902,7 @@ header nav a.sidenav-trigger i {
 }
 
 .bids .title span.price {
-    color: #f29100;
+    color: #1D1D1B;
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px
@@ -10983,7 +10983,7 @@ header nav a.sidenav-trigger i {
 }
 
 .auctions div.title a {
-    color: #002698;
+    color: #E5252B;
     font-weight: 300
 }
 
@@ -11031,7 +11031,7 @@ header nav a.sidenav-trigger i {
 }
 
 .auctions ul.list li.row table tr td {
-    color: #002698;
+    color: #E5252B;
     font-weight: 700;
     padding: 10px 0;
     font-size: 90%
@@ -11052,7 +11052,7 @@ header nav a.sidenav-trigger i {
     font-size: 140%;
     font-weight: 700;
     margin: 0;
-    color: #002698;
+    color: #E5252B;
     text-transform: uppercase;
     letter-spacing: -1px
 }
@@ -11131,11 +11131,11 @@ ul.gallery_listing .slick-dots li button {
     border-radius: 50%;
     text-indent: -9999px;
     background: transparent;
-    border: 2px solid #002698
+    border: 2px solid #E5252B
 }
 
 ul.gallery_listing .slick-dots li.slick-active button {
-    background: #002698
+    background: #E5252B
 }
 
 @media only screen and (max-width:1000px) {
@@ -11161,7 +11161,7 @@ ul.gallery_listing .slick-dots li.slick-active button {
 }
 
 footer {
-    background: #002698;
+    background: #E5252B;
     color: #fff;
     padding: 100px 0;
     position: relative

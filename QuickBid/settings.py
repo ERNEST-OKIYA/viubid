@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
-GRAPPELLI_ADMIN_TITLE = 'Quick Bid'
+GRAPPELLI_ADMIN_TITLE = 'Viu Bid'
 
 
 # Application definition
@@ -198,14 +198,24 @@ USSD = dict(
 	INITIAL_SCREEN = 'p8.initial',
 	MAX_PAGE_LENGTH=150
 )
-VARIABLES={'CONSUMER_KEY':'Ylg9fzpD8E57tUf7fJFf8BRX7ReBTlKO',
-		   'CONSUMER_SECRET':'Xaplj15j2dppGDIw',
-		   'BUSINESS_SHORTCODE':'4032353',
-           'Timestamp':'20190228132847',
-		   'DEFAULTCALLBACKURL':'https://ipn.quickbid.co.ke:7024/ipn/checkout/response/',
-		   'PASSWORD':'NDAzMjM1M2E1MTFhZWU3ZGI0YzVkY2QzNGEwYjJkNjI3Njc5ZDQ2YTg3ZjkxMmMyYjY1YzkxZTkzODQ2ZDg0MzdhMzNkMmQyMDE5MDIyODEzMjg0Nw==',
-		   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
-		   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}
+# VARIABLES={'CONSUMER_KEY':'Ylg9fzpD8E57tUf7fJFf8BRX7ReBTlKO',
+# 		   'CONSUMER_SECRET':'Xaplj15j2dppGDIw',
+# 		   'BUSINESS_SHORTCODE':'4032353',
+#            'Timestamp':'20190228132847',
+# 		   'DEFAULTCALLBACKURL':'https://ipn.quickbid.co.ke:7024/ipn/checkout/response/',
+# 		   'PASSWORD':'NDAzMjM1M2E1MTFhZWU3ZGI0YzVkY2QzNGEwYjJkNjI3Njc5ZDQ2YTg3ZjkxMmMyYjY1YzkxZTkzODQ2ZDg0MzdhMzNkMmQyMDE5MDIyODEzMjg0Nw==',
+# 		   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+# 		   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}
+
+VARIABLES={'CONSUMER_KEY':'n8GDXVbxPT5pbhAvhHQjGb6P7YjyB7zT',
+                   'CONSUMER_SECRET':'3HkWGIzLh8IylzhX',
+                   'BUSINESS_SHORTCODE':'5265353',
+                     'Timestamp':'20190228132847',
+                   'DEFAULTCALLBACKURL':'https://instabids.co.ke/ipn/checkout-response/',
+                   'PASSWORD':'NTI2NTM1MzI0ZGYzYzE2YTk0OTQ2ZGQ0MDA2MWM4M2QyMjBjZGFiMzljODk1NmQxYTVjYzc2ZWY5YmViZTA4MGYyMGY1NzEyMDE5MDIyODEzMjg0Nw==',
+                   'PAY_URL':'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+                   'TOKEN_URL':'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 

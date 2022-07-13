@@ -9,7 +9,7 @@
 {% endblock %}
 
     {%block content %}
-        <div class="banner"><img src="{% static "images/background_pattern.28be9773.svg" %}" alt="QuickBid">
+        <div class="banner"><img src="{% static "images/background_pattern.28be9773.svg" %}" alt="ViuBid">
             <div class="container">
                 <h1>Bid Low,<span>Win Big!</span></h1>
                 <h2>Choose an Item you want to bid on.</h2>
@@ -19,7 +19,7 @@
         </div>
         <div class="bids" id="current_auction">
             <div class="container">
-                <h3 class="section_title">Current<span> Auctions</span></h3>
+               <br><br> <h3 class="section_title">Current Auctions</h3>
                 <ul class="bid_list">
                     {% for bid in bids %}
                     <li class="row">
@@ -51,7 +51,7 @@
         <div class="auctions">
             <div class="container">
                 <div class="title">
-                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="/finished-auctions">View All &gt;</a>
+                    <h3 class="section_title">Completed <span>Auctions</span></h3><a href="/#finished-auctions">View All &gt;</a>
                 </div>
                 <ul class="list">
                     {% for winner in winners %}
@@ -86,7 +86,8 @@
                 </ul>
             </div>
         </div>
-        <div class="gallery">
+        <!-- To be updated -->
+        <!-- <div class="gallery">
             <div class="container">
                 <h3 class="section_title">Winners Gallery</h3>
             </div>
@@ -99,7 +100,7 @@
                 <li> <img src="{% static "images/image6.4516493e.jpeg" %}"></li>
                 <li> <img src="{% static "images/image7.c5d56f2e.jpeg" %}"></li>
             </ul>
-        </div>
+        </div> -->
 
         <div class="footer_lb">
             <div class="container">
